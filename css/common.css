@@ -1,0 +1,113 @@
+@charset 'utf-8';
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: inherit;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+:root {
+  font-size: 62.5%; /* 10px */
+}
+
+button {
+  background: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  vertical-align: top;
+  width: 100%;
+  max-width: 100%;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Pretendard";
+}
+
+input {
+  list-style: none;
+  /* 체크 박스 사라지게 됨 */
+  -webkit-appearance: none; /* 기본 스타일 제거 */
+  -moz-appearance: none; /* 기본 스타일 제거 */
+  appearance: none; /* 기본 스타일 제거 */
+
+  /* input 태그 클릭 시에 테두리 삭제 */
+  outline-style: none;
+}
+
+.hidden {
+  position: absolute;
+  margin: -1px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.ellipsis {
+  -webkit-line-clamp: 4;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+
+  display: -webkit-box;
+
+  word-break: keep-all;
+}
+
+.ellipsis2 {
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+
+  word-break: keep-all;
+}
+
+.mt-10 {
+  margin-top: 1rem;
+}
+
+/* 애니메이션 (스크롤) */
+@keyframes scroll-down-box-animation-arrow {
+  0% {
+    transform: translateY(-0.5rem);
+  }
+  50% {
+    transform: translateY(0.5rem);
+  }
+  100% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+:root {
+  --clientWidth: 100vw;
+}
+.swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+.swiper-pagination-horizontal.swiper-pagination-bullets
+  .swiper-pagination-bullet {
+  margin: 0 var(--swiper-pagination-bullet-horizontal-gap, 4px);
+}
