@@ -1,5 +1,6 @@
 @charset 'utf-8';
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 * {
   margin: 0;
@@ -16,6 +17,9 @@ li {
 
 :root {
   font-size: 62.5%; /* 10px */
+
+  --main-color: #0a31a8;
+  --white-color: #ffffff;
 }
 
 button {
@@ -42,7 +46,19 @@ body {
 }
 
 body {
-  font-family: "Pretendard";
+  /* SUIT 폰트 적용 */
+  /* Roc Grotesk 폰트는 무료가 아니기에 비슷한 폰트를 적용 -> Manrope 폰트 적용 (구글 폰트) */
+  font-family: "SUIT Variable" "Manrope", sans-serif;
+}
+
+/* 한글폰트 */
+.ko {
+  font-family: "SUIT Variable", sans-serif;
+}
+
+/* 영문폰트 */
+.en {
+  font-family: "Manrope", sans-serif;
 }
 
 input {
@@ -103,9 +119,6 @@ input {
   }
 }
 
-:root {
-  --clientWidth: 100vw;
-}
 .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
 .swiper-pagination-horizontal.swiper-pagination-bullets
   .swiper-pagination-bullet {
