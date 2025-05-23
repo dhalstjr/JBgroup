@@ -7,3 +7,213 @@
 
   background: #55f;
 }
+
+/* header 영역부터 실시 */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* bottom까지 0으로 설정하면 뷰포트 전체가 fixed가 된다. */
+  /* 어떤 이유때문인가 했더니 fixed는 뷰포트를 기준으로 고정을 시키는 CSS이다. -> 스크롤 해도 항상 그 자리에 고정. */
+  /* bottom까지 0으로 설정한다면, top부터 bottom까지 모두 고정이 되기 때문에 결과적으로 세로 높이가 전체 뷰포트 높이 전체가 된다. */
+  /* top만 0으로 설정하면 뷰포트 위에서부터 고정되고, 좌우도 0으로 설정해 고정되어있기 때문에 자식 높이까지만 높이를 가지는  */
+  /* top을 제거하고 bottom만 0으로 설정하면 뷰포트 맨 아래에서 부터 고정이 된다. */
+
+  z-index: 999;
+
+  background: #f5f;
+
+  color: #fff;
+}
+
+#header .site-header {
+  position: relative;
+
+  /* 높이를 주고 grid를 이용해여 align-items : center를 주면 중앙 정렬이 되기 때문에 grid를 사용한 것으로 보인다. */
+  /* 굳이 site-header라는 html구조를 더 기입해서 grid을 이용해서 중앙정렬을 실시한 이유는 -> 정렬 계층을 나누어서 레이아웃을 더 유연하게 만드려는 전략으로 보인다. */
+  /* 전체 구조용 grid , 내부 정렬용 flex */
+  height: 9.8rem;
+  align-items: center;
+  display: grid;
+}
+
+.header-container {
+  padding: 0 6.4rem;
+}
+
+#header .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#header .header-content .logo-box {
+  width: 16rem;
+  height: 2.6rem;
+}
+
+#header .header-content .logo-box .logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  background: url(../img/brand-logo.png) no-repeat 0 0 / contain;
+}
+
+#header .header-content #nav .gnb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  text-align: center;
+}
+
+#header .header-content #nav .gnb > li {
+  position: relative;
+
+  /* li에게 패딩을 주기 -> 보니까 서브메뉴의 디자인때문에 주는 것 같음*/
+  padding: 0 1rem;
+}
+
+#header .header-content #nav .gnb > li > a {
+  /* 크기 주기 */
+  display: block;
+  font-size: 1.8rem;
+  line-height: 1.4;
+  font-weight: 800;
+
+  /* 크기를 주고 가운데 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* px값을 vw으로 변환하려면 px값에 100울 곱하고 화면 너비를 나누면 된다.  */
+  /* 500px화면에서 100px을 vw로 변환하려면 , 100px * 100 / 500px를 계산하면 된다. 결과 값은 20vw */
+
+  /* 최소 높이 설정하는 명령이지만 clamp의 기능의 설명 */
+  /* 반응형 웹디자인에서 사용되는 기법으로, clamp(min, preferred , max) 함수는 저 세가지 값을 기준으로 반응형 크기 범위를 제한하는 함수이다. */
+  /* 처음은 최소값 , 두번째는 기준값 또는 선호값 , 세번째는 최대값으로 설정된다. */
+  /* 이 코드를 해석하자면 9.6vw(뷰포트)너비에 따라 min-width가 유동적으로 바뀌지만, 8.89rem(최소값)보다 작아지지 않고, 16rem(최대값)보다 커지지 않도록 제한해줘. 라는 코드이다.  */
+  /* 기준값을 설정하고, 그에 맞게 유동적으로 설정하기 위해서 이를 사용한다. */
+  /* 미디어쿼리없이 반응형 디자인을 사용하기 위해서 사용, min(), max() 함수와 같은 반응형 디자인 CSS이다. */
+  /* 주의할 점은 다른 단위를 사용하는 경우에만 사용 가능하다고 한다.( ex) min(20rem ,10vh) ) */
+  /* vw(뷰포트 너비) -> 1vw는 화면 너비의 1%에 해덩합니다. 만약 뷰포트 1000px이면 100px이 10vw이다. */
+  min-width: clamp(8.89rem, 9.6vw, 16rem);
+  height: 9.8rem;
+}
+
+/* 유틸메뉴 */
+#header .header-content .utils {
+  display: flex;
+  align-items: center;
+  gap: 2.8rem;
+}
+
+#header .header-content .utils .family-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 7.8rem;
+  height: 2.8rem;
+
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.15);
+
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: #fff;
+
+  transition: background 150ms ease-in-out;
+}
+
+#header .header-content .utils .family-btn:hover {
+  background: #00134a;
+}
+
+#header .header-content .utils .langs {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+/* 구분선 */
+#header .header-content .utils .langs .split {
+  width: 1px;
+  height: 14px;
+
+  background: #fff;
+  opacity: 0.3;
+}
+
+/* 유틸메뉴의 탭메뉴 아이콘 -> background가 아닌 크기를 줘서 만든 것 같음 */
+#header .header-content .utils .site-tab {
+  font-size: 0;
+}
+
+/* a태그에 가상요소를 추가헤서 크기와 높이를 주어 선처럼 만들기 */
+#header .header-content .utils .site-tab .tab-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 사이트 탭메뉴가 들어갈 공간 */
+  width: 2.2rem;
+  height: 2.2rem;
+
+  /* 텍스트를 화면 밖으로 보내서 안보이게 하려고 */
+  text-indent: -999rem;
+  overflow: hidden;
+
+  position: relative;
+
+  /* align-center가 안맞음. 혹시 몰라서 font-size : 0을 설정했지만, 틀어지는 건 아직 같음. */
+  font-size: 0;
+}
+
+#header .header-content .utils .site-tab .tab-menu:before {
+  content: "";
+  display: block;
+  width: 2.2rem;
+  height: 0.2rem;
+  background-color: #fff;
+
+  /* 정중앙을 정렬하고 margin-top을 이용하여 조정. margin-top값이 없으면 서로 같은 위치에 겹쳐있음. -> 그러니 정중앙 정렬을 건들지 않고 margin-top을 서로 사용해 위치를 맞춤 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* align 센터에 맞추기 위해서 margin-top을 before와 after를 같이 줌. 반대로 */
+  margin-top: -3px;
+
+  transition: margin 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+#header .header-content .utils .site-tab .tab-menu:after {
+  content: "";
+  display: block;
+  width: 2.2rem;
+  height: 0.2rem;
+  background-color: #fff;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* align 센터에 맞추기 위해서 margin-top을 before와 after를 같이 줌. 반대로 */
+  margin-top: 3px;
+
+  transition: margin 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+/* header : end */
+
+/* main : start -> section1  */
+/* main : end -> section1  */
