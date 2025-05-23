@@ -1,13 +1,5 @@
 @charset 'utf-8';
 
-/* 섹션 구분 */
-#main .section1 {
-  width: 100%;
-  height: 100vh;
-
-  background: #55f;
-}
-
 /* header 영역부터 실시 */
 #header {
   position: fixed;
@@ -216,4 +208,194 @@
 /* header : end */
 
 /* main : start -> section1  */
+#main {
+  /* 100vh까지 사용한 이유는 브라우저 지원 떄문에 */
+  min-height: 100vh;
+  /* 100svh -> svh(small viewport height)란 최신 CSS 단위 중 하나로, 모바일에서의 "화면 높이 문제"를 해결하기 위해 등장한 기능이다. */
+  /* 실제 콘텐츠를 가릴 수 있는 브라우저 UI(주소창, 툴바 등)를 고려한 최소 높이를 기준으로 하는 단위이다. */
+  /* svh를 사용한 이유는 100vh에 있음 -> 100vh는 주소창을 포함한 높이. -> 모바일 브라우저(예 : Safari, Chrome 모바일)는 화면 상단에 주소창/탭 바 등 UI가 자동 숨김/등장한다. 그런데 100vh는 그 UI까지 포함한 높이로 계산합니다. */
+  /* 결과, 주소창이 나타나면 콘텐츠가 짤리거나 스크롤 오류가 발생할 수 있다. */
+  /* 그러하여 100svh를 사용하는 이유는 주소창이 보이는 상태에서도 콘텐츠가 짤리지 않기 위함이고,  */
+  /* 특히 모바일 웹 앱 ,풀스크린 섹션, 히어로 영역(비주얼)에 많이 사용된다. */
+  /* 모바일 UX 최적화에 매우 중요한 최신 CSS입니다. */
+  min-height: 100svh;
+
+  background: #55f;
+}
 /* main : end -> section1  */
+
+#main #main-section {
+  position: relative;
+  z-index: 10;
+
+  min-width: 100vh;
+  min-height: 100lvh;
+}
+
+/* 비주얼 영역 화면 -> 비디오를 구할 수 없어 background로 설정 */
+#main .visual {
+  position: relative;
+}
+
+#main .visual .visual-bg {
+  position: absolute;
+  /* 위에서부터 시작 */
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: block;
+
+  width: 100%;
+  /* 100lvh는 large viewport height -> 주소창, 툴 바등이 보이는 전체 높이*/
+  /* 내부 섹션에 100lvh를 사용한 이유는 회면이 최대로 높을 때 기준으로 디자인을 꽉 차게 유지하기 위해서.  */
+  /* 반대로 전체 섹션의 100svh를 준 이유는 짤리는 것을 방지하기 위해서임. */
+  /* 그래서 이 둘을 같이 사용하면 모바일 대응이 훨씬 안정적임. */
+  /* 주소창이 사라져도 비주얼 영역이 꽉 차게 하기 위해서임. */
+  height: 100lvh;
+  background: url(../img/main-visual-bg.png) no-repeat 0 0 / cover;
+  object-fit: cover;
+}
+
+#main .main-section-inner {
+  /* 이게 부모 기준이 되어줘야 main-container가 보인다. */
+  position: relative;
+}
+
+/*  */
+#main .main-section-inner .main-container {
+  /* padding: 0 17.8rem; */
+
+  /* 최대 넓이 설정. */
+  max-width: 156.4rem;
+
+  margin: 0 auto;
+  width: 100%;
+  background: #f55;
+  box-sizing: border-box;
+}
+
+#main .main-section-inner .main-container .grid-area {
+  display: grid;
+
+  grid-template-columns: 1fr 50%;
+
+  gap: min(2.2vw, 64px);
+
+  justify-content: space-between;
+
+  /* header 높이를 padding을 줘 높이를 맞췀 */
+  padding: 9.8rem 0;
+
+  color: #fff;
+}
+
+#main .main-section-inner .main-container .grid-area .grid-left {
+  display: grid;
+  align-items: center;
+
+  width: 100%;
+  /* 애한테 크기를 줌 -> 본페이지에서는 calc로 중간을 맞춘 것 같음 */
+  position: sticky;
+  /* sticky를 주고 top은 고정되는 시점을 말하는 것 같다. */
+  top: 0;
+
+  /* height : calc(100svh와 상하 패딩을 준 것을 넣어 가운데 정렬) -> 나는 상하 패딩 9.8rem으로 줬으니 그걸 뺴야함*/
+  height: 100svh;
+  height: calc(100svh - 9.8rem - 9.8rem);
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left
+  .grid-left-container {
+  display: flex;
+
+  flex-direction: column;
+  gap: 6.4rem;
+  max-width: 34.9rem;
+}
+
+#main .main-section-inner .main-container .grid-area .grid-left .title {
+  font-size: 8.8rem;
+  font-weight: 800;
+  color: #fff;
+
+  /* 글 간격, 높이 맞추기 */
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+
+  word-break: keep-all;
+
+  /* 첫문자를 대문자로 변환 */
+  text-transform: capitalize;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left
+  .video-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: 32rem;
+
+  gap: 1.6rem;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left
+  .video-container
+  .progress {
+  display: block;
+  width: 100%;
+  height: 8px;
+
+  border-radius: 0.4rem;
+
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 영상 길이만큼 채워지는 효과 바 */
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left
+  .video-container
+  .progress
+  .bar {
+  display: block;
+  width: 50%;
+  height: 8px;
+
+  border-radius: 0.4rem;
+
+  background: rgba(255, 255, 255, 1);
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left
+  .video-container
+  .toggle-play-btn {
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  height: 3.4rem;
+
+  background: url(../img/toggle-btn-play.svg) no-repeat 0 0 / contain;
+}
