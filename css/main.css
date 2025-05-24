@@ -1,5 +1,8 @@
 @charset 'utf-8';
 
+/* 반응형할 때 유용한 기능들 */
+/* aspect-ratio 가로세로 비율을 맞출 때 사용되고, 특히 이미지나 비디오에 사용된다. */
+
 /* header 영역부터 실시 */
 #header {
   position: fixed;
@@ -290,6 +293,7 @@
   color: #fff;
 }
 
+/* grid 왼쪽 부분 */
 #main .main-section-inner .main-container .grid-area .grid-left {
   display: grid;
   align-items: center;
@@ -398,4 +402,502 @@
   height: 3.4rem;
 
   background: url(../img/toggle-btn-play.svg) no-repeat 0 0 / contain;
+}
+
+/* grid 오른쪽 부분 */
+#main .main-section-inner .main-container .grid-area .grid-right {
+  display: flex;
+  align-items: center;
+}
+
+#main .main-section-inner .main-container .grid-area .grid-right .widgets {
+}
+
+#main .main-section-inner .main-container .grid-area .grid-right .widgets .col {
+}
+
+/* 위젯 크기 */
+/* 첫 위젯 */
+#main .widget {
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 4.4rem;
+  padding: 2.8rem;
+
+  background: rgba(0, 19, 74, 0.48);
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+
+  margin-bottom: 2.4rem;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.6rem;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title:before {
+  content: "";
+  display: block;
+
+  width: 1rem;
+  height: 1rem;
+
+  background: #fff;
+  border-radius: 0.6rem;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .valuation {
+  font-size: 0;
+  line-height: 1.4rem;
+  text-align: center;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .valuation
+  > ul {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .valuation
+  > ul
+  > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* 크기를 줘서 이미지에 줬던 margin이 틀어지지 않게 해봄 */
+  /* 본페이지에는 flex : 1를 줘서 사용함 -> 크기를 주는 것과 다른 점은 flex : 1은 남는 공간을 다른 형제들과 1 : 1 비율로 나눠가지겠다는 의미이다. 예를 들어 3개의 li가 있으면 33.333%의 비율로 나눠가지겠다는 의미가 돤다.*/
+  /* flex : 1은 반응형을 구현할 때 좋다. 최소 크기를 주어 맞추게 된다면, 크기가 줄어들었을 때 틀어질 수도 있다. 그러니 미디어쿼리를 이용해 크기를 다시 조절해줘야한다. */
+  /* flex를 사용하면 미디어쿼리를 사용하지 않고, 비율을 유지하는 데 가능하다는 것이다.  */
+  /* flex 말고 다양한 방법이 많다. 너무 flex의 의존하지 말자. ul에 grid를 줘서 사용할 수 있다.  */
+  /* 본페이지와는 달라서 flex : 1만 주면 텍스트가 틀어지기 때문에 최소 크기를 주고 , flex : 1를 사용하겠다.  */
+  flex: 1;
+  min-width: 10.6rem;
+}
+
+/* img의 크기를 정해주고 비율을 맞춘다. */
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .valuation
+  > ul
+  > li
+  > img {
+  display: block;
+  width: 8.2rem;
+
+  /* aspect-ratio 속성은 주로 반응형 웹페이지에서 화면 비율을 유지하면서 컨텐츠를 렌더링할 때 사용된다. 특히 비디오나 이미지와 같이 가로세로 비율이 고정되어야하는 요소들을 사용할 떄 유용 */
+  /* aspect-ratio 1 / 1 는 가로세로 비율을 1:1 즉, 정사각형을 의미한다. -> 1/1로 설정한다면 정사각형으로 설정하는 것이다.  */
+  aspect-ratio: 1 / 1;
+
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4rem;
+
+  /* margin 0 auto 다음에 나오는 것은 밑에 부분에 margin을 주는 것이다. */
+  margin: 0 auto 1rem;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .valuation
+  > ul
+  > li
+  > span {
+  display: block;
+  font-weight: 800;
+  font-size: 1.6rem;
+
+  letter-spacing: -0.04em;
+}
+
+/* 두번째 위젯 */
+
+#main .widgets .ir-calender .presentation > ul {
+  display: flex;
+  flex-direction: column;
+}
+
+#main .widgets .ir-calender .presentation > ul > li {
+  padding: 1.4rem 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* li 처음 요소 위 패딩 사라지게 */
+#main .widgets .ir-calender .presentation > ul > li:first-of-type {
+  padding: 0 0 1.4rem 0;
+}
+
+/* li 마지막 border 사리지게 */
+#main .widgets .ir-calender .presentation > ul > li:last-of-type {
+  border-bottom: none;
+}
+
+#main .widgets .ir-calender .presentation > ul > li > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  font-weight: 700;
+  color: #fff;
+
+  letter-spacing: -0.04em;
+  word-break: keep-all;
+}
+
+#main .widgets .ir-calender .presentation > ul > li > a > h4 {
+  font-size: 1.7rem;
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+}
+
+#main .widgets .ir-calender .presentation > ul > li > a > span {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.4rem;
+}
+
+/* 세번쨰 위젯 */
+
+#main .widgets .report .report-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#main .widgets .report .report-content .report-name {
+  font-size: 2.4rem;
+  font-weight: 700;
+  word-break: keep-all;
+
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+
+  padding: 0 0 1.2rem 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+#main .widgets .report .report-content .move-btn {
+  margin-top: 1.2rem;
+}
+
+#main .widgets .report .report-content .move-btn a {
+  width: 3.6rem;
+  height: 3.6rem;
+  background: rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: background 250ms ease-in-out;
+}
+
+#main .widgets .report .report-content .move-btn a:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+#main .widgets .report .report-content .move-btn a:before {
+  content: "";
+
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+
+  background: url(../img/widget-arrow.svg) no-repeat 0 0 / contain;
+
+  transition: background 250ms ease-in-out;
+}
+
+#main .widgets .report .report-content .move-btn a:hover:before {
+  background: url(../img/widget-arrow-hover.svg) no-repeat 0 0 / contain;
+}
+
+/* 네번째 위젯 */
+
+#main .result {
+  background: rgba(25, 228, 238, 0.4);
+}
+#main .result .result-content {
+}
+
+#main .result .result-content .result-name {
+  font-size: 2.4rem;
+  font-weight: 700;
+  word-break: keep-all;
+
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+
+  padding: 0 0 1.2rem 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+#main .result .result-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.6rem;
+  margin-top: 1.2rem;
+}
+
+#main .result .result-list > li {
+}
+
+#main .result .result-list > li > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: #fff;
+}
+
+#main .result .result-list > li > a > h4 {
+  font-size: 1.7rem;
+  font-weight: 700;
+
+  letter-spacing: -0.04em;
+}
+
+#main .result .result-list > li > a > .download-btn {
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 3.6rem;
+  height: 3.6rem;
+
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+
+  transition: background 250ms ease-in-out;
+}
+
+#main .result .result-list > li > a > .download-btn:hover {
+  background: #fff;
+}
+
+#main .result .result-list > li > a > .download-btn:before {
+  content: "";
+  display: block;
+  width: 1.2rem;
+  height: 1.6rem;
+
+  background: url(../img/download-btn.svg) no-repeat 0 0 / contain;
+
+  transition: background 250ms ease-in-out;
+}
+
+#main .result .result-list > li > a > .download-btn:hover:before {
+  background: url(../img/download-btn-hover.svg) no-repeat 0 0 / contain;
+}
+
+/* 다섯번쨰 위젯 */
+
+#main .stock-info {
+  background: rgba(255, 255, 255, 0.75);
+  color: #333;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .stock-info
+  .widget-title:before {
+  background: #0a31a8;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .stock-info
+  .widget-title {
+  color: #333;
+}
+
+#main .stock-info .stock-info-content {
+}
+
+#main .stock-info .stock-info-content .jb {
+}
+
+#main .stock-info .stock-info-content .jb .jb-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  letter-spacing: -0.02em;
+
+  margin-bottom: 1rem;
+}
+
+#main .stock-info .stock-info-content .jb .jb-money-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.6rem;
+
+  padding-bottom: 2.8rem;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+#main .stock-info .stock-info-content .jb .jb-money-content .jb-money {
+  margin-left: auto;
+  vertical-align: baseline;
+}
+
+#main .stock-info .stock-info-content .jb .jb-money-content .jb-money span {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 700;
+
+  transform: translateY(126%);
+}
+
+#main .stock-info .jb .jb-money-content .jb-money strong {
+  display: inline-block;
+  font-size: 4.8rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+
+  margin-right: 0.6rem;
+}
+
+#main .stock-info .stock-info-content .jb .jb-money-content .jb-money-quote {
+  margin-left: auto;
+}
+
+#main
+  .stock-info
+  .stock-info-content
+  .jb
+  .jb-money-content
+  .jb-money-quote
+  span {
+  display: inline-block;
+
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  margin-right: 0.6rem;
+}
+
+#main
+  .stock-info
+  .stock-info-content
+  .jb
+  .jb-money-content
+  .jb-money-quote
+  strong {
+  color: #f00;
+
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+#main .kos-container {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 2.8rem;
+
+  gap: 1.6rem;
+}
+
+#main .kos-container .kospi .kospi-content,
+#main .kos-container .kosdaq .kosdaq-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+#main .kos-container .title {
+  font-size: 1.4rem;
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
+}
+
+#main .kos-container .krx {
+  margin-left: auto;
+
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+#main .kos-container .krx .krx-num {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.06em;
+}
+
+#main .kos-container .krx .krx-change {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: #1850ff;
 }
