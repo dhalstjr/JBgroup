@@ -411,9 +411,27 @@
 }
 
 #main .main-section-inner .main-container .grid-area .grid-right .widgets {
+  display: grid;
+
+  /* 1fr 50%와 완전히 다른 것임  */
+  /* 1fr 1fr은 남은 공간을 1 : 1 비율로 나눈다는 것, 전체 너비가 만약에 1000px 이라면 500px씩 나눠갖는 것이고, */
+  /* 1fr 50%은 첫번째 열은 남는 공간 중 일부를 차지하고, 두번째 열은 항상 전체 너비의 50%를 고정으로 갖게 됨. */
+  /* 그러니까 50%로 설정하면 두번째 열은 무조건 50%를 차지해야함, 1fr로 설정하면 앞에 1fr이 아닌 1.51351156fr 이런식으로 자신보다 큰 수가 들어오면 차지하는 비율이 줄어든다. */
+  grid-template-columns: 1fr 1fr;
+
+  gap: 1.6rem;
+
+  margin-left: auto;
+
+  /* 최대 크기 설정 */
+  max-width: 66.4rem;
 }
 
 #main .main-section-inner .main-container .grid-area .grid-right .widgets .col {
+  /*  grid 설정으로 생긴 열을 grid로 설정하여 gap을 설정 */
+  display: grid;
+
+  gap: 1.6rem;
 }
 
 /* 위젯 크기 */
