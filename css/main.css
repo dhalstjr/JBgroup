@@ -227,11 +227,11 @@
 }
 /* main : end -> section1  */
 
-#main #main-section {
+#main .section1 {
   position: relative;
   z-index: 10;
 
-  min-width: 100vh;
+  min-width: 100vw;
   min-height: 100lvh;
 }
 
@@ -281,7 +281,7 @@
 #main .main-section-inner .main-container .grid-area {
   display: grid;
 
-  grid-template-columns: 1fr 50%;
+  grid-template-columns: 1fr 56%;
 
   gap: min(2.2vw, 64px);
 
@@ -921,5 +921,261 @@
 }
 
 /*  section2 CSS - start */
+/* 최소 높이 바꿔야 함 */
+#main .section2 {
+  position: relative;
+  z-index: 10;
+
+  min-width: 100vw;
+  /* 높이가 자꾸 틀어짐. 배경할 때 다시 설정. */
+  min-height: 92rem;
+
+  background: #f55;
+}
+
+#main .section2 .visual {
+  height: 0;
+}
+
+/* section2 영역은 이미지를 세개 배치해서 배경을 설정 -> 이건 나중에 설정 */
+#main .section2 .visual .visual-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: block;
+
+  background: url(../img/main-visual-bg2.png) no-repeat 0 0 / cover;
+  width: 100%;
+  height: 100lvh;
+
+  overflow: hidden;
+}
+
+/* grid-left 부분 설정 다르게 해야함.  */
+#main .main-section-inner .main-container .grid-area .grid-left.sec1-exclusion {
+  /* 포지션 static으로 다시 설정. -> 텍스트 자리를 다시 잡기 위해사 */
+  position: static;
+  align-items: start;
+}
+
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-left.sec1-exclusion
+  .grid-left-container {
+  /* 텍스트 사이 간격 다시 설정 */
+  gap: 2.4rem;
+
+  /* 텍스트 길이를 위해 최대 넓이 다시 설정 */
+  max-width: 60rem;
+}
+
+.grid-area .grid-left .section-title {
+  font-weight: 800;
+  font-size: 3.8rem;
+
+  color: #fff;
+
+  letter-spacing: -0.02em;
+
+  display: flex;
+  align-items: center;
+
+  gap: 1.8rem;
+}
+
+.grid-area .grid-left .section-title:before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+
+  background: #0a31a8;
+}
+
+.grid-area .grid-left .section-text {
+  font-weight: 800;
+  font-size: 6.4rem;
+
+  word-break: keep-all;
+
+  line-height: 1.34;
+  letter-spacing: -0.02em;
+}
+
+/* grid-right 오른쪽 부분 widget이 공간을 차지하는 부분을 다시 설장 */
+#main
+  .main-section-inner
+  .main-container
+  .grid-area
+  .grid-right.sec1-exclusion
+  .widgets {
+  /* 공간을 동일하게 분배 */
+  grid-template-columns: 1fr 1fr;
+}
+
+/* section2의 위젯을 다시 설정 */
+#main .sec1-exclusion .widget {
+  padding: 3rem;
+  /* 배경색 전환 */
+  background: #0b235b;
+  /* backdrop-filter와 filter는 모두 CSS에서 요소에 그래픽 효과를 적용하는 속성이다. */
+  /* 이 둘의 차이점은 backdrop-filter는 배경에만 효과를 적용하고, filter는 요소 전체에 효과를 적용한다는 점이다. */
+  backdrop-filter: blur(60px);
+
+  /* widget-top과 bottom의 간격  */
+  gap: 6.4rem;
+}
+
+#main .sec1-exclusion .widget .widget-top {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-top-title {
+  /* 그게 아니라 gap이든 margin이든 a링크의 block요소를 주지 않으면 벌어지지 않음. */
+  /*  margin-bottom: 1.2rem; */
+
+  font-weight: 800;
+  font-size: 3.2rem;
+  color: #fff;
+
+  line-height: 1.2;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-text {
+  font-weight: 600;
+  font-size: 1.7rem;
+
+  color: #fff;
+  opacity: 0.7;
+
+  line-height: 1.4;
+
+  word-break: keep-all;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-download-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* padding을 이용한 크기  */
+#main .sec1-exclusion .widget .widget-top .widget-download-icon a {
+  display: inline-block;
+  padding: 1.4rem 1.6rem;
+
+  border-radius: 5.4rem;
+  background: rgba(255, 255, 255, 0.16);
+
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  transition: 250ms ease-in-out;
+  transition-property: background color;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-download-icon a::after {
+  content: "";
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+
+  background: url(../img/download-btn.svg) no-repeat 0 0 / contain;
+
+  transition: 250ms ease-in-out;
+  transition-property: background;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-download-icon a:hover {
+  background: #fff;
+  color: #0a31a8;
+}
+
+#main .sec1-exclusion .widget .widget-top .widget-download-icon a:hover::after {
+  background: url(../img/download-btn-hover.svg) no-repeat 0 0 / contain;
+}
+
+#main .sec1-exclusion .widget .widget-bottom {
+  display: flex;
+  justify-content: space-between;
+
+  /* 바닥에 맞추려면 flex-end 이런식으로 설정 */
+  /* vertical-align : baseline X flex 요소에는 flex-start, end, center, baseline, 등등 이런식으로 설정 */
+  /* vertical-align :baseline이 안먹는 이유는 inline이나 inline-block요소에만 적용이 된다. */
+  /* align-items : bottom도 올바른 설정이 아님.  */
+  /* 요소에 크기가 달라서 높이가 다른 것 맞추려면 flex-end 등등 사용하면 맞춰짐 */
+  align-items: flex-end;
+}
+
+#main .sec1-exclusion .widget .widget-bottom .widget-icon {
+  display: flex;
+  align-items: center;
+}
+
+#main .sec1-exclusion .widget .widget-bottom .widget-icon a {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.16);
+  transition: background 250ms ease-in-out;
+}
+
+#main .sec1-exclusion .widget .widget-bottom .widget-icon a:before {
+  content: "";
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+
+  background: url(../img/widget-arrow.svg) no-repeat 0 0 / contain;
+
+  transition: background 250ms ease-in-out;
+}
+
+#main .sec1-exclusion .widget .widget-bottom .widget-icon a:hover {
+  background: #fff;
+}
+
+#main .sec1-exclusion .widget .widget-bottom .widget-icon a:hover:before {
+  background: url(../img/widget-arrow-hover.svg) no-repeat 0 0 / contain;
+}
+
+/* 위젯마다 다른 이미지 기입 */
+#main .sec1-exclusion .widget .widget-bottom .widget-img {
+  display: inline-block;
+  width: 12.4rem;
+  height: 12.4rem;
+}
+
+#main .sec1-exclusion .widget.notice .widget-bottom .widget-img {
+  background: url(../img/section2-widget-img1.png) no-repeat 0 0 / contain;
+}
+
+#main .sec1-exclusion .widget.estimation .widget-bottom .widget-img {
+  background: url(../img/section2-widget-img2.png) no-repeat 0 0 / contain;
+}
+
+#main .sec1-exclusion .widget.initiative .widget-bottom .widget-img {
+  background: url(../img/section2-widget-img3.png) no-repeat 0 0 / contain;
+}
+
+#main .sec1-exclusion .widget.contribution .widget-bottom .widget-img {
+  background: url(../img/section2-widget-img4.png) no-repeat 0 0 / contain;
+}
 
 /*  section2 CSS - end */
