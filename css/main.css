@@ -921,24 +921,26 @@
 }
 
 /*  section2 CSS - start */
+
 /* 최소 높이 바꿔야 함 */
-#main .section2 {
+/* #main .section2 {
   position: relative;
   z-index: 10;
 
   min-width: 100vw;
-  /* 높이가 자꾸 틀어짐. 배경할 때 다시 설정. */
+  높이가 자꾸 틀어짐. 배경할 때 다시 설정.
   min-height: 92rem;
 
   background: #f55;
-}
+} */
 
 #main .section2 .visual {
+  position: relative;
   height: 0;
 }
 
 /* section2 영역은 이미지를 세개 배치해서 배경을 설정 -> 이건 나중에 설정 */
-#main .section2 .visual .visual-bg {
+/* #main .section2 .visual .visual-bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -951,6 +953,112 @@
   height: 100lvh;
 
   overflow: hidden;
+} */
+
+/* section2 visual 배경화면 부분 이미지 세개 넣고 다시 설정. */
+
+.section2 {
+  position: relative;
+  z-index: 1;
+
+  /* .section2에 background 컬러를 넣어줘서 배경색을 고정시킴 */
+  background-color: #0d2d77;
+}
+
+.section2 .visual .visual-bg {
+  position: absolute;
+  background: 50% 50% no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  top: -6.3rem;
+  bottom: auto;
+
+  /* 높이 조절 */
+  height: calc(100vh + 9.8rem);
+
+  overflow: hidden;
+
+  background-color: #0d2d77;
+}
+
+/* active 클래스 지정 */
+.section2 .visual .visual-bg.active .bg-item1 {
+  transform: rotate(0);
+
+  top: -29.7rem;
+  left: -44.5rem;
+}
+
+.section2 .visual .visual-bg.active .bg-item2 {
+  transform: rotate(0);
+
+  top: 47.9rem;
+  left: -14.6rem;
+}
+
+.section2 .visual .visual-bg.active .bg-item3 {
+  transform: rotate(0);
+
+  top: 25.8rem;
+  right: -47.9rem;
+}
+
+/* 이미지 크기 및 위치 선정.  */
+.section2 .visual .visual-bg .bg-item1 {
+  width: 104.7rem;
+
+  /* 절대 요소를 줘서 배경에 맞게 설정해야 함  */
+  position: absolute;
+
+  /* top과 left, right 설정 */
+  top: -29.7rem;
+  left: -44.5rem;
+
+  transition: 1.2s ease-in-out;
+  transition-property: transform, top left right;
+
+  /* 로테이트 설정 */
+}
+
+.section2 .visual .visual-bg .bg-item2 {
+  width: 92.2rem;
+
+  /* 절대 요소를 줘서 배경에 맞게 설정해야 함  */
+  position: absolute;
+
+  /* top과 left, right 설정 */
+  top: 47.9rem;
+  left: -14.6rem;
+
+  transition: 1.2s ease-in-out;
+  transition-property: transform, top left right;
+
+  /* 로테이트 설정 */
+}
+
+.section2 .visual .visual-bg .bg-item3 {
+  width: 91.3rem;
+
+  /* 절대 요소를 줘서 배경에 맞게 설정해야 함  */
+  position: absolute;
+
+  /* top과 left, right 설정 */
+  top: 25.8rem;
+  right: -47.9rem;
+
+  transition: 1.2s ease-in-out;
+  transition-property: transform, top left right;
+
+  /* 로테이트 설정 */
+}
+
+.section2 .visual .visual-bg img {
+  display: block;
+  width: 100%;
 }
 
 /* grid-left 부분 설정 다르게 해야함.  */
