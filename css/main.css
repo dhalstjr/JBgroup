@@ -1332,12 +1332,32 @@
   padding: 2.4rem 3.6rem;
 
   transition: 300ms ease-in-out;
-  transition-property: background color;
+  transition-property: background, color;
 
   border-radius: 2.4rem;
 
   display: flex;
   flex-direction: column;
+}
+
+.section3 .slide-item a {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+}
+
+/* background에 scale이 안먹는다. */
+/* 문제점 background-img가 크기를 벗어나서 틀어지는 것을 방지하기 위해 slide-img에 overflow : hidden을 줬는데도, 틀어지면서 확대되는 이유 */
+/* 문제의 본질은 background-img는 transform : scale이 먹지 않아서 그렇다. -> transform은 요소 자체에 적용되는 CSS 속성이다. */
+/* 지금 HTML에 구조에는 background의 이미지가 slide-img에 단순 배경으로 지정되어 있기 때문에 slide-img에 transform을 적용하면 slide-img 자체가 커지면서 이미지도 커지는 것이다. */
+/* 그래서 결국 slide-img에 overflow : hidden이 있다고 해도 slide-img가 커지는 것이기 때문에 slide-item을 벗어나 레이아웃이 틀어질 수도 있게 된다. */
+/* 이에 대한 해결방안은 확대대는 이미지를 별도 요소로 분리하여 사용하는 것이다. */
+/* 즉 slide-img안에 자식 요소를 더 추가하여 감싸는 것이다.  <div class = ".ss"><div class =".img-inner"></div></div>*/
+/* 또 다른 방법은 img태그를 이용하여 background가 아닌 HTML에 구조에 img태그를 사용하는 방법이다. */
+/* 이 방법을 더 권장한다. 시멘틱, 접근성, 반응형 모두 대응 가능하기 때문에 -> 본페이지에서도 img태그를 사용하였음. */
+.section3 .slide-item:hover .slide-img {
+  transform: scale(1.1);
 }
 
 .section3 .slide-item:hover {
@@ -1352,14 +1372,27 @@
 
   border-radius: 1.4rem;
 
-  background: #55f;
+  overflow: hidden;
+}
+
+.section3 .slide-item .slide-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  transition: transform 300ms ease-in-out;
+}
+
+.section3 .slide-item:hover .slide-img img {
+  transform: scale(1.1);
 }
 /* 아이템별로 이미지 다르게 */
 
-.section3 .slide-item.item1 .slide-img {
+/* .section3 .slide-item.item1 .slide-img {
   background: url(../img/section3-slide-item-img1.png) no-repeat 0 0 / cover;
 }
-
+ */
 .section3 .slide-item.item2 .slide-img {
   background: url(../img/section3-slide-item-img2.png) no-repeat 0 0 / cover;
 }
@@ -1479,3 +1512,7 @@
 }
 
 /* section3 CSS - end */
+
+/* section4 CSS - start */
+
+/* section4 CSS - end */
