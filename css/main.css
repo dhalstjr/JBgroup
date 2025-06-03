@@ -974,6 +974,7 @@
   right: 0;
   bottom: 0;
 
+  /* top을 따로 설정해줘야  */
   top: -6.3rem;
   bottom: auto;
 
@@ -1081,7 +1082,7 @@
   max-width: 60rem;
 }
 
-.grid-area .grid-left .section-title {
+#main-section .section-title {
   font-weight: 800;
   font-size: 3.8rem;
 
@@ -1095,7 +1096,7 @@
   gap: 1.8rem;
 }
 
-.grid-area .grid-left .section-title:before {
+#main-section .section-title:before {
   content: "";
   display: block;
   width: 2.5rem;
@@ -1105,7 +1106,7 @@
   background: #0a31a8;
 }
 
-.grid-area .grid-left .section-text {
+#main-section .section-text {
   font-weight: 800;
   font-size: 6.4rem;
 
@@ -1287,3 +1288,194 @@
 }
 
 /*  section2 CSS - end */
+
+/* section3 CSS - start */
+.section3 {
+  position: relative;
+
+  width: 100%;
+  z-index: 3;
+
+  padding: 13rem 0 10rem 0;
+
+  /* section3는 배경 컬러를 section3에 직접 적용 */
+  background: #fff;
+}
+
+/* 텍스트 부분 */
+
+.section3 .section3-title-con {
+  display: flex;
+  gap: 2.4rem;
+  flex-direction: column;
+}
+
+#main .section3 .section-title {
+  color: #000;
+}
+
+/* section3 card swiper 슬라이드 부분 */
+.section3 .card-container {
+  margin-top: 8rem;
+
+  position: relative;
+}
+
+.section3 .card-container .card-slide {
+  /* 떨어지지 않은 카드 디자인 */
+  display: flex;
+  align-items: center;
+}
+
+/* 카드 디자인 아이템 */
+.section3 .slide-item {
+  padding: 2.4rem 3.6rem;
+
+  transition: 300ms ease-in-out;
+  transition-property: background color;
+
+  border-radius: 2.4rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.section3 .slide-item:hover {
+  background: #1c56ff;
+
+  color: #fff;
+}
+
+.section3 .slide-item .slide-img {
+  width: 32rem;
+  height: 21.3rem;
+
+  border-radius: 1.4rem;
+
+  background: #55f;
+}
+/* 아이템별로 이미지 다르게 */
+
+.section3 .slide-item.item1 .slide-img {
+  background: url(../img/section3-slide-item-img1.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item2 .slide-img {
+  background: url(../img/section3-slide-item-img2.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item3 .slide-img {
+  background: url(../img/section3-slide-item-img3.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item4 .slide-img {
+  background: url(../img/section3-slide-item-img4.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item5 .slide-img {
+  background: url(../img/section3-slide-item-img5.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item6 .slide-img {
+  background: url(../img/section3-slide-item-img6.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item7 .slide-img {
+  background: url(../img/section3-slide-item-img7.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item8 .slide-img {
+  background: url(../img/section3-slide-item-img8.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item.item9 .slide-img {
+  background: url(../img/section3-slide-item-img9.png) no-repeat 0 0 / cover;
+}
+
+.section3 .slide-item .slide-title {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+
+  gap: 0.8rem;
+
+  font-weight: 500;
+  font-size: 1.4rem;
+  letter-spacing: 0em;
+
+  /* 대문자로 변환 */
+  text-transform: uppercase;
+
+  word-break: keep-all;
+}
+
+.section3 .slide-item .slide-title:before {
+  content: "";
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+
+  border-radius: 50%;
+  background: #0a31a8;
+}
+
+.section3 .slide-item .slide-text-con {
+  margin-top: 1.6rem;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.6rem;
+
+  word-break: keep-all;
+}
+
+.section3 .slide-item .slide-text-con .slide-title2 {
+  font-weight: 700;
+
+  font-size: 2rem;
+
+  line-height: 1.36;
+  letter-spacing: -0.02em;
+}
+
+.section3 .slide-item .slide-text-con .slide-text {
+  font-weight: 400;
+  font-size: 1.6rem;
+
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.section3 .slide-item .slide-arrow-btn {
+  display: flex;
+  align-items: center;
+
+  justify-content: end;
+
+  margin-top: 2.4rem;
+}
+
+.section3 .slide-item .slide-arrow-btn .arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 4rem;
+  height: 4rem;
+  border-radius: 2rem;
+
+  background: #f3f3f3;
+}
+
+.section3 .slide-item .slide-arrow-btn .arrow-btn:before {
+  content: "";
+  display: block;
+
+  width: 1.4rem;
+  height: 1.2rem;
+
+  background: url(../img/slide-arrow-icon.svg) no-repeat 0 0 / cover;
+}
+
+/* section3 CSS - end */
