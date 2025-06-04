@@ -1356,9 +1356,9 @@
 /* 즉 slide-img안에 자식 요소를 더 추가하여 감싸는 것이다.  <div class = ".ss"><div class =".img-inner"></div></div>*/
 /* 또 다른 방법은 img태그를 이용하여 background가 아닌 HTML에 구조에 img태그를 사용하는 방법이다. */
 /* 이 방법을 더 권장한다. 시멘틱, 접근성, 반응형 모두 대응 가능하기 때문에 -> 본페이지에서도 img태그를 사용하였음. */
-.section3 .slide-item:hover .slide-img {
+/* .section3 .slide-item:hover .slide-img {
   transform: scale(1.1);
-}
+} */
 
 .section3 .slide-item:hover {
   background: #1c56ff;
@@ -1384,45 +1384,10 @@
   transition: transform 300ms ease-in-out;
 }
 
+/* img 태그를 넣어 이미지에 transform : scale 효과를 준다. HTMl 구조 변경. */
+
 .section3 .slide-item:hover .slide-img img {
   transform: scale(1.1);
-}
-/* 아이템별로 이미지 다르게 */
-
-/* .section3 .slide-item.item1 .slide-img {
-  background: url(../img/section3-slide-item-img1.png) no-repeat 0 0 / cover;
-}
- */
-.section3 .slide-item.item2 .slide-img {
-  background: url(../img/section3-slide-item-img2.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item3 .slide-img {
-  background: url(../img/section3-slide-item-img3.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item4 .slide-img {
-  background: url(../img/section3-slide-item-img4.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item5 .slide-img {
-  background: url(../img/section3-slide-item-img5.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item6 .slide-img {
-  background: url(../img/section3-slide-item-img6.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item7 .slide-img {
-  background: url(../img/section3-slide-item-img7.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item8 .slide-img {
-  background: url(../img/section3-slide-item-img8.png) no-repeat 0 0 / cover;
-}
-
-.section3 .slide-item.item9 .slide-img {
-  background: url(../img/section3-slide-item-img9.png) no-repeat 0 0 / cover;
 }
 
 .section3 .slide-item .slide-title {
