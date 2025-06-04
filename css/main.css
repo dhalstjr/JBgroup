@@ -1340,7 +1340,7 @@
   flex-direction: column;
 }
 
-.section3 .slide-item a {
+.section3 .slide-item .item {
   width: 100%;
   height: 100%;
 

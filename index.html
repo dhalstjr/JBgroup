@@ -441,7 +441,11 @@
               <div class="card-container swiper">
                 <div class="swiper-wrapper card-slide">
                   <div class="slide-item item1">
-                    <a href="">
+                    <!-- a 링크 태그안에 a 태그가 중첩되서 사용이 불가능하다. -> 이를 찾아낸 이유는 자꾸 slide-arrow-btn에 a링크인 .item이 붙기 때문에 알아냈음. -->
+                    <!-- a태그안에 slide-arrow-btn쪽에 a링크가 하나 있어, 중첩이 불가능하고, slide-arrow-btn에 a태그 쪽애도 위 쪽 내가 설정한 a태그의 .item이 나온다. -->
+                    <!-- 해결방안으로는 slide-arrow-btn을 button 태그로 변환하는 것이다. -->
+                    <!-- 이 문제ㅔ에 대해서는 .slide-arrow-btn이 둥글지 않고 쪼끄러져 있어 알게됨. -->
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img1.png"
@@ -459,15 +463,17 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <!-- a링크에 a링크는 중첩이 되지 않기 때문에 button태그로 설정을 다시 함. -->
+                        <!-- a링크에 a링크가 중첩되면 틀어질 확률이 크다. -->
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item2">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img2.png"
@@ -484,15 +490,15 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item3">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img3.png"
@@ -509,15 +515,15 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item4">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img4.png"
@@ -535,15 +541,15 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item5">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img5.png"
@@ -560,15 +566,15 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item6">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img6.png"
@@ -585,15 +591,15 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
 
                   <div class="slide-item item7">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img7.png"
@@ -618,7 +624,7 @@
                   </div>
 
                   <div class="slide-item item8">
-                    <a href="">
+                    <a href="#" class="item">
                       <div class="slide-img">
                         <img
                           src="./img/section3-slide-item-img8.png"
@@ -635,9 +641,9 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
@@ -660,9 +666,9 @@
                         </div>
                       </div>
                       <div class="slide-arrow-btn">
-                        <a href="#" class="arrow-btn">
+                        <button type="button" class="arrow-btn">
                           <i class="hidden">슬라이드 아이템 이동버튼</i>
-                        </a>
+                        </button>
                       </div>
                     </a>
                   </div>
