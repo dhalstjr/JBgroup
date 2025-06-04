@@ -1479,5 +1479,205 @@
 /* section3 CSS - end */
 
 /* section4 CSS - start */
+.section4 {
+  position: relative;
+
+  width: 100%;
+
+  /* 배경 컬러  */
+  background: #1c56ff;
+
+  min-height: 100svh;
+
+  /* 나는 틀어지니까 최소 높이를 설정 1220px로 설정 */
+  min-height: 122rem;
+
+  overflow: hidden;
+}
+
+/* section4 - grid 설정 바꾸기 */
+#main .section4 .main-section-inner .main-container .grid-area .grid-left {
+  align-items: start;
+}
+
+#main .section4 .main-section-inner .grid-area .grid-left .grid-left-container {
+  gap: 1.6rem;
+
+  /* 텍스트 부분 최대크기 정해놓은 거 풀기 */
+  max-width: none;
+}
+
+/* section4의 지구 이미지  */
+.section4 .visual {
+}
+.section4 .visual .sec4-bg {
+  width: 85.7rem;
+  height: 85.7rem;
+
+  background: url(../img/section4-earth.png) no-repeat 0 0 / cover;
+
+  /* 가상요소로 만들기 */
+  position: absolute;
+  top: 25rem;
+  left: 5.8rem;
+}
+
+/* section4 -> widget(위젯)디자인 바꾸기 */
+
+/* grid의 열이 가지는 비율을 동일하게 */
+#main .section4 .main-container .grid-area .grid-right .widgets {
+  grid-template-columns: 1fr 1fr;
+}
+
+#main .section4 .widget {
+  padding: 3.2rem 4rem;
+
+  gap: 2.2rem;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  gap: 1rem;
+
+  font-size: 2.2rem;
+
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title:before {
+  display: block;
+  width: 5rem;
+  height: 5rem;
+
+  border-radius: 0;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget.cambodia
+  .widget-title:before {
+  background: url(../img/cambodia.png) no-repeat 0 0 / contain;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget.myanmar
+  .widget-title:before {
+  background: url(../img/myanmar.png) no-repeat 0 0 / contain;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget.vietnam
+  .widget-title:before {
+  background: url(../img/vietnam.png) no-repeat 0 0 / contain;
+}
+
+#main
+  .section4
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget.korea
+  .widget-title:before {
+  background: url(../img/korea.png) no-repeat 0 0 / contain;
+}
+
+.section4 .widget-top {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.section4 .widget-bottom {
+}
+
+.section4 .widget-bottom .bottom-title {
+  font-size: 1.6rem;
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.section4 .widget-bottom .branch-office {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2rem;
+
+  margin-top: 2.4rem;
+}
+
+.section4 .widget-bottom .branch-office .branch-office-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.8rem;
+}
+
+/* branch-office-name 앞에 있는 숫자가 들어간 동그란 디자인은 가상요소로 들어가면 복잡하기 때문에 */
+/* HTML 구조에 넣어 숫자만 집어넣고 동일한 디자인을 부여하는 게 더 좋을 거 같다. */
+.section4 .widget-bottom .branch-office .branch-office-name .branch-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, 0.3);
+
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+/* section4의 위젯은 완쪽과 오른쪽의 크기와 높이가 다르다. 그러므로 HTML구조에 더 추가해야한다.  */
+/* grid를 더 줄 요소를 만들어야 하므로 감싸야한다. -> 마니 헷갈린다.  */
+/* col요소를 다 감싸줄 하나의 요소를 만들어야 한다. 그리고 col 각각 하나 더 감싸야한다. */
+/* 그리고 col-left와 col-right 을 감싸줘야 한다. */
+/* 이렇게 하면 위젯들이 세로로 한줄로 변경 */
+/* 한줄로 변경되는 것처럼 보이는 것이지 2개의 열을 형성중이다. widgets 요소의 grid-template-colums 설정에 의해  col-left와 col-right이 수평으로 배치되었기 떄문에  */
+.section4 .widgets .col-wrapper {
+}
+.section4 .widgets .col-wrapper .col-content {
+}
 
 /* section4 CSS - end */
