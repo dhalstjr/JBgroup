@@ -1525,9 +1525,6 @@
 /* section4 -> widget(위젯)디자인 바꾸기 */
 
 /* grid의 열이 가지는 비율을 동일하게 */
-#main .section4 .main-container .grid-area .grid-right .widgets {
-  grid-template-columns: 1fr 1fr;
-}
 
 #main .section4 .widget {
   padding: 3.2rem 4rem;
@@ -1549,11 +1546,14 @@
 
   gap: 1rem;
 
-  font-size: 2.2rem;
+  font-size: 2.1rem;
 
   line-height: 1.2;
   letter-spacing: -0.02em;
   font-weight: 800;
+
+  /* 한줄로 적용(줄바꿈 일어나지 않음) */
+  white-space: nowrap;
 }
 
 #main
@@ -1674,9 +1674,47 @@
 /* col요소를 다 감싸줄 하나의 요소를 만들어야 한다. 그리고 col 각각 하나 더 감싸야한다. */
 /* 그리고 col-left와 col-right 을 감싸줘야 한다. */
 /* 이렇게 하면 위젯들이 세로로 한줄로 변경 */
-/* 한줄로 변경되는 것처럼 보이는 것이지 2개의 열을 형성중이다. widgets 요소의 grid-template-colums 설정에 의해  col-left와 col-right이 수평으로 배치되었기 떄문에  */
-.section4 .widgets .col-wrapper {
+/* 한줄로 변경되는 것처럼 보이는 것이지 2개의 열을 형성중이다. widgets 요소의 grid-template-colums 설정에 의해  col-left와 col-right이 수평으로 배치되었기 떄문에 전체적으로 한줄로 변경된 것처럼 보이는 것이다.   */
+
+/* 감싼 요소를 바꾸기 위해서는 grid 설정을 바꿔야한다. 다시 설정. */
+/* section4에서 grid-area에 있는 flex도 설정을 해제해줘야 widgets에 설정해줬던 max-width의 크기만큼 넓어진다. */
+/* section4에서는 widgets에 있는 grid를 해제해야한다. -> 아예 새로운 class를 주어 했는데 나는 주어진 것에서 설정을 바꾸어서 하곘음. */
+
+/* grid-right에 있던 flex를 제거하면 자동적으로 widget에 크기가 부모의 너비를 따라가게 된다. */
+#main .section4 .main-container .grid-area .grid-right {
+  display: block;
 }
+
+/* widgets에 grid와 grid-template-columns를 헤제하게 된다면 widget에 크기가 widgets에 있던 max-width의 크기에 따라가게 되고, 꼭 max-width만을 따라가는 게 아닌, 부모의 너비만큼 크기를 가지게된다. */
+/* 그리고, grid가 설정되어 있어도, grid-template-columns만 설정를 해제해도 크기는 부모만큼 갖게 된다. 이유는 열로 나누지 않고 비율만큼 맞추지 않아도 되기 때문이다. */
+#main .section4 .main-container .grid-area .grid-right .widgets {
+  display: block;
+}
+
+/* 이렇게 되면 한줄로 변경이 되고, 부모만큼의 크기를 가지게 되서 반응형에 대응하기 쉬워진다.  */
+/* 우리가 할 다지안은 다시 두줄로 만들어야 하기 때문에, 이렇게 widget이 넓이를 100%를 가지고 있을 때 grid를 다시 설정해서 2열로 만들고, 크기를 맞출 것이다. */
+/* 그래서 col을 col-left와 col-right을 묶은 다음 공통 class (col-content)를 줘 같은 것을 적용하게 되게 만들고,*/
+/* 공통 class인 col-content(col-left와 col-right)을 다시 한번 감싸서 부모 요소로 만든다. -> col-wrapper로 설정 */
+/* 그리고 col-wrapper에 grid을 설정하게 되는 것이아. */
+.section4 .widgets .col-wrapper {
+  display: grid;
+
+  grid-template-columns: 1fr 56%;
+  /* grid-template-columns 설정하는데, 모르는 게 나옴 */
+  /* repeat(2..) 2개의 열을 만든다는 것이다. -> 자식 요소가 2개라면 1,2만 보이지만 열은 생성된다. */
+  /* minmax(0,.1fr)은 레이아웃이 틀어지는 것을 방지하기 위해 사용되는 CSS중 하나라거 한다. */
+  /* minmax(최소값, 최대값)는 그리드이 셀의 너비나 높이를 최소 min에서 최대 max 사이로 제한 */
+  /* minmax(0,1fr)는 최소 너비 0px -> 완전히 줄어들 수 있음. ,최대 너비는 남은 공간에서 1fr만큼 늘릴 수 있다는 뜻이다. */
+  /* 1fr 1fr처럼 fr만 사용하게 된다면, 콘텐츠에 크기에 따라 열이 넘칠 수 있기 때문에 이를 방지하기 위해서 minmax(0,1fr)을 사용하게 된 것이다. */
+  /* 0아니면 숫자를 넣고 px를 넣어주면 된다. 넓이 단위 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  /* col-left와 col-right 간격 두기 */
+  gap: 1.6rem;
+
+  align-items: center;
+}
+
 .section4 .widgets .col-wrapper .col-content {
 }
 
