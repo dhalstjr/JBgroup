@@ -1707,6 +1707,7 @@
   /* minmax(0,1fr)는 최소 너비 0px -> 완전히 줄어들 수 있음. ,최대 너비는 남은 공간에서 1fr만큼 늘릴 수 있다는 뜻이다. */
   /* 1fr 1fr처럼 fr만 사용하게 된다면, 콘텐츠에 크기에 따라 열이 넘칠 수 있기 때문에 이를 방지하기 위해서 minmax(0,1fr)을 사용하게 된 것이다. */
   /* 0아니면 숫자를 넣고 px를 넣어주면 된다. 넓이 단위 */
+  /* 그러니 repeat()과 minmax()를 사용하는 경우는 주로 CSS Grid 레이아웃을 적용할 때 , 특히 반응형 웹디자인을 구현할 때 유용하다.*/
   grid-template-columns: repeat(2, minmax(0, 1fr));
 
   /* col-left와 col-right 간격 두기 */
@@ -1715,7 +1716,137 @@
   align-items: center;
 }
 
-.section4 .widgets .col-wrapper .col-content {
+/* section4 CSS - end */
+
+/* section5 CSS - start */
+#main .section5 .main-container .grid-area .grid-left {
+  align-items: start;
 }
 
-/* section4 CSS - end */
+#main .section5 .main-container .grid-area .grid-left .grid-left-container {
+  gap: 1.6rem;
+}
+
+#main .section5 .section-title,
+#main .section5 .section-text {
+  font-weight: 700;
+  color: #333;
+}
+
+.section5 {
+  position: relative;
+  width: 100%;
+  z-index: 4;
+
+  min-height: 136.2rem;
+
+  background-color: #fff;
+}
+
+/* 텍스트 틀어지는 것을 막기 위함. */
+#main .section5 .main-container .grid-area .grid-left .grid-left-container {
+  max-width: none;
+}
+
+/* grid-right에 flex를 풀어주고 align-items를 적용안되게 block으로 설정해준다. */
+#main .section5 .main-container .grid-area .grid-right {
+  display: block;
+}
+
+/* section5 그리드는 또 본페이지와 완전히 다르다.  */
+/* 본페이지는 grid를 적용할 아이템들이 4개, 즉 col에 들어간 2개 요소가 다 풀어지고 col에 있는 것도 다 없애고 col에 있는 요소들을 items로 하나로 묶었다. */
+/* 그러므로 widgets에 설정되어있던 grid를 설정을 해제하고 widget를 하나로 묶어둔 widget-news-items에 grid를 설정해야함. */
+#main .section5 .main-container .grid-area .grid-right .widgets {
+  display: block;
+  /* block으로 설정하면 widget들이 한줄로 변경 */
+
+  /* max-width 설정 없애기 -> widget의 크기를 위해서. */
+  max-width: none;
+}
+
+.section5 .widgets .widget-news-items {
+  display: grid;
+  gap: 1.6rem;
+
+  /* 2개의 열을 만들고, 가용 공간을 1:1 비율로 나눈다. -> 가로를 2개를 똑같이 만들고 싶을 때 가장 안전한 설정 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  /* 1오와 2오의 차이 */
+  row-gap: 6.4rem;
+}
+
+#main .section5 .widget {
+  padding: 0;
+  color: #333;
+
+  /* 보더 맞추기 */
+  border-radius: 0;
+
+  /* 배경 컬러 바꿔주기 */
+  background: #fff;
+}
+
+#main .section5 .widget .widget-img {
+  border-radius: 2.4rem;
+  /* border-radius가 overflow : hidden이 없이는 적용되지 않는다. */
+  overflow: hidden;
+
+  margin-bottom: 2.4rem;
+}
+
+/* widget news 부분에 hover 했을 때 이미지 scale() -> css background로 들어가면 틀어짐 */
+#main .section5 .widget a:hover .widget-img img {
+  transform: scale(1.1);
+}
+
+#main .section5 .widget .widget-img img {
+  display: block;
+  /* width : 100%로 하면 부모요소에게 딱 맞게 들어온다. */
+  width: 100%;
+  object-fit: cover;
+
+  transition: transform 250ms ease-in-out;
+}
+
+.section5 .news-title {
+  font-weight: 700;
+
+  letter-spacing: 0.002em;
+  line-height: 2.9rem;
+
+  font-size: 2.1rem;
+  margin-bottom: 1.6rem;
+
+  /* 텍스트 부분  -> 모르는 부분 */
+  word-break: keep-all;
+
+  /* 넘치는 텍스트를 숨김 처리, 줄 수 제한할 때 반드시 필요함 */
+  overflow: hidden;
+
+  /* 줄 수 제한을 위해 반드시 필요 -> flexbox와는 다른, 구형 레이아웃 시스템 */
+  display: -webkit-box;
+
+  /* 정확히 2줄까지만 보여주고, 그 이상은 잘라버린다. */
+  /* 이것만 사용하는 게 아니라, display: -webkit-box; ,  -webkit-box-orient: vertical; , overflow: hidden; 이 세가지를 함께 사용해야한다.*/
+  -webkit-line-clamp: 2;
+
+  /* 수직 방향 박스로 정렬 */
+  -webkit-box-orient: vertical;
+
+  /* 이것은 CSS 최신 속성 -> 텍스트 줄바꿈을 '보기 좋게' 정리해줌 -> 의미 단위 (어절)을 꺠지 않고 자연스럽게 줄바꿈 */
+  text-wrap: pretty;
+}
+
+.section5 .news-data {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 500;
+
+  line-height: 1.6;
+
+  color: #666;
+
+  letter-spacing: 0;
+}
+
+/* section5 CSS - end */
