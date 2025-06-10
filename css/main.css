@@ -1802,6 +1802,8 @@
 #main .section5 .widget .widget-img img {
   display: block;
   /* width : 100%로 하면 부모요소에게 딱 맞게 들어온다. */
+  /* 이유는 img의 기본 너비는 intrinsic(고유 너비) 아무 스타일도 적용하지 않으면 <img>는 자기 원본 이미지의 해상도만큼 너비를 가지게 됩니다. */
+  /* 그래서 width : 100%을 주게 된다면 부모 요소에게 딱 알맞게 적용되는 것이죠. */
   width: 100%;
   object-fit: cover;
 
@@ -1848,5 +1850,189 @@
 
   letter-spacing: 0;
 }
-
 /* section5 CSS - end */
+
+/* section6 CSS - start */
+.section6 {
+  position: relative;
+
+  z-index: 1;
+
+  width: 100%;
+}
+
+/* #main .visual에 들어간 position : relative를 없애줘야 background의 이미지가 보인다.  */
+#main .section6 .visual {
+  position: static;
+}
+
+.section6 .visual .visual-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: url(../img/section6-bg.png) no-repeat 50% 50% / cover;
+}
+
+.section6 .visual .visual-bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* section6는 다른 섹션에 비해 높이가 다르기 때문에 grid-left에 있는 height를 없애고 grid-area에 padding이 남아있는 것으로 높이를 얼추 맞추겠다. */
+/* grid-area는 grid가 되어있는 부분으로 두개의 자식 (grid-left, grid-right)이 자식으로 있다. */
+#main .section6 .main-container .grid-area .grid-left {
+  height: auto;
+}
+
+/* 그리고 또 크기가 어쩔 수 없이 형성된 grid-left-container에도 max-width를 없애주고 텍스트를 두줄로 변경시킨다. -> 그러면 크기가 더 줄어든다. */
+#main .section6 .main-container .grid-area .grid-left .grid-left-container {
+  max-width: none;
+
+  gap: 1.6rem;
+}
+
+#main .section6 .section-text {
+  line-height: 1.48;
+
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+/* grid-right에서 widget들은 지금 grid로 설정되어있다. widget 부모는 col인데 서로 다른 열로 설정되어있다. grid-template-columns로 인해서  */
+/* 그렇기 때문에 col의 부모요소인 widgets에게 grid-template-columns가 설정되어 있다는 것이다. *
+/* 그걸 동일한 비율로 나타나게 해야한다. */
+#main .section6 .main-container .grid-area .grid-right .widgets {
+  /* 이렇게 설정하면 두개의 열이 동일한 비율을 가지게된다. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  /* widgets가 가지고 있는 max-width의 크기를 늘리면 col에 있는 widget들이 크기를 늘릴 수 있을만큼 늘린다. 그러고 나서 늘릴 수 없으면 max-width의 크기를 아무리 늘려도 늘어나지 않는다. */
+  /* 그렇기에 max-width을 없애주고 크기를 늘린다. -> 왜 max-width을 없애면 크기가 늘어나냐면 최대 넓이를 조정해뒀기 떄문에 늘어나고 싶어도 늘어나지 못하는 widget이 max-width가 사라지면 자신의 크기만큼 늘린댜. */
+  max-width: none;
+}
+
+#main .section6 .main-section-inner .main-container .grid-area .grid-right {
+  /* flex를 지웠을 때 왜 크기가 늘어나나 햿더니 grid-right과 widget의 크기가 달랐기 떄문이다. */
+  /* widgets은 grid로 설정되어 있고, max-width가 설정되어있었는데 max-width를 지우고 나서 크기가 늘어난 이유는 최대 크기의 제약을 지웠기 때문에  */
+  /* widgets의 크기만큼만 widget들이 늘어났고, grid-right에 flex를 지웠더니 widget의 크기가 더 커진 이유는 */
+  /* widgets는 grid-right의 flex박스 크기보다 작았고, 그래서 그 안에서 margin-left : auto등 이런 명령에 자유롭게 움직임이 보였던 것이다.  */
+  /* 그래서 grid-right에 flex설정을 없앴다면 widgets의 크기는 flex로 인해 크기가 제약되던 것이 풀려 grid-right에 크기만큼 widgets가 커져서 widget들도 같이 느는 것이다. */
+  /* 내가 보기엔 그런 것 같다. */
+  display: block;
+}
+
+/* section6의 widget들은 서로 다른 열로 하나씩 이기 때문에 col에 gap명령은 필요가 없다. */
+#main .section6 .main-container .grid-area .grid-right .widgets .col {
+  gap: inherit;
+}
+
+/* section에 widget의 디자인은 배경이 흰색이다. */
+#main .section6 .widget {
+  background: #fff;
+}
+
+#main
+  .section6
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title {
+  color: #000;
+  font-size: 3.6rem;
+  font-weight: 600;
+}
+
+/* 가상요소 없애기 */
+#main
+  .section6
+  .main-container
+  .grid-area
+  .grid-right
+  .widgets
+  .widget
+  .widget-title:before {
+  display: none;
+}
+
+.section6 .widget-text {
+  color: #666;
+  font-size: 1.8rem;
+
+  line-height: 1.4;
+
+  word-break: keep-all;
+
+  letter-spacing: -0.04em;
+
+  margin-bottom: 6.4rem;
+}
+
+.section6 .widget-bottom {
+}
+.section6 .widget-bottom .widget-arrow-btn {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.section6 .widget-bottom .widget-arrow-btn button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+
+  border-radius: 2.5rem;
+
+  background: #f3f3f3;
+
+  transition: 250ms ease-in-out;
+}
+
+.section6 .widget:hover .widget-bottom .widget-arrow-btn button {
+  background: #0a31a8;
+}
+
+.section6 .widget-bottom .widget-arrow-btn button:before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1.8rem;
+
+  background: url(../img/section-arrow.svg) no-repeat 0 0 / contain;
+
+  transition: background 250ms ease-in-out;
+}
+
+.section6 .widget:hover .widget-bottom .widget-arrow-btn button:before {
+  display: block;
+  width: 2rem;
+  height: 1.8rem;
+
+  background: url(../img/slide-arrow-hover-icon.svg) no-repeat 0 0 / contain;
+}
+
+/* section6 위젯 디자인 */
+#main .section6 .widget {
+  padding: 4rem 3.2rem;
+
+  /* 최소 높이를 설정해 위젯의 크기가 더 작아지지 않게 고정 */
+  min-height: 29.6rem;
+}
+
+/* 본페이지에서는 grid-right부분의 col를 하나로 묶고 그 부모에게 flex로 설정하고,  자식에게는 flex : 1를 주는 형식으로 했음.  */
+/* 그렇게 하면 부모의 크기를 다 얻고, 반응형 웹 디자인에 좋을 것으로 판단된다.  */
+
+/* section6 CSS - end */
