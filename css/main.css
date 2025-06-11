@@ -2036,3 +2036,273 @@
 /* 그렇게 하면 부모의 크기를 다 얻고, 반응형 웹 디자인에 좋을 것으로 판단된다.  */
 
 /* section6 CSS - end */
+
+/* footer CSS - start */
+#footer {
+  position: relative;
+  z-index: 3;
+
+  background: #0a31a8;
+
+  padding: 4.8rem 0;
+}
+
+#footer .footer-inner {
+  width: 100%;
+  max-width: 179.2rem;
+
+  background: gray;
+
+  margin: 0 auto;
+}
+
+#footer .footer-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 6rem;
+}
+
+#footer .footer-top .footer-logo-box {
+  display: block;
+  width: 21.2rem;
+  height: 3.4rem;
+
+  background: url(../img/brand-logo.png) no-repeat 0 0 / contain;
+}
+
+#footer .footer-top .footer-logo-box a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#footer .footer-top .family-site {
+  display: block;
+  width: 28rem;
+  height: 5.4rem;
+
+  border-radius: 2.7rem;
+
+  background: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  transition: 150ms ease-in-out;
+}
+
+#footer .footer-top .family-site .link-site {
+  display: flex;
+  align-items: center;
+
+  gap: 0.8rem;
+
+  padding: 0 2.8rem;
+
+  width: 100%;
+  height: 100%;
+
+  font-weight: 700;
+  font-size: 1.6rem;
+
+  line-height: 1.34;
+}
+
+#footer .footer-top .family-site:hover {
+  color: #000;
+  background: #fff;
+}
+
+#footer .footer-top .family-site .link-site::before {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1rem;
+
+  border-radius: 50%;
+  background: #fff;
+
+  transition: 150ms ease-in-out;
+}
+
+#footer .footer-top .family-site:hover .link-site::before {
+  background: #0a31a8;
+}
+
+.family-site-menu {
+  display: none;
+}
+
+/* footer bottom */
+#footer .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+
+  align-items: flex-end;
+}
+
+#footer .footer-bottom .footer-bottom-con {
+}
+
+#footer .footer-bottom .footer-bottom-con .copy-right-content {
+  font-weight: 600;
+  font-size: 1.6rem;
+
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.copy-right-content .copy-right {
+  margin-left: 1.8rem;
+}
+
+#footer .footer-bottom .footer-bottom-con .footer-link {
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.footer-link .link-icon a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+
+  transition: background 150ms ease-in;
+}
+
+.footer-link .link-icon a:hover {
+  background: #fff;
+}
+
+.footer-link .link-icon a:before {
+  content: "";
+  display: block;
+
+  transition: background 150ms ease-in;
+}
+
+.footer-link .instagram a:hover:before {
+  background: url(../img/footer-link1-hover.png) no-repeat 0 0 / contain;
+}
+
+.footer-link .youtube a:hover:before {
+  background: url(../img/footer-link2-hover.png) no-repeat 0 0 / contain;
+}
+
+.footer-link .naver-blog a:hover:before {
+  background: url(../img/footer-link3-hover.svg) no-repeat 0 0 / contain;
+}
+
+.footer-link .instagram a:before {
+  width: 2rem;
+  height: 2rem;
+
+  background: url(../img/footer-link1.png) no-repeat 0 0 / contain;
+}
+
+.footer-link .youtube a:before {
+  width: 2.1rem;
+  height: 1.6rem;
+
+  background: url(../img/footer-link2.png) no-repeat 0 0 / contain;
+}
+
+.footer-link .naver-blog a:before {
+  width: 2.2rem;
+  height: 1.8rem;
+
+  background: url(../img/footer-link3.svg) no-repeat 0 0 / contain;
+}
+
+.copy-right-content .footer-information {
+  display: flex;
+  align-items: center;
+}
+
+.copy-right-content .footer-information span {
+  margin-right: 1.6rem;
+
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.copy-right-content .footer-information span:after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 14px;
+
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.copy-right-content .footer-information span:last-child:after {
+  display: none;
+}
+
+.copy-right-content .footer-information span:last-child {
+  margin-right: 0;
+}
+
+.copy-right-content .bold {
+  color: #fff;
+}
+
+.footer-top-btn-box {
+  color: rgba(255, 255, 255, 1);
+
+  display: flex;
+
+  position: relative;
+}
+
+.footer-top-btn-box .top-btn {
+  display: flex;
+  align-items: center;
+
+  gap: 1.2rem;
+}
+
+.footer-top-btn-box .top-btn span {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.top-btn .top-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  transition: background 150ms ease-in-out;
+}
+
+.top-btn:hover .top-icon {
+  background: #fff;
+}
+
+.top-btn .top-icon:before {
+  content: "";
+  display: block;
+  width: 1rem;
+  height: 1.4rem;
+
+  background: url(../img/footer-arrow.svg) no-repeat 50% 50% / contain;
+
+  transition: background 150ms ease-in-out;
+}
+
+.top-btn:hover .top-icon:before {
+  background: url(../img/footer-arrow-hoer.svg) no-repeat 50% 50% / contain;
+}
+
+/* footer CSS - end */
