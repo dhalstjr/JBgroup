@@ -28,13 +28,21 @@
   /* 높이를 주고 grid를 이용해여 align-items : center를 주면 중앙 정렬이 되기 때문에 grid를 사용한 것으로 보인다. */
   /* 굳이 site-header라는 html구조를 더 기입해서 grid을 이용해서 중앙정렬을 실시한 이유는 -> 정렬 계층을 나누어서 레이아웃을 더 유연하게 만드려는 전략으로 보인다. */
   /* 전체 구조용 grid , 내부 정렬용 flex */
-  height: 9.8rem;
+  height: 10.8rem;
   align-items: center;
   display: grid;
 }
 
 .header-container {
+  width: 100%;
   padding: 0 6.4rem;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+  /*  크기가 딸려서 height: 100%를 container와 header.content 둘 다 적용시킴. */
+  /* site-header와 크기가 맞지 않아서 레이아웃이 조금 깨지는 것 같음. 원인을 찾아보겠음. */
+  /* 원인을 찾았음 -> gnb의 li안에 있는 a의 태그에 크기가 달랐음. 크기를 똑같이 맞추니 크기가 다 똑같아짐. */
 }
 
 #header .header-content {
@@ -59,8 +67,7 @@
 #header .header-content #nav .gnb {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
+  justify-content: center;
   text-align: center;
 }
 
@@ -94,8 +101,8 @@
   /* 미디어쿼리없이 반응형 디자인을 사용하기 위해서 사용, min(), max() 함수와 같은 반응형 디자인 CSS이다. */
   /* 주의할 점은 다른 단위를 사용하는 경우에만 사용 가능하다고 한다.( ex) min(20rem ,10vh) ) */
   /* vw(뷰포트 너비) -> 1vw는 화면 너비의 1%에 해덩합니다. 만약 뷰포트 1000px이면 100px이 10vw이다. */
-  min-width: clamp(8.89rem, 9.6vw, 16rem);
-  height: 9.8rem;
+  min-width: clamp(9.8rem, 10.7142857143vw, 17.7rem);
+  height: 10.8rem;
 }
 
 /* 유틸메뉴 */
@@ -116,7 +123,7 @@
   border-radius: 1.4rem;
   background: rgba(255, 255, 255, 0.15);
 
-  font-weight: 800;
+  font-weight: 700;
   font-size: 1.6rem;
   color: #fff;
 
@@ -2051,8 +2058,6 @@
   width: 100%;
   max-width: 179.2rem;
 
-  background: gray;
-
   margin: 0 auto;
 }
 
@@ -2306,3 +2311,128 @@
 }
 
 /* footer CSS - end */
+
+/* header에 관한 스크립트를 하기 전 서브메뉴 구현하기 */
+/* header에 class를 부여해서 서브메뉴가 활성화 되게. */
+/* 서브메뉴를 구현하려고 하는데 이 메뉴는 header에 있는 gnb의 메뉴안 링크에 코드가 들어간 디자인 */
+
+/* 1. 일단 서브메뉴가 내려올 때 서브메뉴의 배경이 되는 걸 만들어줘야함. */
+/* -> site-header의 가상요소(before)을 만들어 배경으로 한다. - 이유는 site-header가 menu안에 있는 submenu를 전부 포함하기 때문에 배경으로 선정 */
+/* -> header도 흰색이 되기 때문에 header에 menu가 활성화가 됐을 때  header에 있는 모든 요소도 바꿔줘야 함, 로고, 컬러 등  */
+
+.site-header:before {
+  content: "";
+  /* 절대요소 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  background: #fff;
+
+  /* menu가 활성회되면 값을 줘야함. */
+  border-radius: 0;
+
+  /* 크기 정해주기 */
+  width: 100%;
+
+  /* header의 높이 크기만큼 주고 나중에 활성화 됐을 때의 디자인도 맞춰줘야 함. 높이를 다르게 하는 방식인 것 같음*/
+  /* 나는 height를 100%를 줘서 자식을 다 포함해서 크기를 주는 줄 알았지만 크기를 따로 조절 . */
+  height: 10.8rem;
+  height: 100%;
+
+  z-index: -1;
+
+  /* 높이가 달라질 때의 효과를 자연스럽게 주기 위해서 */
+  transition: height 250ms ease-in-out, opacity 250ms, border-radius 250ms;
+
+  /* 초기 상태는 안보이게  */
+  opacity: 0;
+  opacity: 1;
+}
+
+.show-menu .site-header:before {
+  /* 크기의 변화 -> submenu의 배경의 높이는 580px 근처 */
+  /* 하지만 본페이지에서는 --submenu-height라는 변수를 저장해서 높이를 지정해두고, var변수를 이용해서 높이를 더 추가하는 것으로 만들었음. */
+  /*  */
+  height: 36.8rem;
+}
+
+/* menu가 활성화 됐을 시에 로고와 컬러 변경. */
+/* 클래스 우선순위 때문에 애를 먹고 있음,  그래서 본페이지에 있는 data-theme data 속성을 이용해서 해보려고 함, data에 대해서 알 겸*/
+/* data-theme의 속성에 클래스가 붙었을 떄와 붙지 않았을 때의 CSS를 만들어주고 javaScript로 클래스만 추가,제거 하면 쉽게 컬러를 변경할 수 있다.  */
+
+/* data-theme 속성에 class가 부여되지 않았을 때 색상 */
+#header[data-theme="dark"] {
+  --color: #ffffff;
+  --bg: rgba(0, 0, 0, 0.2);
+}
+
+/* data-theme 속성에 class가 부여되지 않았을 때 색상 */
+#header.show-menu,
+#header[data-theme="dark"].show-menu,
+#header[data-theme="light"].show-menu {
+  --color: #333333;
+  --bg: #ffffff;
+}
+
+/* 그리고 저 위에 있는 --color와 --bg를 var(변수)를 이용해 사용하면 된다. */
+.site-header {
+  /* 이런 식으로 변경해주면 된다. -> 그리고 #header에 data-theme 속성이 들어가 있어야 --color가 정의 되어있다.  */
+  color: var(--color, #333333);
+}
+
+/* header에 있는 요소들 show-menu라는 클래스가 붙었을 때 색 변경해주기 */
+#header.show-menu .header-content .utils .family-btn {
+  background: #ccc;
+  color: #111;
+}
+
+#header.show-menu .header-content .utils .langs {
+  color: #333;
+}
+
+#header.show-menu .header-content .utils .langs a.active {
+  color: #0a31a8;
+}
+
+#header.show-menu .header-content .utils .langs .split {
+  background: #333;
+}
+
+#header.show-menu .header-content .utils .site-tab .tab-menu:before,
+#header.show-menu .header-content .utils .site-tab .tab-menu:after {
+  background-color: #333;
+}
+
+#header.show-menu .header-content .logo-box .logo {
+  background: url(../img/brand-logo-class.png) no-repeat 0 0 / contain;
+}
+/* 로고,색 변경 완료. */
+
+/* show-menu 클래스가 붙었을 때 header와 submenu를 구분하는 경계선 만들어주기 -> 가상요소로 만들어준다.  */
+#header.show-menu .site-header:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  /* height 값으로 주지않고, border-bottom으로 설정, 위치를 바닥, 좌우로 고정 */
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* .submenu에 position : absolute를 주어 절대요소로 띄운 다음에 header의 nav가 틀어지는 것을 막는다. */
+
+.submenu {
+  /* 이렇게 설정하면 menu의 알맞게 레이아웃에 맞춰지고, 보이게 하려면 top값을 바꿔주면 된다.  */
+  position: absolute;
+
+  top: calc(100% - 1px);
+  left: 0;
+  right: 0;
+
+  padding: 4rem 0;
+
+  font-size: 1.6rem;
+}
