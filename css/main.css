@@ -2348,14 +2348,51 @@
 
   /* 초기 상태는 안보이게  */
   opacity: 0;
-  opacity: 1;
 }
 
-.show-menu .site-header:before {
+#header.show-menu .site-header:before {
   /* 크기의 변화 -> submenu의 배경의 높이는 580px 근처 */
   /* 하지만 본페이지에서는 --submenu-height라는 변수를 저장해서 높이를 지정해두고, var변수를 이용해서 높이를 더 추가하는 것으로 만들었음. */
-  /*  */
-  height: 36.8rem;
+  /* --submenu-height라는 변수를 저장해서 시용한 이유는 유지보수성과 동적 처리의 유연성을 위해서라고 한다.  -> 동적으로 변경 가능한 변수로 만들어서, 자바스크립트나 다른 로직에서 자유롭게 조작할 수 있도록 하기 위해서라고 한다. */
+  /* header태그에 --submenu-height : 357px; 처럼 스타일로 적용하면, Js로 값을 쉽게 변경 가능하다.  */
+  /* 그리고, 스타일을 일관되게 관리할 수 있다. */
+  /* 반응형에서도 유연하게 대응이 가능. -> media query에서도 css 변수값만 변경하면 끝. */
+  /* 그리고 height: calc(var(--submenu-height, 0px) + 11.6666666667rem); 이렇게 계산식 calc() 사용한 이유는 --submenu-height는 서브메뉴의 실질적인 높이이고, +11.54rem 은 메뉴 바 자체의 높이 또는 패딩 등 여유 공간을 의미하는 것으로 보인다. 이렇게 나눈다면 메뉴 바 높이는 고정 , 서브매뉴만 동적으로 변경 가능하다. 확인해보니 submenu의 높이는 padding 다 뺴게된다면 357px이 맞다.  */
+
+  /* 그렇다면 이걸 사용하기 위해서는 어떻게 해야하나 */
+  /* 1. css 변수 선언 위치를 잡는다. header태그 안에 style를 넣어 선언해준다. style = "--submenu-height = 0px* 이런 식으로 또는, CSS안에서도 선언이 가능하다. 이렇게 하면 변수로 불러오는 게 가능해진다 /
+  /* 2. css 변수 활용 : 변수를 활용하기 위해서 var()함수를 사용하면 된다. var(--submenu-height , 0px)는 변수가 없을 경우 0px를 기본값으로 사용하라는 뜻이다.
+  /* 3. javaScript로 변수 값을 조작 : 이 방식의 진짜 핵심은 javaScript로 변수값을 실시간 조작할 수 있다는 점이다. header.style.setProperty("-submenu-height" ,"357px") 이런식으로 실행하면  높이도 자동적으로 변환한다.*/
+  /* 4. 부가적으로 class 제어도 함께 : 보통은 클래스(예를 들어 : .show-menu)를 추가해 트리거를 만든다. */
+  /* 중요한 것은 변수를 선언해서 var함수를 사용하여 이용하는 것이다.  */
+
+  /* 이렇게 변수를 저장만 해서 사용하면 크기가 주어지지 않는다, javascript로 추가 적용이 필요하니, 지금은 0px이 적용되고있다.  */
+  height: var(--submenu-height, 0px) + 20.7rem;
+  height: 58.5rem;
+
+  /* border-radios 밑에만 사용하기 - 본페이지에서는 clamp를 이용한 반응형에 대응*/
+  border-radius: 0 0 4.6rem 4.6rem;
+
+  opacity: 1;
+
+  /* transition-duration, transition-delay를 사용하는데 순서는 위에 명령을 준 순서 그대로 property가 들어간다고 생각하면 된다, */
+  /* 300ms - height / 200ms - border-radios : 200ms / 300ms - opacity 이런 식으로 명령 순서대로 들어간 것이다.  */
+  transition-duration: 300ms 200ms 300ms;
+  transition-delay: 0ms 0ms 0ms;
+  /* transition 팁 - transition을 복수로 사용할 때는 transition-property, transition-duration , transition-delay, transition-timing-function 순서와 개수를 일치를 시켜야한다. */
+  /* 만약 개수가 맞지 않다면 css에서 자동으로 반복 적용하거나 무시되니 주의가 필요하다.  */
+
+  pointer-events: none;
+}
+
+/* --submenu-height를 쓰기 위헌 변수 저장 CSS */
+/* 이렇게 저장을 하면 가져올 수 있다.  */
+#header {
+  --submenu-height: 0px;
+}
+
+#header.show-menu {
+  --submenu-height: 375px;
 }
 
 /* menu가 활성화 됐을 시에 로고와 컬러 변경. */
@@ -2435,4 +2472,56 @@
   padding: 4rem 0;
 
   font-size: 1.6rem;
+  line-height: 1.4;
+
+  letter-spacing: 0.0325em;
+
+  /* submenu의 opacity 0 만 준다면 마우스 포인터에 걸린다. 없어진 게 아니라, 눈에만 사라진 거기 때문에 처리를 해줘야한다. */
+  opacity: 0;
+
+  /* 마우스에 이벤트가 걸리지 않게 하기 위함 */
+  pointer-events: none;
+}
+
+#header.show-menu .submenu {
+  /* submenu의 크기를 줘서 모든 submenu가 크기를 같게 한다. */
+  /* 이건 .show-menu가 붙었을 때로 이동시킨다. */
+  height: 436px;
+}
+
+#header #nav .gnb .submenu ul {
+  position: relative;
+
+  padding: 0 1rem;
+}
+
+/* 그리고 submenu끼리의 차이를 알기 위해서 가상요소로 선을 하나 만들어준다. */
+#header.show-menu #nav .gnb .submenu ul:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  height: var(--submenu-height, 0px);
+  height: 357px;
+  width: 1px;
+  background: #e5e5e5;
+}
+
+/* 형제 선택자 + -> 첫 li 다음 모든 형제에게 적용 */
+#header #nav .gnb .submenu ul li + li {
+  margin-top: 2rem;
+}
+
+#header #nav .gnb .submenu ul li a {
+  font-weight: 700;
+}
+
+#header #nav .gnb .submenu ul li a span {
+  transition: color 200ms ease-in-out;
+}
+
+#header #nav .gnb .submenu ul li a:hover span {
+  color: #0a31a8;
 }
