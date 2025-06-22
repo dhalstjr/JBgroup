@@ -17,7 +17,7 @@
 
   z-index: 999;
 
-  background: #f5f;
+  background: transparent;
 
   color: #fff;
 }
@@ -31,6 +31,10 @@
   height: 10.8rem;
   align-items: center;
   display: grid;
+
+  /* 그리고 저 위에 있는 --color와 --bg를 var(변수)를 이용해 사용하면 된다. */
+  /* 이런 식으로 변경해주면 된다. -> 그리고 #header에 data-theme 속성이 들어가 있어야 --color가 정의 되어있다.  */
+  color: var(--color, #333333);
 }
 
 .header-container {
@@ -331,12 +335,12 @@
 
 #main .main-section-inner .main-container .grid-area .grid-left .title {
   font-size: 8.8rem;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
 
   /* 글 간격, 높이 맞추기 */
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
 
   word-break: keep-all;
 
@@ -451,6 +455,10 @@
   padding: 2.8rem;
 
   background: rgba(0, 19, 74, 0.48);
+}
+
+#main .section1 .widget {
+  backdrop-filter: blur(3rem);
 }
 
 #main
@@ -2345,6 +2353,7 @@
 
   /* 높이가 달라질 때의 효과를 자연스럽게 주기 위해서 */
   transition: height 250ms ease-in-out, opacity 250ms, border-radius 250ms;
+  transition-delay: 0ms, 100ms, 0ms;
 
   /* 초기 상태는 안보이게  */
   opacity: 0;
@@ -2367,7 +2376,7 @@
   /* 중요한 것은 변수를 선언해서 var함수를 사용하여 이용하는 것이다.  */
 
   /* 이렇게 변수를 저장만 해서 사용하면 크기가 주어지지 않는다, javascript로 추가 적용이 필요하니, 지금은 0px이 적용되고있다.  */
-  height: var(--submenu-height, 0px) + 20.7rem;
+  height: calc(var(--submenu-height, 0px) + 20.7rem);
   height: 58.5rem;
 
   /* border-radios 밑에만 사용하기 - 본페이지에서는 clamp를 이용한 반응형에 대응*/
@@ -2377,8 +2386,8 @@
 
   /* transition-duration, transition-delay를 사용하는데 순서는 위에 명령을 준 순서 그대로 property가 들어간다고 생각하면 된다, */
   /* 300ms - height / 200ms - border-radios : 200ms / 300ms - opacity 이런 식으로 명령 순서대로 들어간 것이다.  */
-  transition-duration: 300ms 200ms 300ms;
-  transition-delay: 0ms 0ms 0ms;
+  transition-duration: 300ms, 200ms, 300ms;
+  transition-delay: 0ms, 0ms, 0ms;
   /* transition 팁 - transition을 복수로 사용할 때는 transition-property, transition-duration , transition-delay, transition-timing-function 순서와 개수를 일치를 시켜야한다. */
   /* 만약 개수가 맞지 않다면 css에서 자동으로 반복 적용하거나 무시되니 주의가 필요하다.  */
 
@@ -2411,12 +2420,6 @@
 #header[data-theme="light"].show-menu {
   --color: #333333;
   --bg: #ffffff;
-}
-
-/* 그리고 저 위에 있는 --color와 --bg를 var(변수)를 이용해 사용하면 된다. */
-.site-header {
-  /* 이런 식으로 변경해주면 된다. -> 그리고 #header에 data-theme 속성이 들어가 있어야 --color가 정의 되어있다.  */
-  color: var(--color, #333333);
 }
 
 /* header에 있는 요소들 show-menu라는 클래스가 붙었을 때 색 변경해주기 */
@@ -2481,12 +2484,28 @@
 
   /* 마우스에 이벤트가 걸리지 않게 하기 위함 */
   pointer-events: none;
+
+  /* .show-menu가 붙었을 때 글씨가 동시에 나오는 바람에 애니메이션의 부자연스러움을 고치기 위함. */
+  /* opacity만 주고 길게 시간을 늘린다고 해도 이탈 시에 글씨가 부자연스럽다. */
+  /* 그걸 방지하기 위해서 본페이지는 clip-path를 사용한 것 같은데 나도 사용해보겠다. */
+  transition: opacity 200ms, clip-path 200ms ease-in-out;
+
+  /* ,를 사용하지 않고 사용해야하고, 지금 상태는 위로 가려진 상태 -> clip-path도 transition으로 적용힌다. */
+  clip-path: inset(0% 0% 100% 0%);
 }
 
 #header.show-menu .submenu {
   /* submenu의 크기를 줘서 모든 submenu가 크기를 같게 한다. */
   /* 이건 .show-menu가 붙었을 때로 이동시킨다. */
   height: 436px;
+
+  opacity: 1;
+
+  pointer-events: auto;
+  clip-path: inset(0% 0% 0% 0%);
+
+  /* duration까지 사용해야 깔끔하게 떨어지는 애니메이션이 된다. */
+  transition-duration: 200ms, 300ms;
 }
 
 #header #nav .gnb .submenu ul {
@@ -2525,3 +2544,62 @@
 #header #nav .gnb .submenu ul li a:hover span {
   color: #0a31a8;
 }
+
+/* scroll값에 의해서 opaque 클래스를 추가해서 header 색 변경 */
+#header.opaque {
+  --color: #333333;
+  background: #fff;
+}
+
+#header.opaque .header-content .logo-box .logo {
+  background: url(../img/brand-logo-class.png) no-repeat 0 0 / contain;
+}
+
+#header.opaque .header-content .utils .family-btn {
+  background: #ccc;
+  color: #111;
+}
+
+#header.opaque .header-content .utils .langs .split {
+  background: #333;
+}
+
+#header.opaque .header-content .utils .langs {
+  color: #333;
+}
+
+#header.opaque .header-content .utils .langs a.active {
+  color: #0a31a8;
+}
+
+#header.opaque .header-content .utils .site-tab .tab-menu:before,
+#header.opaque .header-content .utils .site-tab .tab-menu:after {
+  background-color: #333;
+}
+
+#header.opaque .site-header {
+  background: var(--bg, #fff);
+  backdrop-filter: blur(50px);
+}
+
+/* scroll값에 의해서 opaque 클래스를 추가해서 header 색 변경 - 완료 */
+
+/* scroll값이 어느정도 치를 넘어서면 hide를 class를 추가해서 header위치 변경. */
+
+/* hide로 translate를 이용해 위치를 이동시켰지만 background 색이 존재하여 원하는 구현이 안나옴 */
+/* site-header는 빠지는데 header에 있는 색이 안빠져서 처리해야함 */
+#header.hide > .site-header {
+  transform: translateY(-105%);
+}
+
+#header.hide {
+  pointer-events: none;
+  /* 임시로 색을 없애기 위해서 transparent를 이용함. */
+  background: transparent;
+}
+
+#header > .site-header {
+  transition: transform 500ms ease;
+}
+
+/* scroll값이 어느정도 치를 넘어서면 hide를 class를 추가해서 header위치 변경. - 완료 */
