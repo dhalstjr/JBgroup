@@ -2548,7 +2548,7 @@
 /* scroll값에 의해서 opaque 클래스를 추가해서 header 색 변경 */
 #header.opaque {
   --color: #333333;
-  background: #fff;
+  --bg: var(--bg, #ffffff);
 }
 
 #header.opaque .header-content .logo-box .logo {
