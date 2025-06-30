@@ -22,7 +22,8 @@
   <body>
     <div class="wrapper">
       <!-- header : start -->
-      <!-- header에 들어간 data-theme , class ,  style 모두 javascript로 다시 적용할거임. -->
+      <!-- 1. header에 들어간 data-theme , class ,  style 모두 javascript로 다시 적용할거임. -->
+      <!-- 2. family 버튼을 클릭하면 나오는 family페이지 HTML 구현 -->
       <header id="header" data-theme="dark" class="">
         <div class="site-header">
           <div class="header-container">
@@ -260,7 +261,8 @@
                 </div>
 
                 <div class="site-tab">
-                  <a href="#" class="tab-menu">
+                  <!-- 토글로 변경해준다. -> family나 sitemap영역이 나올 떄도 같은 css를 주기 위해서 편하게 하기 위해서 -->
+                  <a href="#" class="toggle">
                     <i class="hidden">메뉴 아이콘</i>
                   </a>
                 </div>
@@ -268,6 +270,278 @@
             </div>
           </div>
         </div>
+        <!-- 2. family HTML  -->
+        <!-- aside 태그는 페이지의 주요 콘텐츠와 간접적으로 관련된 별도의 콘텐츠 영역을 정의할 때 사용 (주로 사이드바 , 광고, 관련 링크, 인용문등 메인 콘텐츠와 분리되어있지만 관련성 있는 내용을 표시하는 데 사용) -->
+        <!-- 여기에다가 시작하면 header 바로 아래에서 시작된다. -> 근데 어차피 전체를 사용해서 fixed를 사용할거임. -->
+        <!-- 그리고, 3번째 sitemap은 scroll이 되는 영역이고, 2번째는 scroll이 되지 않는 디자인이다.  -->
+        <!-- 그러니 이 구조는 팝업처럼 열리는 family 영역을 상단 고정 header와 아래는 스크롤 영역으로 나누기 위한 구조이다.  -->
+        <aside id="jbFamily" class="modal-in-header">
+          <!-- 1. 일단 scroll이 되는 영역인지 아닌 지 알려주기 위해서 감싼다. -->
+          <div class="scroll-area">
+            <!--2. 헤더를 다시 만들어주고 -> site-header와 같이 만들 것이기에 site-header로 클래스를 준다. -->
+            <div class="site-header">
+              <div class="header-container">
+                <div class="header-content">
+                  <!-- brand logo -->
+                  <h1 class="logo-box">
+                    <a href="#" class="logo">
+                      <i class="hidden">브랜드 로고</i>
+                    </a>
+                  </h1>
+
+                  <!-- utils -> x 취소 아이콘을 넣어준다.  -->
+                  <div class="utils">
+                    <a href="#" class="toggle active">
+                      <i class="hidden">닫기</i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--3. family 버튼을 누르면 나오는 영역으로 만들어준다 -->
+            <!-- header아래 main 컨텐츠와 비슷하다고 생각하면 된다.  -->
+            <div class="jb-family-content">
+              <div class="main-container">
+                <!-- 텍스트 부분(heading) -->
+                <div class="jb-heading">
+                  <h2 class="en">JB Family</h2>
+                  <p class="ko">글로벌 금융그룹으로서 가치를 높여갑니다</p>
+                </div>
+
+                <!-- family 부분의 몸통 부분 -->
+                <div class="jb-family-body">
+                  <!-- item들을 만들어주기 -->
+                  <!-- item1 -->
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img src="./img/item-img1.png" alt="아이템 이미지1" />
+                    </a>
+                    <div class="family-text-con ko">
+                      <div class="family-title">
+                        <span>JB금융그룹</span>
+                      </div>
+                      <div class="family-text">
+                        <span>더 나은 미래로 함께 가는 JB금융</span>
+                      </div>
+
+                      <div class="sns-icon">
+                        <div class="instagram link">
+                          <a href="#"><i class="hidden">인스타그램</i></a>
+                        </div>
+
+                        <div class="youtube link">
+                          <a href="#"><i class="hidden">유튜브</i></a>
+                        </div>
+
+                        <div class="blog link">
+                          <a href="#"><i class="hidden">네이버 블로그</i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <!-- item2 -->
+                  <article class="family-item">
+                    <a href="#" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img1.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>전북은행</span>
+                      </div>
+                      <div class="family-text">
+                        <span>누구에게나 따뜻한 금융</span>
+                      </div>
+
+                      <div class="sns-icon">
+                        <div class="instagram link">
+                          <a href="#"><i class="hidden">인스타그램</i></a>
+                        </div>
+
+                        <div class="youtube link">
+                          <a href="#"><i class="hidden">유튜브</i></a>
+                        </div>
+
+                        <div class="blog link">
+                          <a href="#"><i class="hidden">네이버 블로그</i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <!-- item3 -->
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img2.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>광주은행</span>
+                      </div>
+                      <div class="family-text">
+                        <span>광주 · 전남 대표 은행</span>
+                      </div>
+
+                      <div class="sns-icon">
+                        <div class="instagram link">
+                          <a href="#"><i class="hidden">인스타그램</i></a>
+                        </div>
+
+                        <div class="youtube link">
+                          <a href="#"><i class="hidden">유튜브</i></a>
+                        </div>
+
+                        <div class="blog link">
+                          <a href="#"><i class="hidden">네이버 블로그</i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img3.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB우리캐피탈</span>
+                      </div>
+                      <div class="family-text">
+                        <span>21C 초우량 여신 전문 금융회사</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img4.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB자산운용</span>
+                      </div>
+                      <div class="family-text">
+                        <span>국내 해외자원 펀드 업계 1위</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img5.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB인베스트먼트</span>
+                      </div>
+                      <div class="family-text">
+                        <span>신기술 및 신성장 사업발굴 주도</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img6.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>프놈펜 상업은행</span>
+                      </div>
+                      <div class="family-text">
+                        <span>캄보디아 프놈펜 대표 은행</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img7.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB프놈펜자산운용</span>
+                      </div>
+                      <div class="family-text">
+                        <span>집합투자 및 부동산 투자신탁 전문</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img8.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB캐피탈 미얀마</span>
+                      </div>
+                      <div class="family-text">
+                        <span>현지인 맞춤 대출 상품 전문</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <article class="family-item">
+                    <a href="" class="img">
+                      <!-- a 링크에 hover했을 시 img만 커지고 크기는 커지지 않는 효과를 사용하기 위해서는 img태그를 사용 -->
+                      <img
+                        src="./img/section3-slide-item-img9.png"
+                        alt="아이템 이미지1"
+                      />
+                    </a>
+                    <div class="family-text-con">
+                      <div class="family-title">
+                        <span>JB증권 베트남</span>
+                      </div>
+                      <div class="family-text">
+                        <span>IB와 브로커리지 비즈니스 증권사</span>
+                      </div>
+                    </div>
+                  </article>
+
+                  <!-- body -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <!-- 3. sitemap HTML -->
+        <aside id="sitemap" class="modal-in-header"></aside>
       </header>
       <!-- header : end -->
 

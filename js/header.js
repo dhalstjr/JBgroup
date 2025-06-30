@@ -37,7 +37,78 @@ document.addEventListener("DOMContentLoaded", function () {
     // 그래서 submenu의 css에서 고쳐야할 게 보인다
     // css변경하니 확실히 애니메이션이 자연스럽게 적용됨
 
-    // show-menu가 됐을 때 header말고 main 블러 처리
+    // show-menu가 활성화 됐을 때 header말고 다 blur처리
+
+    // 이 애니메이션 구현도 initCommonHeader에 함께 넣어 사용.
+    // 2. family 버튼을 누르면 class를 부여해서 family 페이지 구현
+    // 2-1 family 버튼을 변수에 저장.
+
+    /* 안에 있는 a링크에 효과를 줘야함. */
+    // 굳이 부모에게 안주고 a링크에 직접 줘야하는 이유는 정확한 타겟팅을 잡기 위해서이고, 부모에게 주지 않는 이유는 혹시 모를 불필요한 영역까지 반응할 수 있기 떄문에 의도치 않게 다르게 제어가 될 수 있음.
+    // 또한 a 태그의 기본 동작을 막고자 해도 제대로 막히지 않는 경우가 많기 때문입니다.
+    // a태그의 기본동작을 막는 이유가 제일 커보인다.
+    const $familyButton = document.querySelector(".family a");
+
+    const $jbFamily = document.querySelector("#jbFamily");
+
+    // utils에 toggle버튼에 active를 주기 위해서 toggle 버튼을 변수로 저장
+    /* site-tab a -> toggle인데 menu를 여는 버튼 */
+    // 이 버튼은 단순히 active를 주기 위해서만이 아니라 siteMap의 디자인을 나오게 하는 버튼이 되기도 한다.
+    const $btnSitemap = document.querySelector(".utils .site-tab a");
+
+    // 이것은 toggle active가 됐을 때의 취소 아이콘 버튼
+    // const $cancelBtn = document.querySelector(".utils .toggle");
+    // 이 위에 처럼 변수를 저장하려고 한다면 header영역에 있는 utils에 toggle만을 먼저 찾을 것이다.
+    // 하지만 정확하게 잡으려고 하는 것은 family디자인이 나왔을 때에 toggle인데, 그렇다면 정확하게 잡으려면
+    // const $jbFamily = document.querySelector("#jbFamily"); 변수를 저장해줬는데, family디자인이 나왔을 때는 jbFamily라는 태그안에 있는 toggle을 잡아야하기 때문에
+    // jbFamily.querySelector로 정확하게 탐색을 해야한다.
+
+    // if ($familyButton && $jbFamily)을 사용한 이유는 안전 장치인 셈이다.
+    // 무슨 이야기냐면 &&은 논리연산자로, 논리곱(AND) 연산을 수행한다. 두 값이 모두 참일 경우에만 참을 반환하며, 그렇지 않다면 거짓을 반환한다.
+    // 즉, .family a와 #jbFamily가 두 요소가 전부 존재하면 실행하고, 하나라도 존재하지 않다면 실행하지마라. 라는 의미에 조건식을 준것이다.
+    if ($familyButton && $jbFamily) {
+      // family a에 click 이벤트를 걸고
+      $familyButton.addEventListener("click", (e) => {
+        // 클릭이 잘 작동하는 지 확인 완료
+
+        // a링크의 기본동작을 막아준다 -> 이유는 기본 동작을 막지 않으면 애니메이션이 실행이 되지 않을 수 있다.(개발자가 원하는 동작을 실행할 수 있도록.)
+        e.preventDefault();
+
+        // 현재 창 높이 저장 -> #jbFamily을 전체 화면 높이만큼 펼치기 위해 사용.
+        const windowHeight = window.innerHeight;
+
+        // header에 show-family class를 추가함.
+        $header.classList.add("show-family");
+
+        // 그리고 나서 스크롤을 비활성화 해야하고
+
+        // jbFamily 자체에 active클래스를 부여하여 디자인 변경
+        $jbFamily.classList.add("active");
+      });
+    }
+
+    /* 2-2. utils toggle에 있는 취소 버튼 활성화 및 취소하여 family페이지 사라지게 */
+    // jbFamily에 나오는 버튼을 잡기 위해서는 document가 아니라 jbFamily안에 toggle 을 잡아야한다.
+    // document를 사용하면 header에 있는 toggle을 먼저 탐색하기 때문에,
+    // 정확하게 jbFamily디자인이 나왔을 때에 toggle을 잡으려면 #jbFamily에 존재하는(querySelector)toggle를 잡아야한다.
+    const $jbFamilyToggleBtn = $jbFamily.querySelector(".toggle");
+
+    // jbFamily안에 toggle버튼에게 click 이벤트 적용
+    $jbFamilyToggleBtn.addEventListener("click", (e) => {
+      // a링크에 기본 동작을 막는다.
+      e.preventDefault();
+
+      // 저 위와 다르게 class를 삭제시켜준다.
+      $header.classList.remove("show-family");
+
+      $jbFamily.classList.remove("active");
+    });
+
+    // --------------------------------------------
+    // 여기까지 jbFamily toggle 상호 작용 완료, --> 부족한 점은 부드러운 느낌이 안나고 뚝뚝 나오는 느낌이라 css에서 건드려야 되겠음.
+    // css modal-in-header에 transition을 적용하여 부드러운 느낌을 구현완료.
+
+    // 3. sitemap 디자인 구현
   }
 
   //함수 밖에서 호출하면 바로 실행 가능
@@ -135,8 +206,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 함수를 실행해야 console.log도 보이고 실행되는 것을 확인할 수 있음.
-  // 이렇게 하면 실행을 되마.
+  // 이렇게 하면 실행을 됨.
   initCommonScroll();
-
-  // show-menu가 활성화 됐을 때 header말고 다 blur처리
 });
