@@ -541,7 +541,453 @@
           </div>
         </aside>
         <!-- 3. sitemap HTML -->
-        <aside id="sitemap" class="modal-in-header"></aside>
+        <aside id="sitemap" class="modal-in-header">
+          <!-- 여기도 scroll-area를 만들어주고 header영역은 똑같다. jbFamily와  -->
+          <div class="scroll-area">
+            <!-- header영역 -->
+            <div class="site-header">
+              <div class="header-container">
+                <div class="header-content">
+                  <!-- brand logo -->
+                  <h1 class="logo-box">
+                    <a href="#" class="logo">
+                      <i class="hidden">브랜드 로고</i>
+                    </a>
+                  </h1>
+
+                  <!-- utils -> x 취소 아이콘을 넣어준다.  -->
+                  <div class="utils">
+                    <a href="#" class="toggle active">
+                      <i class="hidden">닫기</i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- header영역 끝-->
+
+            <!-- header 아래 body영역 -->
+            <div class="sitemap-content">
+              <!-- main-container는 넣어야 한다. 넓이를 맞추기 워해서.  -->
+              <div class="main-container">
+                <!-- 메뉴의 HTML흐름 구조 -->
+                <div class="sitemap-menu ko">
+                  <!-- 메뉴 그룹  -->
+                  <div class="menu-group ">
+                    <div class="menu-name">그룹소개</div>
+                    <ul class="menu-item">
+                      <!-- 첫번째 item에는 서브요소의 메뉴 x -->
+                      <li>
+                        <a href="#">
+                          <span>JB금융그룹 소개</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> CEO 인사말</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> 그룹비전</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> 연혁</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> 계열사 소개</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> 윤리경영</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>CI 소개</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span> 연수원 소개</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- 구분선을 만들어주기 위한 hr태그 : 이렇게 HTML에 hr태그를 넣어주면 선을 만들어 구분하게 만들어준다. padding-bottom과 margin-bottom을 사용해서 공간을 띄웠지만.  -->
+                  <hr>
+                  <!-- 그리고 item에 또 서브로 있는 부속 아이템들이 있다면 li에 class를 붙여주고, li안에 서브메뉴 만드는 것 처럼 ul과 li를 넣어 또 다른 요소를 만들기 -->
+                  <!-- 2번째 item -->
+                  <div class="menu-group">
+                    <div class="menu-name">기업지배구조</div>
+                    <!-- menu-item -->
+                    <ul class="menu-item">
+                      <!-- 그리고 서브메뉴가 있는 메뉴의 li에게는 class를 지정해준다. class 이름은 has-children -->
+                      <li class="has-children">
+                        <a href="#">
+                          <span>이사회</span>
+                        </a>
+                        <!-- li 안에 ul(서브메뉴)를 넣어서 서브메뉴 구현 -->
+                        <!-- menu의 HTML과 같게 형식을 짜준다.  -->
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>구성 현황</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>이사회 내 위원회</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>주요 활동 내역</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>조직도</span>
+                        </a>
+                      </li>
+
+                      <li class="has-children">
+                        <a href="#">
+                          <span> 주주총회</span>
+                        </a>
+
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>주주현황</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#">
+                              <span>주주총회 결과</span>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="#">
+                              <span>주주총회 관련 자료</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+
+                      <li class="has-children">
+                        <a href="#">
+                          <span>관련 규정</span>
+                        </a>
+
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>정관</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>지배구조내부규범</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>이사회규정</span>
+                            </a>
+                          </li>
+                        </li>
+                      </ul>
+
+                      <li>
+                        <a href="#">
+                          <span>지배구조공시</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>외부감사인 현황</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- 구분선을 만들어주기 위한 hr태그 -->
+                  <hr>
+                  <!-- 3번째 item -->
+                  <div class="menu-group">
+                    <div class="menu-name">투자정보</div>
+                    <ul class="menu-item">
+                      <li>
+                        <a href="#">
+                          <span>Investor Relations</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="#">
+                          <span>기업가치 제고 계획</span>
+                        </a>
+                        </li>
+                      <li class="has-children">
+                        <a href="#">
+                          <span>공시정보</span>
+                        </a>
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>공시자료</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>경영공시</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>사업보고서</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>감사보고서</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>영업보고서</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>공고</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>공시규정</span>
+                            </a>
+                          </li>
+                        </ul>
+
+                        </li>
+                      <li class="has-children">
+                        <a href="#">
+                          <span>경영실적</span>
+                        </a>
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>실적발표</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>Annual Report</span>
+                            </a>
+                          </li>
+                        </ul>
+                        </li>
+                      <li class="has-children">
+                        <a href="#">
+                          <span>재무정보</span>
+                        </a>
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>재무상태표</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>손익계산서</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>주요재무지표</span>
+                            </a>
+                          </li>
+                        </ul>
+                        </li>
+                      <li>
+                        <a href="#">
+                          <span>IR활동</span>
+                        </a>
+                        </li>
+                      <li class="has-children">
+                        <a href="#">
+                          <span>주가정보</span>
+                        </a>
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>현재가시세</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>분단위시세</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>일자별시세</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>외국인매매</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>외국인매매</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>시장동향</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>동업종비교</span>
+                            </a>
+                          </li>
+                        </ul>
+                        </li>
+                      <li>
+                        <a href="#">
+                          <span>주주환원</span>
+                        </a>
+                        </li>
+                      <li>
+                        <a href="#">
+                          <span>신용등급</span>
+                        </a>
+                        </li>
+                    </ul>
+                  </div>
+                  <!-- 구분선을 만들어주기 위한 hr태그 -->
+                  <hr>
+                  <!-- 4번째 item -->
+                  <div class="menu-group">
+                    <div class="menu-name">PR센터</div>
+                    <ul class="menu-item">
+                      <li>
+                        <a href="#">
+                          <span>보도자료</span>
+                        </a>
+                      </li>
+                      
+                      <li>
+                        <a href="#">
+                          <span>홍보영상</span>
+                        </a>
+                      </li>
+                      
+                      <li class="has-children">
+                        <a href="#">
+                          <span>공지사항</span>
+                        </a>
+                        <ul>
+                          <li>
+                            <a href="#">
+                              <span>입찰정보</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span>채용정보</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                <!-- 구분선을 만들어주기 위한 hr태그 -->
+                <hr>
+                  <!-- 5번째 item -->
+                  <div class="menu-group">
+                    <div class="menu-name">ESG</div>
+                    <ul class="menu-item">
+                      <li>
+                        <a href="#">
+                          <span>ESG 전략체계</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>ESG 지배구조</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>ESG 정책 및 가이드라인</span>
+                        </a>
+                      </li>
+
+                      <li class="has-children">
+                        <a href="#">
+                          <span>ESG 성과</span>
+                        </a>
+                        <li>
+                          <a href="#">
+                          <span>ESG 대외평가</span>
+                        </a>
+                        </li>
+
+                        <li>
+                          <a href="#">
+                          <span>ESG 이니셔티브</span>
+                        </a>
+                        </li>
+
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>ESG 보고서</span>
+                        </a>
+                      </li>
+
+                      <li>
+                        <a href="#">
+                          <span>사회공헌</span>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </div>
+                <!-- 구분선을 만들어주기 위한 hr태그 -->
+                <hr>
+                </div>
+              </div>
+            </div>
+            <!-- header 아래 body영역 끝 -->
+          </div>
+        </aside>
       </header>
       <!-- header : end -->
 

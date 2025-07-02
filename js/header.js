@@ -47,14 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // 굳이 부모에게 안주고 a링크에 직접 줘야하는 이유는 정확한 타겟팅을 잡기 위해서이고, 부모에게 주지 않는 이유는 혹시 모를 불필요한 영역까지 반응할 수 있기 떄문에 의도치 않게 다르게 제어가 될 수 있음.
     // 또한 a 태그의 기본 동작을 막고자 해도 제대로 막히지 않는 경우가 많기 때문입니다.
     // a태그의 기본동작을 막는 이유가 제일 커보인다.
-    const $familyButton = document.querySelector(".family a");
+    const $familyButton = $header.querySelector(".family a");
 
-    const $jbFamily = document.querySelector("#jbFamily");
-
-    // utils에 toggle버튼에 active를 주기 위해서 toggle 버튼을 변수로 저장
-    /* site-tab a -> toggle인데 menu를 여는 버튼 */
-    // 이 버튼은 단순히 active를 주기 위해서만이 아니라 siteMap의 디자인을 나오게 하는 버튼이 되기도 한다.
-    const $btnSitemap = document.querySelector(".utils .site-tab a");
+    const $jbFamily = $header.querySelector("#jbFamily");
 
     // 이것은 toggle active가 됐을 때의 취소 아이콘 버튼
     // const $cancelBtn = document.querySelector(".utils .toggle");
@@ -91,6 +86,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // jbFamily에 나오는 버튼을 잡기 위해서는 document가 아니라 jbFamily안에 toggle 을 잡아야한다.
     // document를 사용하면 header에 있는 toggle을 먼저 탐색하기 때문에,
     // 정확하게 jbFamily디자인이 나왔을 때에 toggle을 잡으려면 #jbFamily에 존재하는(querySelector)toggle를 잡아야한다.
+
+    // 그리고 toggle을 찾을 때도 다르다. 서로 다른 toggle을 핮기 위해서 $jbFamily.querySelector을 사용하여
+    // #jbFamily일 때에 toggle을 찾고있다. 그렇다면 sitemap은 #sitemap에 있는 toggle을 찾아 적용해야겠지
     const $jbFamilyToggleBtn = $jbFamily.querySelector(".toggle");
 
     // jbFamily안에 toggle버튼에게 click 이벤트 적용
@@ -108,7 +106,51 @@ document.addEventListener("DOMContentLoaded", function () {
     // 여기까지 jbFamily toggle 상호 작용 완료, --> 부족한 점은 부드러운 느낌이 안나고 뚝뚝 나오는 느낌이라 css에서 건드려야 되겠음.
     // css modal-in-header에 transition을 적용하여 부드러운 느낌을 구현완료.
 
-    // 3. sitemap 디자인 구현
+    // 3. sitemap 디자인 구현 , sitemap toggle 처리
+    // sitemap에 관련된 변수를 저장
+    const $sitemap = $header.querySelector("#sitemap");
+
+    // utils에 toggle버튼에 active를 주기 위해서 toggle 버튼을 변수로 저장
+    /* site-tab a -> toggle인데 menu를 여는 버튼 */
+    // 이 버튼은 단순히 active를 주기 위해서만이 아니라 siteMap의 디자인을 나오게 하는 버튼이 되기도 한다.
+    const $btnSitemap = $header.querySelector(".utils .site-tab a");
+    console.log($btnSitemap);
+
+    // && (AND)논리 연산자 -> 두 값이 전부 참이여만 실행
+    if ($btnSitemap && $sitemap) {
+      /* menu 아이콘에 click 이벤트를 걸어줌. -> class를 추가하는 코드  */
+      $btnSitemap.addEventListener("click", (e) => {
+        // 클릭 되는 지 확인
+        console.log(e);
+
+        /* a링크에 기본 동작 제어 */
+        e.preventDefault();
+
+        $header.classList.add("show-sitemap");
+
+        const windowHeight = window.innerHeight;
+
+        $sitemap.classList.add("active");
+      });
+
+      // toggle클릭 이벤트를 각각 다르게 줘야 하기에 sitemap은 $sitemap.querySelector로 적용했음
+      const $sitemapToggle = $sitemap.querySelector(".toggle");
+
+      // toggle 아이콘에 click 이벤트 -> class를 삭제
+      $sitemapToggle.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        $header.classList.remove("show-sitemap");
+        $sitemap.classList.remove("active");
+      });
+      console.log($sitemapToggle);
+
+      // 지금 문제는 family버튼을 누르면 sitemap에 디자인이 보임 -> 내가 보기엔 이유는 height가 modal-in-header에 공통적으로 들어가버리니
+      // 둘의 크기가 같이 늘어나서 sitemap이 먼저 보이는 것 같음. -> HTMl에 height를 지정해서 주는 본페이지처럼 해야할 것 같음.  아니라면 height를 각각 class가 부여됐을 때에 주는 게 좋을 것 같다.
+      // 각각에게 height를 주니 원활하게 돌아감.
+    }
+
+    // ----------------------------------------------------------------
   }
 
   //함수 밖에서 호출하면 바로 실행 가능

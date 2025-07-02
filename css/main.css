@@ -2630,26 +2630,34 @@
 
   /* height의 높이가 변화하기 때문에 transition을 이용하여 height의 변화를 부드럽게 적요 */
   transition: height 500ms ease;
+
+  /* scroll-area가 아니라 modal-in-header에게 색을 적용. */
+  background: #fff;
 }
 
 .modal-in-header .scroll-area {
-  /* 가상요소로 만들고 */
-  position: absolute;
-  top: 0;
-  left: 0;
-
   /* 크기를 정해준다. */
+  /* width 100%를 주지 않으면 넓이가 줄어든다.  */
   width: 100%;
   height: 100%;
 
   overflow: hidden;
 
-  /* 색을 적용해줘야 한다.  */
-  background: #fff;
+  /* 가상요소로 만들고 */
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
+/* modal-in-header에 active가 활성화 됐을 때 scroll이 될 수 있도록 overflow-Y : scroll을 적용한다.  */
+/* 있는데 js로 active를 적용하고, main에 scroll이 안되게 해야함.  */
+/* .modal-in-header.active .scroll-area {
+  overflow-y: scroll;
+}
+ */
 /* 로고 변경 - family로 바뀌었을 때 */
-#jbFamily .header-content .logo-box .logo {
+#jbFamily .header-content .logo-box .logo,
+#sitemap .header-content .logo-box .logo {
   background: url(../img/brand-logo-class.png) no-repeat 0 0 / contain;
 }
 
@@ -2761,11 +2769,6 @@
 /* 이미지를 호버했을 때의 이미지 효과 */
 .family-item .img:hover img {
   transform: scale(1.2);
-}
-
-/* 안보이게 처리 */
-#sitemap.modal-in-header {
-  display: none;
 }
 
 /* family 텍스트  */
@@ -2890,19 +2893,145 @@
 
 /* family와 site-map를 보여주는 요소는 height로 높이를 통해 위에서 아래로 내려오는 애니메이션을 보여주는 것 같다.  */
 /* header에 show-family라는 class를 붙여서 class가 들어갔을 때 높이를 주는 방식으로 하는 것이 좋을 것 같다. */
-.show-family .modal-in-header {
+/* .show-family .modal-in-header {
   height: 1035px;
 }
-
+ */
 .show-family #jbFamily {
   /* 마우스이벤트에 걸리게 한다. */
   pointer-events: initial;
 
   /* inset은 사각형 모형 -> inset (0 0 0 0)은 다 보였을 때의 css이다. */
   clip-path: inset(0 0 0 0);
+
+  /* 크기가 HTML에 style에 들어가야 family 버튼을 눌러도 sitemap의 디자인이 안보일 것 같다. */
+  height: 1035px;
 }
 
 .modal-in-header.active .scroll-area {
   /* 세로 축 스크롤 생성. */
   overflow-y: scroll;
 }
+
+/* sitemap CSS : start */
+/* display : none을 했던 요소를 사라지게 함. */
+#sitemap {
+}
+
+/* 하단 행(스크롤 영역) */
+.jb-family-content .main-container,
+.sitemap-content .main-container {
+  /* header의 padding을 맞추고 더 줄여야한다. */
+  padding: 0 6.4rem;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  /* max-width로 줄이자 -> 이러면 최대 넓이를 1542px로 맞추게 된다. */
+  max-width: 154.2rem;
+}
+
+/* menu의 넓이를 정해주고 나서 .sitemap-menu에 위아래 공간을 부여한다. */
+/* 그리고 나서 grid를 설정한다. flex를 줘도 무방하지만 이번 홈페이지는 grid를 자주 애용하기에 grid를 설정한다. */
+.sitemap-menu {
+  padding-top: 8rem;
+  padding-bottom: 10rem;
+
+  display: grid;
+  /* 메뉴들끼리의 간격을 줌. */
+  gap: 5rem;
+}
+
+#sitemap .sitemap-menu .menu-group {
+  /* group간의 거리를 떨어뜨렸는데 또 padding을 줬는지 모르겠지만 공간을 더 준 것 같음. */
+  padding-bottom: 2rem;
+
+  color: #000;
+
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* 텍스트 부분부터 폰트 크기 및 두께 설정 */
+#sitemap .sitemap-menu .menu-group .menu-name {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0a31a8;
+
+  line-height: 1.2;
+  word-break: keep-all;
+
+  /* menu-item와의 차이를 주기 위해 공간을 준다. */
+  margin-bottom: 4rem;
+}
+
+/* menu-item의 설정 -> 메뉴의 item 들이 가로로 정렬되고 넓이를 다하면 item의 요소가 아래로 내려가서 줄을 형성하는 디자인. */
+/* 본페이지에서 보면 menu-item에게 grid를 줘서 li가 정렬이 되도록 한 것 같다. */
+#sitemap .sitemap-menu .menu-group .menu-item {
+  display: grid;
+
+  /* gap을 설정하면 각 menu의 item들이 간격을 준다. */
+  gap: 2.4rem;
+
+  /* grid에서 열을 설정하려면 repeat()을 설정하여야 한다.  */
+  /* 반응형을 구현하기 위해서 이 방식의 코드를 사용한 것으로 보인다.  */
+  /* 열의 최소 넓이는 21.8rem이고, 1fr은 동일한 너비의 비율을 가지라는 이야기다.  */
+  /* 원하는 형태의 열이 아니라면 크기들 변경하는 것이 좋다.  */
+  grid-template-columns: repeat(auto-fill, minmax(21.4rem, 1fr));
+
+  /* grid-template-columns를 사용하면 row-gap를 사용하여 줄의 공간을 주어 좁은 간격을 넓게 준다. */
+  row-gap: 4.6rem;
+}
+
+#sitemap .sitemap-menu .menu-group .menu-item > li > a {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+/* menu-group에 padding을 줘서 border를 주는 것일까? */
+/* 본페이지에서는 sitemap에 <hr>태그를 이용해서 선을 만들었다. 위치는 main-group 밑으로 hr태그를 넣어주면 된다.  */
+#sitemap .sitemap-menu hr {
+  /* 크기를 주어 선을 만든다.  */
+  height: 1px;
+  /* 원래 있던 선(border)를 지워주고 */
+  border: none;
+
+  background: #e5e5e5;
+  width: 100%;
+  margin: 0;
+}
+
+/* 메뉴의 서브 메뉴의 텍스트 변경 */
+/* menu-item안에 li안에 ul를 잡는다.  */
+#sitemap .sitemap-menu .menu-group .menu-item > li > ul {
+  margin-top: 2.4rem;
+
+  /* 여기도 grid를 줘서 ul의 자식(li)들의 공간 만들기 */
+  display: grid;
+  gap: 1.6rem;
+
+  /* 왜 폰트 크기를 ul에 줬을까.. */
+  /* 아니 ul에 주면 font-size가 아래 자식들에게 적용되는 건 알지만.. 굳이 선택자를 span까지 잡고 싶지 않았던 것 같음.   */
+  font-size: 1.6rem;
+}
+
+#sitemap .sitemap-menu .menu-group .menu-item > li > ul > li {
+  /* 두께는 700을 주면 더 달라딘다 600이 맞다.  */
+  font-weight: 600;
+  color: #666;
+}
+/* scroll문제(jbFamily 디자인은 상관없지만, sitemap은 스크롤이 되어야하는 디자인인데, js로 스크롤 문제를 해결해야할 것 같음. )생김 -> 이건 js와 CSS에서 한번 확인할 필요가 있음. */
+
+/* scroll-area에 over-flow: scrollY를 주면서 scroll 세로 축이 나와서 스크롤이 되게 형성했는데,  */
+/* 나는 이 디자인이 나와도 main에 있는 것이 scroll 되는 것 같다.   jbFamily와 sitemap은 스크롤이 적용되지 않고. */
+/* 어떤 조치가 필요하냐면 sitemap이나, jbFamily의 디자인이 열리면 main에 있는 scroll이 되지 않도록 헤야한다.  */
+
+/* 이제 header에 show-sitemap이 붙었을 때에 디자인 만들기 */
+.show-sitemap #sitemap {
+  pointer-events: initial;
+
+  height: 1035px;
+}
+
+/* sitemap CSS : end */
