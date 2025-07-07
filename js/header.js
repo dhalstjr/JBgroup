@@ -151,6 +151,80 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ----------------------------------------------------------------
+
+    // 본페이지에서 javascript에 대한 것 더 배우기
+
+    // 1. 스크롤 위치에 따라 #header의 data-theme 속성을 자동으로 변경하는 javascript.  보통 다크/라이트 테마 변경이나 섹션별 컬러 테마 전환 등에 자주 사용되는 구조
+    // 그 전에 CSS에서 data-theme라는 속성 값에 명령을 줘야 가져올 수 있다. 그럼 먼저 CSS에서 부터 명령을 줘보자
+    // CSS도 아니고, JS도 아닌 HTML에 data-theme 라는 속성을 기입을 해야 querySelector에서 NodeList로 가져올 수 있다.
+    // 1-1. data-theme 속성을 가진 모든 요소를 가져온다. (속성은 HTML)
+    const themeElements = document.querySelectorAll("[data-theme]");
+    console.log(themeElements);
+
+    // 1-2 각 요소마다 실행하기 위해서 forEach()문을 사용했다.
+    themeElements.forEach(($el, index) => {
+      // #header 자체에도 data-theme 속성이 있을 수 있기 때문에 #header는 제외시킴.
+      // !== 연산자는 "엄격하게 일치하지 않음"을 비교하는 연산자. ==는 "엄격하게 일치함"을 비교하는 연산자.
+      // !==는 엄격하게 일치하지 않아야 true를 반환한다. -> 그말은 값과 타입 둘 중 하나라고 다르면 true를 변환하고, 둘 다 맞으면 false를 변환한다.
+      // 즉, $el에 #header가 들어가있기 때문에 #header를 제외시키기 위해서 전부 같아야 false가 나오는 !== 연산자를 사용한 것이다.
+      if ($el !== $header) {
+        // dataset을 사옹하니 HTML에 기입했던 data-theme의 속성이 나온다.  -> dark라고 나온다.
+        // dataset은 HTML요소의 사용자 정의 데이터 속성, 즉 data-*** 속성에 접근하기 위한 객체. -> 이 객체를 통해 HTML요소에 저장된 데이터를 읽고 수정할 수 있음.
+        const theme = $el.dataset.theme;
+        console.log(theme);
+
+        // ScrollTrigger를 이용 (GSAP) -> 이용하기 위해서는 라이브러리 파일이 필요함.
+        // HTML에 script 태그를 이용해 파일을 불러온다.
+        // 1-3. ScrollTrigger로 스크롤 감지 설정.
+        ScrollTrigger.create({
+          // main의 section별로 trigger가 되는 곳을 설정.
+          trigger: $el,
+          // trigger 시작하는 곳
+          start: "top top",
+          // trigger 끝나는 곳
+          end: "bottom top",
+          // start와 end를 표시해주는 명령.
+          markers: true,
+
+          // onEnter와 onEnterBack은 특정 트리거 요소가 뷰포트의 특정 지점에 도달했을 때 실행되는 콜백 함수들 그 중 두가지가 onEnter와 onEnterBack
+          // 왜 두개가 다 필요할까? 스크롤 애니메이션을 만들 때는 방향에 따른 다른 행동을 해야할 때가 많기 때문에. 아래로 스크롤 할 시 (onEnter) 위로 스크롤 할 시 (onEnterBack)
+
+          // 이 아래 코드의 내용은 스크롤을 하다가 해당 트리거 요소가 뷰포트 안으로 들어오면 header 요소의 data-theme 속성을 현재 트리거 요소의 테마값으로 바꾸는 것이다.
+          // onEnter는 start 지점에 도달해서 뷰포트에 들어올 때 실행 (아래로 스크롤)
+          onEnter: () => {
+            // dataset은 DOM요소(data-**) 속성에 접근할 수 있는 표준 속성
+            // theme는 data-theme = 'dark'이기 때문에 dark로 테마가 변환된다.
+            $header.dataset.theme = theme;
+          },
+
+          // onEnterBack은 end지점을 지나 다시 돌아와서 뷰포트에 돌아올 때 실행. (위로 스크롤)
+          onEnterBack: () => {
+            $header.dataset.theme = theme;
+          },
+
+          // 즉, 이 코드는 스크롤 위치에 따라 자동으로 헤더 테마를 바꾸는 로직이다.
+          // 이 코드를 쓰기 위해서는 CSS에서 [data-theme = "dark"]처럼 지정하여 스타일을 만들고,
+          // 자바스크립트로 테마를 변환하고, onEnter와 onEnterBack을 사용해서.
+          // 꼭 HTMl에 data-theme 속성을 넣어줘야 사용할 수 있다.
+
+          // 비슷한 콜백 함수는 onLeave() -> 요소가 아래로 스크롤되어 벗어날 때, onLeaveBack()함수 -> 요소가 위로 스크롤되어 벗어날 때 가 있다.
+        });
+
+        //1-4 왜 index === 1의 테마를 기본값으로 설정할까?
+        // 스크롤 이벤트가 발생하기 전, 페이지가 로드되었을 때는 아직 ScrollTrigger의 콜백이 실행되지 않기에, 즉 스크롤 하지 않으면 헤더의 초기 테마를 모른다.
+        // 그래서, 페이지가 로드된 직후의 헤더 테마를 data-theme를 가진 요소 중 첫번째 (여기서는 index ===1 라고 표현)것으로 지정.
+        // index === 0이 아닌 index === 1로 설정한 이유는 0은 $el !== $header로 첫번째 요소의 0($header)를 제외시켰기 떄문에 첫번쨰 요소인 index === 1을 설정한 것이다.
+
+        // 첫번째 테마 요소의 테마 설정
+        if (index === 1) {
+          // 첫번째 요소의 테마를 기본값으로 설정.
+          $header.dataset.theme = theme;
+        }
+      }
+
+      //$el은 각각의 section영역 , index는 각 섹션별 번호.
+      console.log($el, index);
+    });
   }
 
   //함수 밖에서 호출하면 바로 실행 가능
@@ -166,7 +240,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function initCommonScroll() {
     // header요소 가져오기
     const $header = document.querySelector("#header");
-    console.log($header);
 
     // 이전 스크롤 위치
     let lastScrollY = 0;
@@ -247,7 +320,5 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(scrollY);
   }
 
-  // 함수를 실행해야 console.log도 보이고 실행되는 것을 확인할 수 있음.
-  // 이렇게 하면 실행을 됨.
   initCommonScroll();
 });
