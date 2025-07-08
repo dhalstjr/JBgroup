@@ -12,6 +12,46 @@ document.addEventListener("DOMContentLoaded", function () {
     // invalidateOnRefresh: true,
   });
 
+  // lenis 관련 코드 : 이 코드는 스크롤을 잠그거나 다시 풀어주는 기능을 함
+  // 즉, 이 코드를 사용한 것은 lenis 유무에 관계없이 공통적인 "스크롤 잠금/해제" 인터페이스를 제공하기 위함. -> 무슨 말이냐면 lenis가 사용되는 사이트인지. 아닌지 상관없이 스크롤 제어를 일관되게 할 수 있도록 하는 코드 -> 여러 사이트가 있는 회사 홈페이지나 그런 곳에 사용되겠지용
+  // window.disableWindowScroll은 웹페이지에서 브라우저 창의 스크롤 기능을 비활성화하는 코드를 의미 (자바스크립트의 구문은 아니다.)
+  window.disableWindowScroll = function () {
+    // 페이지에 lenis가 초기화가 되어 있다면 lenis.stop() - lenis의 애니메이션 루프를 멈춰서 스크롤을 비활성화
+    if (window.lenis) window.lenis.stop();
+    // lenis가 없는 경우(예를 들어 lenis를 쓰지 않는 환경) <html>을 가리킨다. html에 prevent-scroll 클래스를 붙여서 CSS로 overflow : hidden을 하는 방식으로 스크롤을 막는다.
+    else document.documentElement.classList.add("prevent-scroll");
+  };
+
+  // window.enableWindowScroll은 스크롤을 다시 허용하는 (자바스크립트 구문이 아님.)
+  window.enableWindowScroll = function () {
+    // 페이지에 lenis가 초기화가 되어 있다면 lenis.start() - 다시 애니메이션 시작해 스크롤 활성화
+    if (window.lenis) window.lenis.start();
+    // 다시 스크롤이 허용할 땐 prevent-scroll 클래스를 삭제.
+    else document.documentElement.classList.remove("prevent-scroll");
+  };
+
+  // lenis 초기화 -> initLenis()는 초기화를 하고
+  // 본페이지에 있는 코드를 가져오니 GSAP.ScrollTrigger와 연동하기 위한 코드라고 한다.
+  function initLenis() {
+    // 여기서 매개변수와 전역변수의 차이는 변수의 범위와 사용 목적에서 큰 차이점을 드러낸다.
+    // 매개변수는 함수나 메서드 내에서 특정 작업을 위해 값을 전달받는 역할. () 괄호안에 들어간 것이 매개변수 예를 들면 index같은 느낌.
+    // 전역변수는 프로그램 전체에서 접근 가능하며, 프로그램 실행 내내 메모리에 유지.
+    // lenis 인스턴스를 만들어 window.lenis에 저장, 이렇게 하면 전역에서 window.lenis를 불러올 수 있게 된다.
+    window.lenis = new Lenis();
+
+    // on메서드는 특정 이벤트가 발생할 때 실행될 함수.
+    // lenis가 스크롤 이벤트를 발생시킬 때마다 ScrollTrigger.update()를 호출한다. 즉, lenis의 부드러운 스크롤과 GSAP ScrollTrigger가 정확하게 맞춰지도록 동기화 해주는 것이다.
+    lenis.on("scroll", () => {
+      ScrollTrigger.update(); // ScrollTrigger.update()는 플러그인에서 제공하는 함수인데, 레이아웃 변경이나 높이 변경등으로 인해 기존 스크롤 위치가 부정확해졌을 때, 이를 갱신하여 스크롤 관련 애니메이션이 정상 작동하도록 하는 기능이다. 즉, 스크롤 위치를 다시 계산하여 조정하는 역할.
+    });
+
+    //gsap.ScrollTrigger와 연동.
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+  }
+
   // header javaScrip
 
   // 헤더 관련 스크립트를 안전하고 효율적으로 초기화하기 위헤 하나의 함수로 묶는다.
@@ -32,8 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const $nav = document.querySelector("#nav");
 
     // 나중에 패밀리 클릭 시 와 사이트맵 클릭 시 도 해야함
-
-    console.log($header, $nav);
 
     // nav(네비게이션)영역에 마우스 진입/이탈 시 메뉴 표시 및 숨김 처리
     if ($nav) {
@@ -126,14 +164,13 @@ document.addEventListener("DOMContentLoaded", function () {
     /* site-tab a -> toggle인데 menu를 여는 버튼 */
     // 이 버튼은 단순히 active를 주기 위해서만이 아니라 siteMap의 디자인을 나오게 하는 버튼이 되기도 한다.
     const $btnSitemap = $header.querySelector(".utils .site-tab a");
-    console.log($btnSitemap);
 
     // && (AND)논리 연산자 -> 두 값이 전부 참이여만 실행
     if ($btnSitemap && $sitemap) {
       /* menu 아이콘에 click 이벤트를 걸어줌. -> class를 추가하는 코드  */
       $btnSitemap.addEventListener("click", (e) => {
         // 클릭 되는 지 확인
-        console.log(e);
+        // console.log(e);
 
         /* a링크에 기본 동작 제어 */
         e.preventDefault();
@@ -155,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $header.classList.remove("show-sitemap");
         $sitemap.classList.remove("active");
       });
-      console.log($sitemapToggle);
+      // console.log($sitemapToggle);
 
       // 지금 문제는 family버튼을 누르면 sitemap에 디자인이 보임 -> 내가 보기엔 이유는 height가 modal-in-header에 공통적으로 들어가버리니
       // 둘의 크기가 같이 늘어나서 sitemap이 먼저 보이는 것 같음. -> HTMl에 height를 지정해서 주는 본페이지처럼 해야할 것 같음.  아니라면 height를 각각 class가 부여됐을 때에 주는 게 좋을 것 같다.
@@ -171,7 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // CSS도 아니고, JS도 아닌 HTML에 data-theme 라는 속성을 기입을 해야 querySelector에서 NodeList로 가져올 수 있다.
     // 1-1. data-theme 속성을 가진 모든 요소를 가져온다. (속성은 HTML)
     const themeElements = document.querySelectorAll("[data-theme]");
-    console.log(themeElements);
 
     // 1-2 각 요소마다 실행하기 위해서 forEach()문을 사용했다.
     themeElements.forEach(($el, index) => {
@@ -183,7 +219,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // dataset을 사옹하니 HTML에 기입했던 data-theme의 속성이 나온다.  -> dark라고 나온다.
         // dataset은 HTML요소의 사용자 정의 데이터 속성, 즉 data-*** 속성에 접근하기 위한 객체. -> 이 객체를 통해 HTML요소에 저장된 데이터를 읽고 수정할 수 있음.
         const theme = $el.dataset.theme;
-        console.log(theme);
 
         // ScrollTrigger를 이용 (GSAP) -> 이용하기 위해서는 라이브러리 파일이 필요함.
         // HTML에 script 태그를 이용해 파일을 불러온다.
@@ -244,7 +279,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // 즉, 섹션에 달린 data-theme 속성이 header에 적용되는 코드인 것이다.
 
       //$el은 각각의 section영역 , index는 각 섹션별 번호.
-      console.log($el, index);
     });
   }
 
@@ -261,6 +295,10 @@ document.addEventListener("DOMContentLoaded", function () {
   function initCommonScroll() {
     // header요소 가져오기
     const $header = document.querySelector("#header");
+
+    // lenis을 사용할 곳을 지정. -scroll에 관련된
+    // 이걸 적용하면 확실히 부드러워지는 느낌을 줌.
+    initLenis();
 
     // 이전 스크롤 위치
     let lastScrollY = 0;
@@ -337,8 +375,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // 즉, passive : true는 스크롤 기능을 향상시킴에 있다.
       { passive: true }
     );
-
-    console.log(scrollY);
   }
 
   initCommonScroll();
