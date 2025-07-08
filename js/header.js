@@ -1,5 +1,17 @@
 // Jquery없이 사용하는 $(function) -> document..
 document.addEventListener("DOMContentLoaded", function () {
+  // GSAP ScrollTrigger 초기화
+  gsap.registerPlugin(ScrollTrigger);
+
+  // GSAP의 ScrollTrigger플러그인에서 사용되는 설정 함수로, 모든 ScrollTrigger 인스턴스에 적용될 기본 설정을 정의.
+  // {}괄호안에 원하는 옵션들을 객체 형태로 넣어주면, 이후에 생성되는 모든 ScrollTrigger 인스턴스는 해당 기본 설정을 상속받아 사용하게 된다.
+  ScrollTrigger.defaults({
+    // {} 빈 객체를 전달하면 모든 기본 설정이 초기화가 된다. 즉 이후에 생성되는 ScrollTrigger 인스턴스는 기본 설정없이 각자의 개별 설정에 따라 동작.
+    // 아래 설정은 리프레시 될 때마다 애니메이션값을 다시 계산하도록 지시한다.
+    // 즉, 창 크기 변경이나 기타 요소 위치 변경과 같이 페이지 레이아웃이 변경될 때, 애니메이션이 정확하게 다시 계산되어 부드럽게 이어지도록 한다.
+    // invalidateOnRefresh: true,
+  });
+
   // header javaScrip
 
   // 헤더 관련 스크립트를 안전하고 효율적으로 초기화하기 위헤 하나의 함수로 묶는다.
@@ -165,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
     themeElements.forEach(($el, index) => {
       // #header 자체에도 data-theme 속성이 있을 수 있기 때문에 #header는 제외시킴.
       // !== 연산자는 "엄격하게 일치하지 않음"을 비교하는 연산자. ==는 "엄격하게 일치함"을 비교하는 연산자.
-      // !==는 엄격하게 일치하지 않아야 true를 반환한다. -> 그말은 값과 타입 둘 중 하나라고 다르면 true를 변환하고, 둘 다 맞으면 false를 변환한다.
+      // !==는 엄격하게 일치하지 않으면 true를 반환한다. -> 그말은 값과 타입 둘 중 하나라고 다르면 true를 변환하고, 둘 다 맞으면 false를 변환한다.
       // 즉, $el에 #header가 들어가있기 때문에 #header를 제외시키기 위해서 전부 같아야 false가 나오는 !== 연산자를 사용한 것이다.
       if ($el !== $header) {
         // dataset을 사옹하니 HTML에 기입했던 data-theme의 속성이 나온다.  -> dark라고 나온다.
@@ -183,8 +195,9 @@ document.addEventListener("DOMContentLoaded", function () {
           start: "top top",
           // trigger 끝나는 곳
           end: "bottom top",
+
           // start와 end를 표시해주는 명령.
-          markers: true,
+          // markers: true,
 
           // onEnter와 onEnterBack은 특정 트리거 요소가 뷰포트의 특정 지점에 도달했을 때 실행되는 콜백 함수들 그 중 두가지가 onEnter와 onEnterBack
           // 왜 두개가 다 필요할까? 스크롤 애니메이션을 만들 때는 방향에 따른 다른 행동을 해야할 때가 많기 때문에. 아래로 스크롤 할 시 (onEnter) 위로 스크롤 할 시 (onEnterBack)
@@ -214,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 스크롤 이벤트가 발생하기 전, 페이지가 로드되었을 때는 아직 ScrollTrigger의 콜백이 실행되지 않기에, 즉 스크롤 하지 않으면 헤더의 초기 테마를 모른다.
         // 그래서, 페이지가 로드된 직후의 헤더 테마를 data-theme를 가진 요소 중 첫번째 (여기서는 index ===1 라고 표현)것으로 지정.
         // index === 0이 아닌 index === 1로 설정한 이유는 0은 $el !== $header로 첫번째 요소의 0($header)를 제외시켰기 떄문에 첫번쨰 요소인 index === 1을 설정한 것이다.
+        // 그래서 기본값으로 설정하는 큰 이유는 처음에 data-theme가 없는 상태로 스타일 적용될 수 있기 때문에
 
         // 첫번째 테마 요소의 테마 설정
         if (index === 1) {
@@ -221,6 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
           $header.dataset.theme = theme;
         }
       }
+
+      // ScrollTrigger는 정상동작.
+      // 이 코드를 사용하면 $el(각 섹션들)에 data-theme 속성이 들어가 있는데, 첫번째 섹션은 dark고정이고, 두번째 섹션도 변동없이 dark로 고정이고, 그 다음 세번째 섹션부터 dark에서 light으로 변경되고, 그 다음 섹션은 dark, 또 그다음 섹션 light으로 변경되는
+      // data-theme 속성이 왔다갔다 하는 코드이다.
+      // -> 실행이 안되서 다시 보니까 section에 data-theme속성을 부여하는 코드인데, HTML에 속성해줄 light, dark 둘 중 하나를 적용시키고, 적용시킨걸 유동적으로 바꿔주는 코드인데,
+      // 속성이 왔다갔다 하는 코드가 아닌 스크롤하면서 각 섹션의 data-theme 값에 따라 header에 테마가 변환하는 코드이다.
+      // 즉, 섹션에 달린 data-theme 속성이 header에 적용되는 코드인 것이다.
 
       //$el은 각각의 section영역 , index는 각 섹션별 번호.
       console.log($el, index);

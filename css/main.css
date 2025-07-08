@@ -3039,7 +3039,7 @@
 /* data-theme 속성을 불러오기 위해 CSS에 명령을 불러온다. */
 /* data-theme 속성을 불러오기 위해서는 CSS에 명령을 남기고, HTML에 data-theme라는 속성을 부여하여 불러올 수 있다. */
 /* HTML에 data-theme라는 속성을 기입하지 않는다면 콘솔창에 나올 수가 없다.  */
-/* 각 section별로 data-theme속성을 기입하였다. */
+/* 각 section별로 data-theme 속성을 기입하였다. */
 .main-section[data-theme="dark"] {
   --color: #ffffff;
   --bg: #333;
@@ -3050,4 +3050,34 @@
 .section[data-theme="dark"] {
   background: #000;
   color: #fff;
+}
+
+/* data-theme 속성이 바뀌는 지 확인하기 위해서 data-theme속성에 light를 만들어서 확인. */
+/* class는 속성 뒤에  */
+#header.show-menu,
+#header[data-theme="dark"].show-menu,
+#header[data-theme="light"].show-menu {
+  --color: #333333;
+  --bg: #ffffff;
+  transform: translateY(0);
+  pointer-events: initial;
+}
+
+#header.show-menu .site-header:before,
+#header[data-theme="dark"].show-menu .site-header:before,
+#header[data-theme="light"].show-menu .site-header:before {
+  opacity: 1;
+  pointer-events: none;
+}
+
+#header.show-menu .site-header:after,
+#header[data-theme="dark"].show-menu .site-header:after,
+#header[data-theme="light"].show-menu .site-header:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: "";
+  border-bottom: 1px solid #e5e5e5;
+  pointer-events: none;
 }
