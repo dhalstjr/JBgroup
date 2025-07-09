@@ -71,11 +71,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const $nav = document.querySelector("#nav");
 
+    // submenu의 최대 높이를 구하기 위해서 header에 있는 .submenu를 변수로 저장. (onResize함수를 위해서)
+    const $submenus = $header.querySelectorAll(".submenu");
+
     // 나중에 패밀리 클릭 시 와 사이트맵 클릭 시 도 해야함
 
     // nav(네비게이션)영역에 마우스 진입/이탈 시 메뉴 표시 및 숨김 처리
     if ($nav) {
       $nav.addEventListener("mouseenter", function () {
+        // 그러니까 onResize()의 함수의 실행은 여기 코드에서 이벤트가 발생했을 때 실행된다. --submenu-height를 구한다.
+        onResize();
         header.classList.add("show-menu");
       });
 
@@ -280,6 +285,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //$el은 각각의 section영역 , index는 각 섹션별 번호.
     });
+
+    console.log($submenus);
+    // 5개의 서브메뉴들이 나온다.
+
+    // 본페이지에 있는 javascript코드 배우기 - onResize함수에 대해(function으로 만든 함수)
+    // 이 함수 코드는 브라우저 크기 변경(또는 초기 로딩 시)에 호출.
+    // 목적은  서브메뉴(ul)들의 최대 높이를 계산해서 CSS 변수 --submenu-height에 설정해주는 코드
+    function onResize() {
+      // 브라우저의 가로 크기가 1279px보다 클 때만 실행.
+      // 이유는 태블릿 이하 해상도(즉, 모바일,태블릿)에 GNB(메뉴)의 구조가 달라지거나 숨겨지므로, 서브메뉴의 높이를 계산할 필요가 없기 때문에. -> PC 해상도일 때만 submenu를 실행.
+      if (window.innerWidth > 1279) {
+        // 변수를 초기화하고, 서브메뉴들 중 가장 큰 높이값을 담아 둘 변수.
+        let submenuHeight = 0;
+
+        // $submenus 5개의 NodeList안의 서브메뉴 DOM요소를 하나씩 검사 forEach문을 사용해서 각각
+        $submenus.forEach(($submenu) => {
+          // 각각의 submenu에 ul을 찾아 변수로 저장한다.
+          const ul = $submenu.querySelector("ul");
+
+          // 각 서브메뉴 안에 ul이 있는 지 확인하고 없으면 건너뛴다.
+          if (!ul) return;
+
+          //임시로 auto로 설정해 자연 높이를 구한 후 원래 값으로 되돌림.
+          // ul에 style에 접근하여 height를 "auto" 로 설정
+          ul.style.height = "auto";
+
+          // Math 객체는 수학 관련 상수와 함수를 위한 속성과 메서드를 제공하는 내장 객체. 즉, Math 객체 자체는 함수가 아니며, 프로퍼티나 메서드를 사용하여 수학 연산을 실행하는 객체이다.
+          // Math의 max 최댓값을 반환 -> max() ()에 들어간 숫자들 중 가장 큰 값을 반환하는 정적 메서드이다.
+          // ul.clientHeight로 현재 메뉴의 실제 높이를 가져온다.
+          // 지금까지의 submenuHeight와 비교해서 더 큰 값을 선택해 저장.
+          submenuHeight = Math.max(submenuHeight, ul.clientHeight);
+
+          // 다시 style에 접근해서 "auto"로 설정한 것을 ""로 돌려놓아 스타일을 지워지게 한다.(원복)
+          ul.style.height = "";
+        });
+        // header에 style에 접근해서 submenuHeight를 구했으니 이것을 CSS 변수 --submenu-height로 저장한다.
+        // 이렇게 하면 CSS 쪽에서 var(--submenu-height)를 써서 쉽게 사용할 수 있고, Js가 CSS에 영향을 주는 구조가 된다.
+        $header.style.setProperty("--submenu-height", submenuHeight + "px");
+      }
+
+      // onResize() 함수가 필요한 이유는 서브메뉴 중 어떤 메뉴는 100px이고, 어떤 메뉴는 200px 일 때, 이 때 가장 큰 값을 가진 메뉴를 기준으로 삼아야한다면, 이 코드를 시용하면 가장 큰 높이를 자동으로 계산해 CSS에 적용한다.
+      // 장점은 유지보수하기도 편하고, 반응형에서도 유연하게 대처 가능하다.
+
+      // 그렇다면 이 onResize()를 사용하기 위해서는 무엇이 필요할까?
+      // CSS에서 --submenu-height가 사용된 코드가 있어야한다. --submenu-height는 변수에 값을 할당한 것 뿐이라, 어디선가 이 변수를 활용한 CSS가 있어야한다.
+      // 예를 들어 height에 calc(var (--submenu-height,0px) + 50px) 처럼
+    }
   }
 
   //함수 밖에서 호출하면 바로 실행 가능

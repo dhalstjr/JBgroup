@@ -2523,6 +2523,8 @@
   right: 0;
 
   height: var(--submenu-height, 0px);
+
+  /* js를 활용해 onResize함수가 실행이 되면 height : 375px은 없어도 돤다. */
   height: 357px;
   width: 1px;
   background: #e5e5e5;
