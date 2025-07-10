@@ -116,10 +116,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // if ($familyButton && $jbFamily)을 사용한 이유는 안전 장치인 셈이다.
     // 무슨 이야기냐면 &&은 논리연산자로, 논리곱(AND) 연산을 수행한다. 두 값이 모두 참일 경우에만 참을 반환하며, 그렇지 않다면 거짓을 반환한다.
     // 즉, .family a와 #jbFamily가 두 요소가 전부 존재하면 실행하고, 하나라도 존재하지 않다면 실행하지마라. 라는 의미에 조건식을 준것이다.
+    // jbFamily 토글 처리 코드
     if ($familyButton && $jbFamily) {
       // family a에 click 이벤트를 걸고
       $familyButton.addEventListener("click", (e) => {
-        // 클릭이 잘 작동하는 지 확인 완료
+        // 클릭이 잘 작동하는 지 확인 완료 -> console.log(e)로 확인.
 
         // a링크의 기본동작을 막아준다 -> 이유는 기본 동작을 막지 않으면 애니메이션이 실행이 되지 않을 수 있다.(개발자가 원하는 동작을 실행할 수 있도록.)
         e.preventDefault();
@@ -131,9 +132,25 @@ document.addEventListener("DOMContentLoaded", function () {
         $header.classList.add("show-family");
 
         // 그리고 나서 스크롤을 비활성화 해야하고
+        // gsap.delayedCall()함수는 특정 시간을 지연 후에 함수를 실행시키는 기능을 한다. -> setTimeout과 유사.
+        // delayedCall(숫자) 괄호 안에 숫자는 지연 시간을 말하고, ()=> {} 함수를 이용해 {}안에 들어간 코드를 실행시킨다.
+        gsap.delayedCall(0.5, () => {
+          // 스크롤 기능 차단(lenis)
+          window.disableWindowScroll();
 
-        // jbFamily 자체에 active클래스를 부여하여 디자인 변경
-        $jbFamily.classList.add("active");
+          // jbFamily 자체에 active클래스를 부여하여 디자인 변경
+          $jbFamily.classList.add("active");
+
+          //gsap.to를 이용해 family디자인이 열릴 때에 스타일을 지정.
+          gsap.to(/* 대상 */ $jbFamily, {
+            height: windowHeight, //변수로 지정해둔 windowHeight는 window.innerHeight이다. (화면 전체높이)
+            duration: 0.5,
+            // 그리고 ease는 ""사용하지 않으면 적용되지 않아 오류가 발생한다.
+            ease: "power2.out",
+          });
+          // gsap.to를 이용해서 height의 자연스러운 애니메이션을 적용, 내가 만들었던 CSS에서의 transition을 사용하는 것도 방법이 있지만.
+          //gsap.to를 이용해 script를 사용. 내려오는 것은 완료했고, x아이콘을 눌렀을 때 다시 올라는 것을 구현해야함.
+        });
       });
     }
 
@@ -145,17 +162,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // 그리고 toggle을 찾을 때도 다르다. 서로 다른 toggle을 핮기 위해서 $jbFamily.querySelector을 사용하여
     // #jbFamily일 때에 toggle을 찾고있다. 그렇다면 sitemap은 #sitemap에 있는 toggle을 찾아 적용해야겠지
     const $jbFamilyToggleBtn = $jbFamily.querySelector(".toggle");
+    // $jbFamily에 toggle이 존재한다면
+    if ($jbFamilyToggleBtn) {
+      // jbFamily안에 toggle버튼에게 click 이벤트 적용
+      $jbFamilyToggleBtn.addEventListener("click", (e) => {
+        // a링크에 기본 동작을 막는다.
+        e.preventDefault();
 
-    // jbFamily안에 toggle버튼에게 click 이벤트 적용
-    $jbFamilyToggleBtn.addEventListener("click", (e) => {
-      // a링크에 기본 동작을 막는다.
-      e.preventDefault();
+        // 저 위와 다르게 class를 삭제시켜준다. -> family 디자인이 사라져야하니까.
+        $header.classList.remove("show-family");
 
-      // 저 위와 다르게 class를 삭제시켜준다.
-      $header.classList.remove("show-family");
+        $jbFamily.classList.remove("active");
 
-      $jbFamily.classList.remove("active");
-    });
+        // 여기는 왜 delayedCall()에 들어가지 않았냐면, 내가 생각하기엔. Family 다지안이 나왔을 때는 전체화면으로 창을 사용하고 있기때문에. 스크롤이 되지 않게 막아둔 것 같다. 그리고 스크롤이 필요없는 다자인이라서 그런것도 있다.
+        window.disableWindowScroll();
+
+        gsap.delayedCall(0.3, () => {
+          gsap.to($jbFamily, {
+            height: 0,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        });
+      });
+    }
 
     // --------------------------------------------
     // 여기까지 jbFamily toggle 상호 작용 완료, --> 부족한 점은 부드러운 느낌이 안나고 뚝뚝 나오는 느낌이라 css에서 건드려야 되겠음.
@@ -180,11 +210,33 @@ document.addEventListener("DOMContentLoaded", function () {
         /* a링크에 기본 동작 제어 */
         e.preventDefault();
 
+        // sitemap의 다지인이 보이게
         $header.classList.add("show-sitemap");
 
+        // 윈도우 전체 너비를 변수로 저장
         const windowHeight = window.innerHeight;
 
-        $sitemap.classList.add("active");
+        gsap.delayedCall(0.5, () => {
+          //지금 sitemap디자인 스크롤이 되어야하는 디자인인데, 왜 스크롤을 완전히 차단했는지에 대해서 알아보자.
+          // sitemap의 내부 내용이 길어 스크롤이 되어야 보이는 디자인인데, 이렇게 disableWindowScroll로 막아버리고, prevent-scroll로 스크롤을 완전히 차단해버려서 sitemap 내부에서 스크롤이 안되는 현상
+          // 배경은 스크롤이 되면 안된다. 스크롤 바로 인한 너비때문인 것 같다. 배경에는 스크롤이 되지않게 prevent-scroll로 sitemap밖에 있는 main이 스크롤 되지 않게 완전히 차단을 했고,
+          // sitemap의 내부는 스크롤이 되어야한다.(scroll-area) 하지만, html/body가 막히면 sitemap도 막힐 수 있기 때문에, sitemap 내부의 스크롤이 독립적으로 작동할 수 있도록 overscroll-behavior : contain을 이용한다.
+          //[data-lenis-prevent]라는 속성을 scroll-area에(HTML) 넣어주고, CSS에서 overscroll-behavior : contain을 사용하면 적용이 되는데,
+          // overscroll-behavior : contain은 내부에서만 스크롤 이벤트가 처리되고, 부모로는 전파되지 않도록 하는 CSS이다.
+          // 그래서 lenis를 이용해서 data-lenis-prevent로 lenis 영향에서 분리가 되고, 내부 스크롤을 허용해 sitemap의 내부에서 스크롤이 가능하게 한다.
+
+          // sitemap다지인이 나왔을 때 스크롤을 제어.
+          window.disableWindowScroll();
+
+          //document.documentElement는 html태그, html에 태그에 class를 부여 (prevent-scroll은 CSS에서 스크롤 완전 차단)
+          document.documentElement.classList.add("prevent-scroll");
+          $sitemap.classList.add("active");
+          gsap.to($sitemap, {
+            height: windowHeight,
+            duration: 0.5,
+            ease: "power2.out",
+          });
+        });
       });
 
       // toggle클릭 이벤트를 각각 다르게 줘야 하기에 sitemap은 $sitemap.querySelector로 적용했음
@@ -313,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Math 객체는 수학 관련 상수와 함수를 위한 속성과 메서드를 제공하는 내장 객체. 즉, Math 객체 자체는 함수가 아니며, 프로퍼티나 메서드를 사용하여 수학 연산을 실행하는 객체이다.
           // Math의 max 최댓값을 반환 -> max() ()에 들어간 숫자들 중 가장 큰 값을 반환하는 정적 메서드이다.
-          // ul.clientHeight로 현재 메뉴의 실제 높이를 가져온다.
+          // ul.clientHeight로 현재 메뉴의 실제 높이를 가져온다. -> clientHeight는 프로퍼티로, 요소의 내부 높이를 픽셀 단위로 반환.
           // 지금까지의 submenuHeight와 비교해서 더 큰 값을 선택해 저장.
           submenuHeight = Math.max(submenuHeight, ul.clientHeight);
 
@@ -332,6 +384,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // CSS에서 --submenu-height가 사용된 코드가 있어야한다. --submenu-height는 변수에 값을 할당한 것 뿐이라, 어디선가 이 변수를 활용한 CSS가 있어야한다.
       // 예를 들어 height에 calc(var (--submenu-height,0px) + 50px) 처럼
     }
+
+    // 본페이지에서 사용된 코드 배우기 - resize이벤트 발생 시 onResize 호출
+
+    // resize이벤트는 브라우저 창의 크기가 바뀔 때 이벤트 발생. resize 이벤트가 발생할 때마다 onResize를 실행.
+    //resize앞에 onResize를 사용한 이유는 초기 호출이라는 것이다. 초기 호출은 이벤트를 기다리지 않고 페이지 로드 시 한 번 실행한다는 이야기다. 초기 호출한 이유는 처음 로드된 상태에서도 메뉴 높이 계산, 반응형 설정 등이 필요하기 때문이다.
+    window.addEventListener("resize", onResize);
+    onResize();
+
+    // 저 위 이벤트를 실행한다면, 페이지를 로드할 때 바로 --submenu-height의 값이 나온다
   }
 
   //함수 밖에서 호출하면 바로 실행 가능

@@ -2631,7 +2631,7 @@
   pointer-events: none;
 
   /* height의 높이가 변화하기 때문에 transition을 이용하여 height의 변화를 부드럽게 적요 */
-  transition: height 500ms ease;
+  /*   transition: height 500ms ease; */
 
   /* scroll-area가 아니라 modal-in-header에게 색을 적용. */
   background: #fff;
@@ -2907,7 +2907,7 @@
   clip-path: inset(0 0 0 0);
 
   /* 크기가 HTML에 style에 들어가야 family 버튼을 눌러도 sitemap의 디자인이 안보일 것 같다. */
-  height: 1035px;
+  /*   height: 1035px; */
 }
 
 .modal-in-header.active .scroll-area {
@@ -3032,8 +3032,6 @@
 /* 이제 header에 show-sitemap이 붙었을 때에 디자인 만들기 */
 .show-sitemap #sitemap {
   pointer-events: initial;
-
-  height: 1035px;
 }
 
 /* sitemap CSS : end */
@@ -3116,4 +3114,10 @@ clip은 hidden과 비슷하지만, 스크롤바가 아예 표시되지 않습니
 이유: Lenis가 애니메이션 도중에 iframe이 이벤트를 가로채지 못하도록. */
 .lenis.lenis-smooth iframe {
   pointer-events: none;
+}
+
+/* header에 있는 family와 sitemap의 토글 작동을 위해서 스크롤 제어 */
+/*  overflow : clip은 hidden과 다르게 스크롤을 완전히 차단하는 (스크롤바도 아예 표시되지 않게.) */
+html.prevent-scroll {
+  overflow: clip;
 }
