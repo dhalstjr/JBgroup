@@ -1,7 +1,7 @@
 // Jquery없이 사용하는 $(function) -> document..
 document.addEventListener("DOMContentLoaded", function () {
   // GSAP ScrollTrigger 초기화
-  gsap.registerPlugin(ScrollTrigger);
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
   // GSAP의 ScrollTrigger플러그인에서 사용되는 설정 함수로, 모든 ScrollTrigger 인스턴스에 적용될 기본 설정을 정의.
   // {}괄호안에 원하는 옵션들을 객체 형태로 넣어주면, 이후에 생성되는 모든 ScrollTrigger 인스턴스는 해당 기본 설정을 상속받아 사용하게 된다.
@@ -224,6 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
           //[data-lenis-prevent]라는 속성을 scroll-area에(HTML) 넣어주고, CSS에서 overscroll-behavior : contain을 사용하면 적용이 되는데,
           // overscroll-behavior : contain은 내부에서만 스크롤 이벤트가 처리되고, 부모로는 전파되지 않도록 하는 CSS이다.
           // 그래서 lenis를 이용해서 data-lenis-prevent로 lenis 영향에서 분리가 되고, 내부 스크롤을 허용해 sitemap의 내부에서 스크롤이 가능하게 한다.
+          // lenis가 없어도 overscroll-behavior : contain은 표준 CSS이기 때문에 동작한다.
 
           // sitemap다지인이 나왔을 때 스크롤을 제어.
           window.disableWindowScroll();
@@ -241,14 +242,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // toggle클릭 이벤트를 각각 다르게 줘야 하기에 sitemap은 $sitemap.querySelector로 적용했음
       const $sitemapToggle = $sitemap.querySelector(".toggle");
+      if ($sitemapToggle) {
+        // toggle 아이콘에 click 이벤트 -> class를 삭제
+        $sitemapToggle.addEventListener("click", (e) => {
+          e.preventDefault();
 
-      // toggle 아이콘에 click 이벤트 -> class를 삭제
-      $sitemapToggle.addEventListener("click", (e) => {
-        e.preventDefault();
+          $header.classList.remove("show-sitemap");
+          $sitemap.classList.remove("active");
 
-        $header.classList.remove("show-sitemap");
-        $sitemap.classList.remove("active");
-      });
+          // html태그에 prevent-scroll 클래스 제거
+          document.documentElement.classList.remove("prevent-scroll");
+
+          // 스크롤 제어 해제
+          window.enableWindowScroll();
+
+          // gsap.delayedCall()
+          gsap.delayedCall(0.3, () => {
+            gsap.to($sitemap, {
+              height: 0,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          });
+        });
+      }
       // console.log($sitemapToggle);
 
       // 지금 문제는 family버튼을 누르면 sitemap에 디자인이 보임 -> 내가 보기엔 이유는 height가 modal-in-header에 공통적으로 들어가버리니
