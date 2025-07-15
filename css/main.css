@@ -3099,7 +3099,9 @@ html.lenis body {
 }
 
 /* Lenis가 smooth일 때, 특정 요소에 data-lenis-prevent 속성을 붙이면 그 요소에서는 overscroll(터치 끝에서 바운스되는 현상)을 방지.
-contain은 내부에서만 스크롤 이벤트가 처리되고 부모로 전파되지 않도록 함. */
+  contain은 내부에서만 스크롤 이벤트가 처리되고 부모로 전파되지 않도록 함. */
+
+/* 이 data-lenis-prevent는 - scroll-area에 사용되기 위해서인 것 같은데,  */
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
@@ -3121,3 +3123,89 @@ clip은 hidden과 비슷하지만, 스크롤바가 아예 표시되지 않습니
 html.prevent-scroll {
   overflow: clip;
 }
+
+/* family-site-dropdown 메뉴 CSS */
+/* family-site-dropdown 메뉴의 디자인은 click시에 자연스럽게 나오는 모달 창 같은 느낌으로 */
+.family-site-dropdown {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+
+  font-size: 1.6rem;
+  line-height: 1.25;
+
+  /* width는 javascript로 크기를 지정해준 것 같은데, 일단 CSS부터 하자.  */
+  width: var(--width, 100%);
+  left: var(--left, 0);
+  top: var(--top, 0);
+
+  /* 크기를 일단 임의대로 정의하자. */
+  width: 27.6rem;
+  left: 155.5rem;
+  top: 77.5rem;
+}
+
+.family-site-dropdown .box {
+  position: absolute;
+  /* left값은 부모에게 적용 */
+  left: 0;
+  bottom: 10%;
+
+  /* 배경색 */
+  background: #fff;
+  border-radius: 2.6rem;
+  width: 100%;
+
+  padding: 2.4rem;
+
+  box-sizing: border-box;
+
+  /* active 클래스가 붙었을 때 자연스러운 애나메이션 효과를 위해서 -> 일단은 안보이게 */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-1.9rem);
+
+  /* 저 위에 명령들의 자연스러운 효과를 위해서 transition */
+  transition: opacity 200ms, visibility 200ms, transform 200ms;
+}
+
+/* active 클래스가 붙었을 때 자연스러운 효과를 위해 */
+.family-site-dropdown.active .box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+
+  /* 마우스 이벤트에  걸리게 */
+  pointer-events: auto;
+}
+
+.family-site-dropdown ul {
+  /* dropdown 메뉴의 크기 제한 */
+  max-width: 23.8rem;
+
+  /* 스크롤 바 생성 -> 요소의 내용이 지정된 영역을 초과할 떄만 스크롤 바가 생성된다. */
+  overflow: auto;
+}
+
+.family-site-dropdown ul > li > a {
+  font-weight: 700;
+  color: #000;
+  display: block;
+}
+
+/* 형제 선택자-> 첫째 요소 다음 요소 형제부터 적용 */
+.family-site-dropdown ul > li + li {
+  margin-top: 1.6rem;
+}
+
+/* family-site의 버튼이 active 클래스가 추가됐을 때 */
+#footer .footer-top .family-site.active {
+  color: #000;
+  background: #fff;
+}
+
+#footer .footer-top .family-site.active .link-site::before {
+  background: #0a31a8;
+}
+
+/* js로 click 이벤트와 부가적인 js를 적용시켜보자. */

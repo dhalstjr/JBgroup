@@ -1899,32 +1899,35 @@
 
             <div class="family-site en">
               <a href="#" class="link-site">Family-site</a>
-
-              <!-- family-site 클릭 시 나오는 탭메뉴 -->
-              <div class="family-site-menu">
-                <ul class="site-menu-list">
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                  <li class="site-menu-item">
-                    <a href="#"></a>
-                  </li>
-                </ul>
+              <!-- family-site 드롭다운 메뉴가 family-site에 속해서 나오는 줄 알았는데 완전히 다른 영역에 있음. (footer 밖에 존재함 ) -->  
+              <!-- family-site 드롭다운 메뉴 (footer 밖을 벗어난 완전히 다른 영역에 있음.) -->
+               <!-- 드롭다운 메뉴가 footer에서 벗어난 게 아니라, js에서 append 메서드로 body로 옮김 -->
+              <div class="family-site-dropdown ko">
+                <div class="box">
+                  <ul>
+                    <li>
+                      <a href="#">전북은행</a>
+                    </li>
+                    <li>
+                      <a href="#">광주은행</a>
+                    </li>
+                    <li>
+                      <a href="#">JB우리캐피탈</a>
+                    </li>
+                    <li>
+                      <a href="#">JB자산운용</a>
+                    </li>
+                    <li>
+                      <a href="#">JB인베스트먼트</a>
+                    </li>
+                    <li>
+                      <a href="#">PPCBank</a>
+                    </li>
+                    <li>
+                      <a href="#">JB Securities Vietnam</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -1985,6 +1988,7 @@
         </div>
       </footer>
       <!-- footer : end -->
+
     </div>
   </body>
 </html>

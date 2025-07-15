@@ -47,7 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Math.min()는 입력으로 주어진 숫자들 중에서 가장 작은 값을 반환하는 역할을 한다.
         // Math.abs()는 입력받은 숫자의 절대값을 반환하는 함수이다. 즉, 양수 또는 0은 그대로 반환하고, 음수인 경우에는 부호를 제거한 양수 값을 반환.
         // ()안에 1,과 Math.abs(x)이 주어졌는데, Math.abs(x) 값을 구한 후, 1과 비교하여 더 작은 값을 반환한다.
-        // Math.min(1, Math.abs(scrollY / 1000))
+
+        // Math.min(1, Math.abs(scrollY / 1000))은 스크롤 위치(scrollY)에 따라 특정 값(0에서 1 사이)을 반환한다. scrollY 값을 1000으로 나눈 절대값과 1 중 작은 값을 선택한다.
+        // 즉, 스크롤 위치가 멀어질수록(절댓값이 클수록) 1에 가까워지고, 스크롤 위치가 가까울수록(절댓값이 작을수록) 0에 가까워진다.
+        // 반환값은 0과 1 둘 중 하나이다.
         const duration = Math.min(1, Math.abs(scrollY / 1000));
         gsap.to(window, {
           // scrollTo를 : 0으로 사용하기 위해서는 scrollToPlugin이 필요하다 cdn을 복사하여 HTML에 넣고, js에 register(ScrollToPlugin)을 기입해주면 된다.
@@ -56,7 +59,80 @@ document.addEventListener("DOMContentLoaded", function () {
           ease: "Quad.easeInOut",
         });
       });
+
     // footer에 family-site 버튼
+    // 2-1 footer family-site 버튼에 관한 요소를 변수에 저장
+    const $familySiteButton = $footer.querySelector(".family-site");
+    // footer영역 밖에 있는데 왜 $footer로 찾았을까.. footer 영역 밖에 있으니 document로 해야 null이 반환되지 않는다.
+    const $familySiteDropdown = $footer.querySelector(".family-site-dropdown");
+
+    // dropdown 메뉴를 body로 옮김
+    // 드롭다운 메뉴를 body의 맨 마지막으로 이동시킴 -> footer안에 두면, overflow , z-index , position 때문에 레이어가 잘려 보이거나 가려질 수도 있어서, body에 이동시키고, position : fixed나 absolute로 띄우려는 의도.
+    $familySiteDropdown && document.body.append($familySiteDropdown);
+
+    // 드롭다운 매뉴를 숨기기 위한 이벤트 핸들러 정의
+    function hideFamilySitesDropdownEvent(e) {
+      if (
+        ($familySiteButton &&
+          $familySiteDropdown &&
+          // 드롭다운 자체나 토글 버튼을 누른 경우에는 닫으면 안되니, 그 경우를 체크.
+          // 클릭된 대상이 토글 버튼 또는 그 내부라면 true
+          $familySiteButton.contains(e.target)) ||
+        // || -> 논리 연산자로서, 주로 조건문에서 사용. 논리 연산과 단락 평가를 실행
+        // 논리 연산 : 두 피연산자중 하나라도 참이라면 참을 반환
+        // 단락 평가 : 왼쪽 피연산자가 참이면 오른쪽 피연산자는 평가하지 않고, 왼쪽 피연산자를 반환
+        // 클릭된 대상이 드롭다운 내부라면  true  -> || 둘 중 하나라도 true라면 return해서 아무것도 실행 하지 않음.
+        $familySiteDropdown.contains(e.target)
+      ) {
+        // || 연산자로 둘 중 하나라도 참이면 참을 반환했지만, return을 통해 둘 중 하나라도 참이라면 아무것도 실행하지 않게 했음.
+        return;
+      }
+
+      // 드롭다운 닫기
+      $familySiteButton && $familySiteButton.classList.remove("active");
+      $familySiteDropdown && $familySiteDropdown.classList.remove("active");
+      // 이벤트 핸들러 제거 -> 이벤트가 중복해서 쌓이지 않도록, 현재 이벤트 리스너를 제거
+      window.removeEventListener("mouseup", hideFamilySitesDropdownEvent);
+      window.removeEventListener("touchstart", hideFamilySitesDropdownEvent);
+      window.removeEventListener("wheel", hideFamilySitesDropdownEvent);
+    }
+
+    console.log($familySiteButton, $familySiteDropdown);
+
+    // family-site toggle -> click 이벤트
+    // $familySiteButton이 없다면 실행 X -> AND연산자 좌항이 참(true)이 아니라면, 우항은 실행 X
+    $familySiteButton &&
+      $familySiteButton.addEventListener("click", (e) => {
+        //a링크의 기본 동작 제거
+        e.preventDefault();
+
+        // add보다 toggle를 사용하는 게 좋다 -> toggle()메서드는 클래스가 존재하면 삭제하고, 존재하지 않으면 추가한다.
+        // family-site 버튼 클릭 시 active 클래스 toggle
+        $familySiteButton.classList.toggle("active");
+
+        // dropdown이 존재한다면 실행
+        $familySiteDropdown &&
+          $familySiteDropdown.classList.toggle(
+            "active",
+            $familySiteButton.classList.contains("active")
+          );
+
+        // 패밀리 사이트 버튼에 active 클래스가 존재했을 떄.
+        if ($familySiteButton.classList.contains("active")) {
+          //드롭다운 외부 클릭, 터치, 휠 이벤트 발생 시 드롭다운 숨김처리
+          window.removeEventListener("mouseup", hideFamilySitesDropdownEvent, {
+            passive: true,
+          });
+          window.removeEventListener(
+            "touchstart",
+            hideFamilySitesDropdownEvent,
+            { passive: true }
+          );
+          window.removeEventListener("wheel", hideFamilySitesDropdownEvent, {
+            passive: true,
+          });
+        }
+      });
   }
 
   initCommonFooter();
