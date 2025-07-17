@@ -3135,6 +3135,8 @@ html.prevent-scroll {
   line-height: 1.25;
 
   /* width는 javascript로 크기를 지정해준 것 같은데, 일단 CSS부터 하자.  */
+  /* position : fixed를 했기 떄문에 버튼을 어느 스크롤 위치에서 클릭 했을 때 값이 달라져 버튼 바로 위에 나오지 않고, 스크롤 위치에 따라서 버튼 한참 위에 나올 수 있다. */
+  /* 그러므로 top값이 계속해서 스크롤 위치 값에 맞게 변해야한다. -> 그래서 변수로 만들어놓고 값을 변화시키는 것 같다. */
   width: var(--width, 100%);
   left: var(--left, 0);
   top: var(--top, 0);
@@ -3149,7 +3151,8 @@ html.prevent-scroll {
   position: absolute;
   /* left값은 부모에게 적용 */
   left: 0;
-  bottom: 10%;
+
+  bottom: calc(100% + 1.2rem);
 
   /* 배경색 */
   background: #fff;
@@ -3161,8 +3164,8 @@ html.prevent-scroll {
   box-sizing: border-box;
 
   /* active 클래스가 붙었을 때 자연스러운 애나메이션 효과를 위해서 -> 일단은 안보이게 */
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
   transform: translateY(-1.9rem);
 
   /* 저 위에 명령들의 자연스러운 효과를 위해서 transition */
@@ -3191,6 +3194,12 @@ html.prevent-scroll {
   font-weight: 700;
   color: #000;
   display: block;
+
+  transition: color 200ms ease-in;
+}
+
+.family-site-dropdown ul > li > a:hover {
+  color: #0a31a8;
 }
 
 /* 형제 선택자-> 첫째 요소 다음 요소 형제부터 적용 */

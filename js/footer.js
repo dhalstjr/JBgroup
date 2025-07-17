@@ -73,16 +73,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // 드롭다운 매뉴를 숨기기 위한 이벤트 핸들러 정의
     function hideFamilySitesDropdownEvent(e) {
       if (
-        ($familySiteButton &&
-          $familySiteDropdown &&
-          // 드롭다운 자체나 토글 버튼을 누른 경우에는 닫으면 안되니, 그 경우를 체크.
-          // 클릭된 대상이 토글 버튼 또는 그 내부라면 true
-          $familySiteButton.contains(e.target)) ||
-        // || -> 논리 연산자로서, 주로 조건문에서 사용. 논리 연산과 단락 평가를 실행
-        // 논리 연산 : 두 피연산자중 하나라도 참이라면 참을 반환
-        // 단락 평가 : 왼쪽 피연산자가 참이면 오른쪽 피연산자는 평가하지 않고, 왼쪽 피연산자를 반환
-        // 클릭된 대상이 드롭다운 내부라면  true  -> || 둘 중 하나라도 true라면 return해서 아무것도 실행 하지 않음.
-        $familySiteDropdown.contains(e.target)
+        $familySiteButton &&
+        $familySiteDropdown &&
+        // 드롭다운 자체나 토글 버튼을 누른 경우에는 닫으면 안되니, 그 경우를 체크.
+        // 클릭된 대상이 토글 버튼 또는 그 내부라면 true
+        ($familySiteButton.contains(e.target) ||
+          // || -> 논리 연산자로서, 주로 조건문에서 사용. 논리 연산과 단락 평가를 실행
+          // 논리 연산 : 두 피연산자중 하나라도 참이라면 참을 반환
+          // 단락 평가 : 왼쪽 피연산자가 참이면 오른쪽 피연산자는 평가하지 않고, 왼쪽 피연산자를 반환
+          // 클릭된 대상이 드롭다운 내부라면  true  -> || 둘 중 하나라도 true라면 return해서 아무것도 실행 하지 않음.
+          $familySiteDropdown.contains(e.target))
       ) {
         // || 연산자로 둘 중 하나라도 참이면 참을 반환했지만, return을 통해 둘 중 하나라도 참이라면 아무것도 실행하지 않게 했음.
         return;
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log($familySiteButton, $familySiteDropdown);
 
-    // family-site toggle -> click 이벤트
+    // 2-2. family-site toggle -> click 이벤트
     // $familySiteButton이 없다면 실행 X -> AND연산자 좌항이 참(true)이 아니라면, 우항은 실행 X
     $familySiteButton &&
       $familySiteButton.addEventListener("click", (e) => {
@@ -112,23 +112,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // dropdown이 존재한다면 실행
         $familySiteDropdown &&
+          // 드롭다운 메뉴에도 클래스를 toggle한다.
           $familySiteDropdown.classList.toggle(
             "active",
+            // 두번쨰로 들어간 아래 문법은 class를 포함하고 있냐는 것인데, 조건이 들어간 것인데.
+            // active라는 클래스를 포함하고 있다면, 드롭다운 메뉴의 class도 추가해라, 포함하고 있지 않다면 class를 제거하라.
             $familySiteButton.classList.contains("active")
           );
 
         // 패밀리 사이트 버튼에 active 클래스가 존재했을 떄.
         if ($familySiteButton.classList.contains("active")) {
           //드롭다운 외부 클릭, 터치, 휠 이벤트 발생 시 드롭다운 숨김처리
-          window.removeEventListener("mouseup", hideFamilySitesDropdownEvent, {
+          // 이벤트 핸들러 뒤에 꼭 함수를 붙어야 한다. ()=> 이거와 같은 개념.
+          window.addEventListener("mouseup", hideFamilySitesDropdownEvent, {
+            //passive true 옵션은 addEventListener메서드에서 사용되며, 이벤트 리스너가 기본 동작을 막지 않음을 브라우저에게 알리는 역할을 한다. 이를 통해 스크롤 성능을 향상 시킬 수 있습니다.
+            // 특히 touchstart, touchmove 에서 유용하게 사용된다.
             passive: true,
           });
-          window.removeEventListener(
-            "touchstart",
-            hideFamilySitesDropdownEvent,
-            { passive: true }
-          );
-          window.removeEventListener("wheel", hideFamilySitesDropdownEvent, {
+          window.addEventListener("touchstart", hideFamilySitesDropdownEvent, {
+            passive: true,
+          });
+          window.addEventListener("wheel", hideFamilySitesDropdownEvent, {
             passive: true,
           });
         }
