@@ -122,6 +122,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // 패밀리 사이트 버튼에 active 클래스가 존재했을 떄.
         if ($familySiteButton.classList.contains("active")) {
+          // 드롭다운 위치를 업데이트 실시 -> 클릭 했을 때 위치가 업데이트 될 수 있도록 실행.
+          // 클릭 했을 때 위치가 업데이트 되어야하기 때문에 넣어준 것이다.
+          checkFamilySitesDropdown();
+
           //드롭다운 외부 클릭, 터치, 휠 이벤트 발생 시 드롭다운 숨김처리
           // 이벤트 핸들러 뒤에 꼭 함수를 붙어야 한다. ()=> 이거와 같은 개념.
           window.addEventListener("mouseup", hideFamilySitesDropdownEvent, {
@@ -137,6 +141,36 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         }
       });
+
+    // 2-3 family-site 토글의 위치/크기 정보를 CSS변수로 지속 업데이트(변경)
+    // family-site 토글의 위치가 스크롤 위치에 드롭다운 메뉴가 나오는 곳이 달라져, 지속적으로 업데이트 해야함.
+    // 스크롤 위치가 아니라 family-site 버튼의 크기와 위치에 맞게 바뀌는 것 같음.
+    function checkFamilySitesDropdown() {
+      // 불필요한 에러를 방지하기 위한 방어 코드이다.
+      // 요소가 있는 지 없는 지 확인 ->  !는 부정 연산자 - 존재하지 않는다면 으로 바뀜
+      // ||는 OR 연산자 - 둘 중 하나라도 true면 전체가 true라는 뜻,
+      // 그러니 둘 중 하나라도 존재하지 않는다면 으로 바뀜 -> return를 통해 함수 실행을 중단.
+      if (!$familySiteButton || !$familySiteDropdown) return;
+
+      // family-site 버튼에 getBoundingClientRect()메서드를 이용하여 그 값을 변수로 저장\
+      // family-site 버튼에 크기와 위치를 가져온다 -> 버튼의 화면 내 위치(top,left)와 크기(width, height) 정보를 가져온다
+      const rect = $familySiteButton.getBoundingClientRect();
+
+      // css변수에 값을 반영 -> var(--width,--top,--left)로 준 값을 말하는 것이다.
+      // 드롭다운 메뉴에 스타일에 접근하여 setProperty메서드를 통해 CSS 속성을 설정하는데 사용한다. 이 메서드는 CSS 속성 이름과 값을 지정하여 요소의 스타일을 동적으로 변경할 수 있도록 합니다.
+      // 이렇게 적용하면 family-site 토글 버튼 바로위에 위치하게 된다.
+      $familySiteDropdown.style.setProperty("--top", rect.top + "px");
+      $familySiteDropdown.style.setProperty("--left", rect.left + "px");
+      $familySiteDropdown.style.setProperty("--width", rect.width + "px");
+
+      // 지속적으로 업데이트
+      // family-site 토글 버튼에 active 클래스가 포함되어있다면
+      if ($familySiteButton.classList.contains("active")) {
+        // requestAnimationFrame을 통해 부드러운 애니메이션 전환을 통해 함수를 실행시켜 지속적으로 업데이트 되게 한다.
+        requestAnimationFrame(checkFamilySitesDropdown);
+      }
+      console.log(rect);
+    }
   }
 
   initCommonFooter();

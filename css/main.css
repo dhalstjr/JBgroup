@@ -3137,14 +3137,15 @@ html.prevent-scroll {
   /* width는 javascript로 크기를 지정해준 것 같은데, 일단 CSS부터 하자.  */
   /* position : fixed를 했기 떄문에 버튼을 어느 스크롤 위치에서 클릭 했을 때 값이 달라져 버튼 바로 위에 나오지 않고, 스크롤 위치에 따라서 버튼 한참 위에 나올 수 있다. */
   /* 그러므로 top값이 계속해서 스크롤 위치 값에 맞게 변해야한다. -> 그래서 변수로 만들어놓고 값을 변화시키는 것 같다. */
+  /* JS로 변수를 지정해줬으니 임의대로 지정한 크기와 위치를 지워주고 확인해보자 */
   width: var(--width, 100%);
   left: var(--left, 0);
   top: var(--top, 0);
 
   /* 크기를 일단 임의대로 정의하자. */
-  width: 27.6rem;
+  /*   width: 27.6rem;
   left: 155.5rem;
-  top: 77.5rem;
+  top: 77.5rem; */
 }
 
 .family-site-dropdown .box {
