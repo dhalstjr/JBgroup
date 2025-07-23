@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const $topButton = $footer.querySelector(".top-btn");
     console.log($topButton);
 
-    // footer 내부 요소 - 이걸 왜 변수로 저장하는 지는 모르겠지만 일단 저장함.
+    // footer 내부 요소 - 이걸 왜 변수로 저장하는 지는 모르겠지만 일단 저장함. -> 저장하는 이유는 border-radius를 제어하기 위해
     const $footerInner = $footer.querySelector(".footer-inner");
     console.log($footerInner);
 
@@ -169,8 +169,36 @@ document.addEventListener("DOMContentLoaded", function () {
         // requestAnimationFrame을 통해 부드러운 애니메이션 전환을 통해 함수를 실행시켜 지속적으로 업데이트 되게 한다.
         requestAnimationFrame(checkFamilySitesDropdown);
       }
-      console.log(rect);
+
+      // console.log(rect);
     }
+
+    // 최대 border-radius값을 전역 변수에 저장(resize 시 업데이트) -> border-radius를 사용하는 다른 코드에서도 쉽게 접근하여 사용 가능
+    window.MAX_BORDER_RADIUS = 0;
+    // 연속적인 resize 이벤트 중 마지막 한번만 실행되게 하려고.
+    let resizeRaf;
+    function updateMaxBorderRadius() {
+      if ($footerInner) {
+        // getComputedStyle는 선택한 요소에 적용된 모든 CSS 스타일의 최종 계산된 값을 가져오는 역할을 한다.
+        // 즉, styles는 footerInner에 CSS스타일의 최종 계산된 값을 가져온다.
+        const styles = getComputedStyle($footerInner);
+        // parseFloat() 함수는 문자열을 입력받아, 그 문자열에서 숫자 부분만을 추춯하여 실수로 변환합니다. -> 여기서 사용된 이유는 'px' 값이 붙어있으므로, 숫자만 뽑아내기 위해서
+        // 현재 CSS에 적용된 border-top-right-radius값을 읽어오고, 그 값을 전역 변수에 갱신.
+        // || 은 OR연산자이고, || 0 은 값이 없다면 0을 기본값으로 설정.
+        window.MAX_BORDER_RADIUS = parseFloat(styles.borderTopRightRadius) || 0;
+      }
+    }
+
+    // 브라우저 크기가 바뀔 때 실행되는 함수
+    // resize 이벤트는 수도없이 이벤트가 발생하기에, requestAnimationFrame을 사용해 마지막프레임에서만 updateMaxBorderRadius가 실행되게 한다.
+    function onResize() {
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(updateMaxBorderRadius);
+    }
+    window.addEventListener("resize", onResize);
+    onResize();
+
+    // resize 될 때마다 footer의 최대 둥근 정도를 다시 계산해 저장해 두고, 그 값을 기반으로 애니메이션을 구현하기 위해 만든 코드입니다.
   }
 
   initCommonFooter();

@@ -2058,8 +2058,6 @@
   z-index: 3;
 
   background: #0a31a8;
-
-  padding: 4.8rem 0;
 }
 
 #footer .footer-inner {
@@ -2067,6 +2065,12 @@
   max-width: 179.2rem;
 
   margin: 0 auto;
+  padding: 4.8rem 0;
+
+  /* clamp()함수는 요소의 속성 값(폰트 크기, 너비, 높이)을 유동적으로 설정하면서도 최소값과 최대값을 지정하여 범위를 제한하는 데 사용 */
+  /* border-radius 값을 제어하여 main섹션에도 사용하기 위해. */
+  border-radius: clamp(6.8rem, 3.333vw, 10.3rem) clamp(6.8rem, 3.333vw, 10.3rem)
+    0 0;
 }
 
 #footer .footer-top {
