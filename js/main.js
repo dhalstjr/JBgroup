@@ -162,7 +162,7 @@ window.addEventListener("DOMContentLoaded", function () {
     // 그리고 Swiper.js를 사용하기 위해서는 라이브러리를 가져와야함.
     // Swiper에 있는 CSS를 가져오면 swiper라는 클래스를 준 곳에는 overflow :  hidden이 설정되어있어 item이 4개 이후로 보이지 않지만, hidden을 풀면 보인다.
     const familySwiper = new Swiper("#main-section .swiper", {
-      freeMode: true,
+      freeMode: true, // 사용자가 슬라이드를 드래그하거나 스와이프할 때, 슬라이드가 특정 위치에 고정되지 않고 자연스럽게 움직이도록 하는 옵션. 즉, 사용자가 드래그한 만큼 슬라이드가 움직이고 멈추는 방식.
       slidesPerView: "auto", // 한 번에 보여줄 슬라이드 개수를 지정하는 기능.
       // 그렇다면 "auto" 옵션의 기능은 슬라이드 컨테이너의 너비에 맞춰 슬라이드들이 자동으로 크기가 조정되도록 설정
     });
@@ -192,7 +192,84 @@ window.addEventListener("DOMContentLoaded", function () {
       pin: Section4.querySelector(".visual"),
       pinSpacing: false, // 요소가 고정될 때 (pin : true)생기는 공간을 다른 요소들이 침범하지 않도록 막아주는 기능
 
+      // markers: true,
+    });
+  }
+
+  // 5. 다섯번째 섹션(news) js 구현
+  // 5-1 필요한 변수를 저장
+  const Section5 = document.querySelector(".section5");
+  console.log(Section5);
+
+  // 5-2 border-radius를 구현 (else문을 사용해 보조 적용 대상 만들기)
+  // 오류나 충돌 방지를 위해 우선 순위를 만들어줌.
+
+  // 이런 구조에 대해서 물어봤음 -> 특정 섹션이 없는 페이지에서 오류를 방지하기 위해서 페이지에서 Section5가 없어질 수 있기 때문에 null이 되고, null요소에 대해 ScrollTrigger를 호출하면 에러가 발생한다.
+  // 그렇기에 애니메이션이 적용될 섹션이 최소 하나는 있어야 하기에 Section5가 없으면 Section4에 적용하여 인터랙션이 끊기지 않도록 방지한 것이다.
+  if (Section5) {
+    ScrollTrigger.create({
+      trigger: Section5,
+      // 섹션 길이가 길어서  섹션 바닥에 트리거 시에 애니메이션을 시작한 것 같음.
+      start: "bottom bottom",
+      end: "bottom top",
+
+      // markers: true,
+
+      onUpdate: window._throttle(({ progress }) => {
+        const borderRadius =
+          window.MAX_BORDER_RADIUS * Math.min(1, progress * 1.25);
+
+        // 초기 상태 설정
+        gsap.set(Section5, {
+          borderBottomRightRadius: `${borderRadius}px`,
+          borderBottomLeftRadius: `${borderRadius}px`,
+        });
+      }, 1000 / 24),
+    });
+  } else {
+    if (Section4) {
+      ScrollTrigger.create({
+        trigger: Section4,
+        start: "bottom bottom",
+        end: "bottom top",
+
+        markers: true,
+
+        onUpdate: window._throttle(({ progress }) => {
+          const borderRadius =
+            window.MAX_BORDER_RADIUS * Math.min(1, progress * 1.25);
+
+          //초기 설정
+          gsap.set(Section4, {
+            borderBottomLeftRadius: `${borderRadius}px`,
+            borderBottomRightRadius: `${borderRadius}px`,
+          });
+        }, 1000 / 24),
+      });
+    }
+  }
+
+  // 6. 여섯번째 섹션
+  // 6-1 필요한 변수 저장
+  const Section6 = document.querySelector(".section6");
+  console.log(Section6);
+
+  // 6-2 y축 애니메이션
+  if (Section6) {
+    ScrollTrigger.create({
+      trigger: Section6,
+      start: "top bottom",
+      end: "bottom bottom",
+
       markers: true,
+
+      onUpdate: ({ progress }) => {
+        // 초기 설정
+        gsap.set(Section6.querySelector(".visual-bg"), {
+          // 0에서 1로 이동하는 progress를 반대로 1에서 0으로 이동하게 변경 1 - progress를 사용함.
+          yPercent: (1 - progress) * -80,
+        });
+      },
     });
   }
 });

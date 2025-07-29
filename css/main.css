@@ -1103,7 +1103,7 @@
 
 #main-section .section-title {
   font-weight: 800;
-  font-size: 3.8rem;
+  font-size: 3.9rem;
 
   color: #fff;
 
@@ -1113,6 +1113,8 @@
   align-items: center;
 
   gap: 1.8rem;
+
+  line-height: 1.2;
 }
 
 #main-section .section-title:before {
@@ -1888,8 +1890,6 @@
   position: relative;
 
   z-index: 1;
-
-  width: 100%;
 }
 
 /* #main .visual에 들어간 position : relative를 없애줘야 background의 이미지가 보인다.  */
@@ -1899,7 +1899,8 @@
 
 .section6 .visual .visual-bg {
   position: absolute;
-  top: 0;
+  /* border-radius를 js로 설정하여 색이 다르게 보이기 때문에 top을 변경하여 색이 안보이게 이미지로 막아버림. */
+  top: -6.32rem;
   left: 0;
   right: 0;
   bottom: 0;
