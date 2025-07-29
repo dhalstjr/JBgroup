@@ -14,6 +14,9 @@
       rel="stylesheet"
     />
 
+    <!-- Swiper.CSS -->
+    <link rel="stylesheet" href="./css/swiper-bundle.min.css">
+
     <!-- Lenis , swiper.js , GSAP, GSAP - ScrollTrigger 가 들어가야함 -->
     <!-- GSAP -->
     <script src="https://unpkg.com/gsap/dist/gsap.min.js"></script>
@@ -25,6 +28,9 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
     <!-- Lenis -->
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js"></script>
+
+    <!-- Swiper.JS -->
+     <script src="./js/swiper-bundle.min.js"></script>
     
 
     <script src="./js/common.js"></script>
@@ -1212,7 +1218,7 @@
         <section id="main-section" class="section2" data-theme="dark">
           <!-- section2 - background  -->
           <div class="visual">
-            <div class="visual-bg active">
+            <div class="visual-bg ">
               <!-- section2에 이미지 3개를 기입. -->
               <div class="bg-item1">
                 <img src="./img/section-bg-item2.png" alt="섹션 배경 이미지1" />
@@ -1358,10 +1364,12 @@
                 </div>
               </div>
 
-              <!-- section3 - 카드 부분 (슬라이드) -->
+              <!-- section3 - 카드 부분 (슬라이드) -> swiper라는 class 이름을 넣어줘야함. -->
               <div class="card-container swiper">
+                <!-- swiper-wrapper라는 이름을 넣어줘야함 -->
                 <div class="swiper-wrapper card-slide">
-                  <div class="slide-item item1">
+                  <!-- swiper-slide라는 이름을 넣어줘야함. -->
+                  <div class="slide-item item1 swiper-slide" >
                     <!-- a 링크 태그안에 a 태그가 중첩되서 사용이 불가능하다. -> 이를 찾아낸 이유는 자꾸 slide-arrow-btn에 a링크인 .item이 붙기 때문에 알아냈음. -->
                     <!-- a태그안에 slide-arrow-btn쪽에 a링크가 하나 있어, 중첩이 불가능하고, slide-arrow-btn에 a태그 쪽애도 위 쪽 내가 설정한 a태그의 .item이 나온다. -->
                     <!-- 해결방안으로는 slide-arrow-btn을 button 태그로 변환하는 것이다. -->
@@ -1393,7 +1401,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item2">
+                  <div class="slide-item item2 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1418,7 +1426,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item3">
+                  <div class="slide-item item3 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1443,7 +1451,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item4">
+                  <div class="slide-item item4 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1469,7 +1477,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item5">
+                  <div class="slide-item item5 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1494,7 +1502,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item6">
+                  <div class="slide-item item6 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1519,7 +1527,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item7">
+                  <div class="slide-item item7 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1544,7 +1552,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item8">
+                  <div class="slide-item item8 swiper-slide" >
                     <a href="#" class="item">
                       <div class="slide-img">
                         <img
@@ -1569,7 +1577,7 @@
                     </a>
                   </div>
 
-                  <div class="slide-item item9">
+                  <div class="slide-item item9 swiper-slide" >
                     <a href="">
                       <div class="slide-img">
                         <img

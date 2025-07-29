@@ -1002,11 +1002,12 @@
 }
 
 /* active 클래스 지정 */
+/* active 클래스를 줬을 때랑 안줄 때랑 top, left 변경. */
 .section2 .visual .visual-bg.active .bg-item1 {
   transform: rotate(0);
 
-  top: -29.7rem;
-  left: -44.5rem;
+  top: -28.3rem;
+  left: -44.6rem;
 }
 
 .section2 .visual .visual-bg.active .bg-item2 {
@@ -1017,9 +1018,7 @@
 }
 
 .section2 .visual .visual-bg.active .bg-item3 {
-  transform: rotate(0);
-
-  top: 25.8rem;
+  top: 25.9rem;
   right: -47.9rem;
 }
 
@@ -1035,9 +1034,10 @@
   left: -44.5rem;
 
   transition: 1.2s ease-in-out;
-  transition-property: transform, top left right;
+  transition-property: transform, top, left, right;
 
   /* 로테이트 설정 */
+  transform: rotate(-135deg);
 }
 
 .section2 .visual .visual-bg .bg-item2 {
@@ -1047,13 +1047,14 @@
   position: absolute;
 
   /* top과 left, right 설정 */
-  top: 47.9rem;
-  left: -14.6rem;
+  top: 82.9rem;
+  left: -15.3rem;
 
   transition: 1.2s ease-in-out;
   transition-property: transform, top left right;
 
   /* 로테이트 설정 */
+  transform: rotate(-32deg);
 }
 
 .section2 .visual .visual-bg .bg-item3 {
@@ -1063,13 +1064,16 @@
   position: absolute;
 
   /* top과 left, right 설정 */
-  top: 25.8rem;
-  right: -47.9rem;
+  top: 54.5rem;
+  right: -76.6rem;
+
+  transition-duration: 1.5;
+  transition-delay: 0.2s;
 
   transition: 1.2s ease-in-out;
   transition-property: transform, top left right;
 
-  /* 로테이트 설정 */
+  /* 로테이트 설정 - bg-item3에는 로테이트 설정 안함. */
 }
 
 .section2 .visual .visual-bg img {
@@ -1491,6 +1495,18 @@
   background: url(../img/slide-arrow-icon.svg) no-repeat 0 0 / cover;
 }
 
+/* swiper 라이브러리 추가하여 CSS에서 변경할 사항 */
+.card-slide .swiper-slide {
+  /* width를 auto로 설정하지 않으면 swiper-slide에 있는 width : 100%가 들어가서 item 하나가 100%를 차지해서 다른 아이템은 보이지 않게 되고, 레이아웃은 완전히 틀어지게 된다. */
+  width: auto;
+  height: auto;
+}
+
+.section3 .swiper {
+  /* overflow를 기본값 visible 로 지정해주어야 hidden이 사라지게 되면서 item들이 더 보이게 됨. */
+  overflow: visible;
+}
+
 /* section3 CSS - end */
 
 /* section4 CSS - start */
@@ -1505,7 +1521,7 @@
   min-height: 100svh;
 
   /* 나는 틀어지니까 최소 높이를 설정 1220px로 설정 */
-  min-height: 122rem;
+  /* min-height: 122rem; */
 
   overflow: hidden;
 }
