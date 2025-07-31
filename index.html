@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="./css/swiper-bundle.min.css">
 
     <!-- Lenis , swiper.js , GSAP, GSAP - ScrollTrigger 가 들어가야함 -->
-    <!-- GSAP -->
+    <!-- GSAP 라이브러리 -->
     <script src="https://unpkg.com/gsap/dist/gsap.min.js"></script>
 
     <!-- GSAP(ScrollTrigger) -->
@@ -26,6 +26,10 @@
 
     <!-- GSAP(ScrollToPlugin) -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+
+    <!-- GSAP - SplitText -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+
     <!-- Lenis -->
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@latest/bundled/lenis.min.js"></script>
 
@@ -1031,7 +1035,15 @@
                 <!-- 크기를 주기 위해서 감싸는 영역이 하나나 -->
                 <div class="grid-left">
                   <div class="grid-left-container">
-                    <div class="title">젊고 강한 강소 금융그룹</div>
+                    <h1 class="title">              
+                      <!-- gsap - splittext에서 구조를 파악하지 못하고 title 클래스 내부의 텍스트가 br로만 줄바꿈만 있을 뿐, 별도의 태그(strong, span 등) 없이 순수 텍스트와 br만 사용되었기 때문에 구조를 파악하지 못할 수 있음. -->        
+                       <!-- HTML 구조를 바꾸어도 효과가 제대로 나타나지 않음.  -->
+                          <strong>
+                            젊고 강한<br>
+                            강소<br>
+                            금융그룹
+                          </strong>       
+                    </h1>
                     <div class="video-container">
                       <div class="progress">
                         <div class="bar"><i class="hidden">채워지는 바</i></div>

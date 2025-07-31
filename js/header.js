@@ -1,7 +1,7 @@
 // Jquery없이 사용하는 $(function) -> document..
 document.addEventListener("DOMContentLoaded", function () {
   // GSAP ScrollTrigger 초기화
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
 
   // GSAP의 ScrollTrigger플러그인에서 사용되는 설정 함수로, 모든 ScrollTrigger 인스턴스에 적용될 기본 설정을 정의.
   // {}괄호안에 원하는 옵션들을 객체 형태로 넣어주면, 이후에 생성되는 모든 ScrollTrigger 인스턴스는 해당 기본 설정을 상속받아 사용하게 된다.

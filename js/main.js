@@ -104,7 +104,94 @@ window.addEventListener("DOMContentLoaded", function () {
 
   // 첫번째 섹션의 효과 border-radius를 적영해게;
 
-  // 1-2 첫번째 섹션의 텍스트와 위젯 설정. (gsap- splitText가 필요해 다음에.)
+  // 1-2 첫번째 섹션의 텍스트와 위젯 설정. (gsap - splitText가 필요해 다음에.)
+  // SplitText를 사용하기 위해서 라이브러리를 가져온다. gsap 라이브러리를 가져오고,  splitText 플러그인을 가져온다. 그리고 HTML 요소에 적용할 클래스를 부여한다.
+  // HTML에 SplitText 플러그인을 적용하고, register(SplitText)라고 사용하여 콘솔에 에러가 없는 지 있는 지 확인
+  // 그리고 내가 텍스트효과를 줄 요소에게 클래스를 부여하는데, type속성으로 chars, words, lines 이 셋으로 클래스를 부여해야 하는데,
+  // chars는 글자 단위, words는 단어 단위, lines는 줄 단위로 사용합니다.
+
+  // 1-2. 타이틀에 대해 효과를 줄 Section1에 적용이 필요한 곳을 변수에 저장
+  const Section1TitleEl = Section1.querySelector(".grid-left-container");
+  const Section1TitleStrong = Section1TitleEl.querySelector(".title strong");
+
+  // 비디오 바 변수로 저장
+  const videoControllerEl = Section1 // 삼향 연산자 사용 (if/else문법)
+    ? Section1.querySelector(".video-container")
+    : null;
+
+  // 1-2  변수를 저장했으면. Split를 사용하기 위한 문법을 적용. (const, let)
+  // const를 사용한 이유는 이 변수에는 다른 값을 다시 할당하지 않기 때문에 const를 사용하는 것이 맞다.
+  const Section1TitleDesc = new SplitText(Section1TitleStrong, {
+    // 이 옵션은 SplitText가 어떻게 텍스트를 분해할지를 정해주는 설정, lines는 줄 단위, words 단어 단위, chars 글자 단위
+    type: "lines,words", // type에 lines와 words가 있는데, 이는 한 번에 줄과 단어를 동시에 분해하도록 지시하는 것
+
+    // 그리고 이 둘은 말 그대로, 분해된 각 요소에 어떤 클래스를 부여할지 정하는 옵션.
+    // 결국 오타.. lines를 line으로 사용함..
+    linesClass: "__line", // 줄 단위에 클래스는 __Line -> 그리고 이거를 HTML요소에 추가하면 적용.
+    wordsClass: "__word", // 단어 단위에 클래스는 __word
+  });
+
+  // 그리고나서 gsap.set를 이용해 초기 설정.(애니메이션이 시작되기 전에)
+  // 적용하니 텍스트들이 아래로 내려감.
+  gsap.set(Section1TitleDesc.words, { yPercent: 120, opacity: 0 });
+
+  // widget 클래스를 가진 요소가 안보임.
+  gsap.set(Section1.querySelectorAll(".widget"), {
+    opacity: 0,
+    y: "4rem",
+  });
+
+  // 비디오 컨트롤 바 요소가 안보임
+  gsap.set(videoControllerEl, { opacity: 0, y: "4rem" });
+
+  // 타임라인 생성(GSAP)
+  const TL_Sec1Title = gsap.timeline({
+    // 애니메이션이 완료 되었을 때 실행되는 콜백함수
+    onComplete: () => {
+      Section1TitleDesc.revert(); // 애니메이션 상태를 초기화하고 되돌리는 기능.
+    },
+  });
+
+  // title에 대한 효과가 제대로 나타나지 않아서 확인해봤더니 - HTML에 대한 구조에서 잘못된 걸 수도 있다고 판단됨.
+  // HTML 구조에 대한 것은 아니였던 것 같은데, 구조를 확실하게 하는 게 좋음.ㄴ
+  Section1TitleDesc.lines.forEach((line, i) => {
+    TL_Sec1Title.to(
+      line.querySelectorAll(".__word"),
+      {
+        opacity: 1,
+        yPercent: 0,
+        duration: 1.6,
+        ease: Quart.easeOut,
+      },
+      i * 0.2 + 0.2
+    );
+  });
+
+  TL_Sec1Title.to(
+    videoControllerEl,
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.4,
+      ease: Quart.easeOut,
+    },
+    "-=1.6"
+  );
+
+  TL_Sec1Title.to(
+    Section1.querySelectorAll(".widget"),
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.4,
+      ease: Quart.easeOut,
+      stagger: 0.125,
+    },
+    "-=1.6"
+  );
+
+  console.log(Section1TitleDesc.lines.length); // 줄 개수
+  console.log(Section1TitleDesc.words.length); // 단어 개수
 
   // 두번째 섹션에 대한 js (visual 핀, 이미지 yPercent, 그리고 반응형 Swiper 처리)
   // 2-1 visual 핀
@@ -233,7 +320,7 @@ window.addEventListener("DOMContentLoaded", function () {
         start: "bottom bottom",
         end: "bottom top",
 
-        markers: true,
+        // markers: true,
 
         onUpdate: window._throttle(({ progress }) => {
           const borderRadius =
@@ -261,7 +348,7 @@ window.addEventListener("DOMContentLoaded", function () {
       start: "top bottom",
       end: "bottom bottom",
 
-      markers: true,
+      // markers: true,
 
       onUpdate: ({ progress }) => {
         // 초기 설정

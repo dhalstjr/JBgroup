@@ -329,18 +329,17 @@
   display: flex;
 
   flex-direction: column;
-  gap: 6.4rem;
-  max-width: 34.9rem;
+  gap: 7rem;
+  max-width: 36.6rem;
+  font-size: 9.4rem;
 }
 
 #main .main-section-inner .main-container .grid-area .grid-left .title {
-  font-size: 8.8rem;
   font-weight: 700;
-  color: #fff;
 
   /* 글 간격, 높이 맞추기 */
   letter-spacing: -0.02em;
-  line-height: 1.15;
+  line-height: 1.1;
 
   word-break: keep-all;
 
