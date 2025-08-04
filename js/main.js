@@ -6,6 +6,24 @@ window.addEventListener("DOMContentLoaded", function () {
   const Section1 = document.querySelector(".section1");
   console.log(Section1);
 
+  // youtube 동영상 iframe을 자바스크립트로 활용해서 자동재생/자동정지를 제어. iframe은 자바스크립트에 play나 pause를 사용할 수 없기에
+  // iframe을 자바스크립트에 API처럼 사용하려면
+  // 1. HTML에서 iframe태그에 ?enablejaspi=1를 넣어주고,
+  // 2. youtube API 스크립트를 HTML에 추가해준다.
+  // 3. javascript로 넘어가 코드를 짜주고 사용해준다.
+  let youtubePlayer;
+
+  // API 로드 후 자동 실행되는 함수(필수 이름)
+  function onYoutubeIframeAPIReady() {
+    youtubePlayer = new YT.Player("youtube-player", {
+      events: {
+        onReady: () => {
+          youtubePlayer.playVideo(); // 로딩되면 자동재생
+        },
+      },
+    });
+  }
+
   // 1-1 section1 :  visual 핀 및 이미지 yPercent 애니메이션
   // Section1이 존재한다면 실행.
   if (Section1) {
@@ -41,11 +59,11 @@ window.addEventListener("DOMContentLoaded", function () {
         //progress는 현재 진행률(progress)값을 인자로 받아, 해당깂에 따라 추가적인 동작을 수행할 수 있도록 한다.
 
         // Section1내에 모든 visual-bg를 요소 캐싱 -> 본페이지에서는 querySelectorAll로 설정했지만, 나는 요소가 하나이기에 querySelector로 설정
-        const visualImg = Section1.querySelector(".visual .visual-bg");
+        const visualImg = Section1.querySelector(".visual");
 
         // gsap.set()함수는 요소의 초기 스타일 설정하는 역할을 합니다. 애니메이션이 시작하기 전에 요소의 시작 상태를 정의하는데 사용된다.
         gsap.set(visualImg, {
-          // yPercent: progress * 50,
+          yPercent: progress * 50,
         });
       },
     });
@@ -82,7 +100,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
         // gsap.set()기능은 초기 스타일을 설정하는 역할을 한다. -> .visual-bg에 초기 스타일을 지정하기 위함인 것이다. \
         // Section1의 .visual-bg 요소의 둥근 정도를 실시간을 바꾼다.
-        gsap.set(Section1.querySelector(".visual-bg"), {
+        gsap.set(Section1.querySelector(".bg-container"), {
           // borderBottomRadius는 js에 표준 문법
           //  `${Section1.borderRadius}px` 이 문법은 템플릿 리터럴 문법이다.
           // 스크롤하면 .visual-bg가 점점 더 둥글어지거나 하는 애니메이션이 작동된다.
@@ -92,13 +110,21 @@ window.addEventListener("DOMContentLoaded", function () {
         });
       }, 1000 / 24), // 초당 24프레임으로 제한 -> 제한한 이유는 자주 호출되면 성능이 떨어져 그런 것
 
-      // 콜백함수들
+      // 콜백함수들 -> video에 대한 제어.
       // onEnter는 트리거의 시작점에 스크롤이 처음 들어올 때 1회 실행.
-      onEnter: () => {}, //{if(비디오 요소) 비디오 요소.pause()} // 본페이지에서는 {}안에 비디오를 제어하는 것이 나와있는데, 우리는 비디오가 없기에 사용x /pause는 멈추는 기능.
+
+      // iframe요소는 pause나 play를 사용할 수가 없다. play, pause는 HTML5 video태그에서는 가능하지만,  유튜브 영상인 iframe은 제어할 수 없다.
+      onEnter: () => {
+        if (youtubePlayer) youtubePlayer.pauseVideo(); //{if(비디오 요소) 비디오 요소.pause()} -> pause는 일시정지
+      },
       // onEnterBack은  트리거를 지나쳤다가 다시 되돌아올 때(스크롤이 뒤로) 실행 -> 하는 일 비디오를 멈춤.
-      onEnterBack: () => {},
+      onEnterBack: () => {
+        if (youtubePlayer) youtubePlayer.pauseVideo();
+      },
       // onLeaveBack은 트리거의 시작점보다 위로(스크롤을 더 위로)올라가서 트리거에 빠져나갈때 실행. 비디오를 실행bb
-      onLeaveBack: () => {},
+      onLeaveBack: () => {
+        if (youtubePlayer) youtubePlayer.playVideo();
+      },
     });
   }
 
@@ -126,7 +152,7 @@ window.addEventListener("DOMContentLoaded", function () {
     type: "lines,words", // type에 lines와 words가 있는데, 이는 한 번에 줄과 단어를 동시에 분해하도록 지시하는 것
 
     // 그리고 이 둘은 말 그대로, 분해된 각 요소에 어떤 클래스를 부여할지 정하는 옵션.
-    // 결국 오타.. lines를 line으로 사용함..
+    // 결국 오타문제로 애니메이션 효과가 제대로 나오지 않음.. lines를 line으로 사용함..
     linesClass: "__line", // 줄 단위에 클래스는 __Line -> 그리고 이거를 HTML요소에 추가하면 적용.
     wordsClass: "__word", // 단어 단위에 클래스는 __word
   });
@@ -189,6 +215,30 @@ window.addEventListener("DOMContentLoaded", function () {
     },
     "-=1.6"
   );
+
+  // section1에 video가 들어가는데, 임의로 비디오를 넣어줘야하는데, iframe을 대신으로 해서 비디오를 제어하기로 하자.
+  // 비디오 애니메이션 : 비디오 컨트롤러
+  const videoEl = Section1 ? Section1.querySelector(".visual .video") : null;
+  console.log(videoEl);
+
+  // 비디오 컨트롤 버튼
+  const togglePlay = videoControllerEl.querySelector(".toggle-play-btn");
+
+  // 비디오 프로그래스 바
+  const progressBar = videoControllerEl.querySelector(".bar");
+  console.log(progressBar, togglePlay);
+
+  // 비디오 지연시간
+  let videoDuration = videoEl.duration;
+
+  // loadedmetadata이벤트는 오디오 또는 비디오 요소의 메타데이터가 로드 되었을 때 발생하는 이벤트. 미디어의 재생시간, 해상도, 캡션등과 같이 미디어 자체에 대한 정보도 포함된다.
+  // 하지만 이 이벤트도 youtube로 가져온 iframe에 적용하려면 API가 필요하다.
+
+  videoEl.addEventListener("loadedmetadata", () => {
+    videoDuration = videoEl.duration;
+  });
+
+  function checkVideoState() {}
 
   console.log(Section1TitleDesc.lines.length); // 줄 개수
   console.log(Section1TitleDesc.words.length); // 단어 개수

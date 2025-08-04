@@ -35,6 +35,9 @@
 
     <!-- Swiper.JS -->
      <script src="./js/swiper-bundle.min.js"></script>
+
+     <!-- youtube iframe API 공식 라이브러리  -->
+     <script src="https://www.youtube.com/iframe_api"></script>
     
 
     <script src="./js/common.js"></script>
@@ -1026,7 +1029,12 @@
         <section id="main-section" class="section1" data-theme='dark'>
           <!-- main-background  -->
           <div class="visual">
-            <div class="visual-bg"><i class="hidden">비주얼 영역 화면</i></div>
+            <!-- iframe에 동영상 재생 제어를 위해서 기능들을 추가하기 위해서 src뒤에 넣어주면 된다. 그리고 ?는 한 개만 사용가능하다.  -->
+             <!-- autoplay, loop(반복), mute(음소거 재생), playinline(인라인 재생 - 전체 화면 전환없이), modestbranding(유튜브 로고 및 추천 동영상 제거), controls(재생 바) ,cc_load_policy(자막) -->
+            <div class="bg-container">
+              <iframe class="video __img" id="youtube-player" src="https://www.youtube.com/embed/6qoS7IFz1-4?enablejsapi=1&autoplay=1&loop=1&mute=1&playinline=1&controls=0&modestbranding=1&cc_load_policy=0&playlist=6qoS7IFz1-4" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen ></iframe>
+              <div class="visual-bg __img"><i class="hidden">비주얼 영역 화면</i></div>
+            </div>
           </div>
           <div class="main-section-inner">
             <div class="main-container">
