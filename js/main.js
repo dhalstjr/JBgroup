@@ -216,29 +216,62 @@ window.addEventListener("DOMContentLoaded", function () {
     "-=1.6"
   );
 
-  // section1에 video가 들어가는데, 임의로 비디오를 넣어줘야하는데, iframe을 대신으로 해서 비디오를 제어하기로 하자.
-  // 비디오 애니메이션 : 비디오 컨트롤러
   const videoEl = Section1 ? Section1.querySelector(".visual .video") : null;
   console.log(videoEl);
 
-  // 비디오 컨트롤 버튼
-  const togglePlay = videoControllerEl.querySelector(".toggle-play-btn");
+  // section1에 video가 들어가는데, 임의로 비디오를 넣어줘야하는데, iframe을 대신으로 해서 비디오를 제어하기로 하자.
+  // 비디오 애니메이션 : 비디오 컨트롤러
+  if (videoControllerEl) {
+    // 비디오 컨트롤 버튼
+    const togglePlay = videoControllerEl.querySelector(".toggle-play-btn");
 
-  // 비디오 프로그래스 바
-  const progressBar = videoControllerEl.querySelector(".bar");
-  console.log(progressBar, togglePlay);
+    // 비디오 프로그래스 바
+    const progressBar = videoControllerEl.querySelector(".bar");
+    console.log(progressBar, togglePlay);
 
-  // 비디오 지연시간
-  let videoDuration = videoEl.duration;
+    // 비디오 지연시간
+    // duration이라는 문법도 video태그에서만 가능하기에 iframe 태그는 API를 다르게 돌려서 사용해야한다.
+    let videoDuration = videoEl.duration;
 
-  // loadedmetadata이벤트는 오디오 또는 비디오 요소의 메타데이터가 로드 되었을 때 발생하는 이벤트. 미디어의 재생시간, 해상도, 캡션등과 같이 미디어 자체에 대한 정보도 포함된다.
-  // 하지만 이 이벤트도 youtube로 가져온 iframe에 적용하려면 API가 필요하다.
+    // loadedmetadata이벤트는 오디오 또는 비디오 요소의 메타데이터가 로드 되었을 때 발생하는 이벤트. 미디어의 재생시간, 해상도, 캡션등과 같이 미디어 자체에 대한 정보도 포함된다.
+    // 하지만 이 이벤트도 youtube로 가져온 iframe에 적용하려면 API가 필요하다.
+    videoEl.addEventListener("loadedmetadata", () => {
+      videoDuration = videoEl.duration;
+    });
 
-  videoEl.addEventListener("loadedmetadata", () => {
-    videoDuration = videoEl.duration;
-  });
+    function checkVideoState() {
+      if (videoEl.paused) {
+        // 토글버튼에 클래스를 playing이라는 클래스를 삭제한다. ()
+        togglePlay.classList.remove("playing");
+      } else {
+        // 토글버튼에 클래스를 playing이라는 클래스를 추가한다. ()
+        togglePlay.classList.add("playing");
+      }
+    }
+    // 토글버튼 클릭 이벤트
+    togglePlay.addEventListener("click", () => {
+      if (videoEl.pause) {
+        // video태그에 play가 가능하기에 play라는 명령어를 사용한다.
+        videoEl.play();
+      } else {
+        videoEl.pause();
+      }
+    });
 
-  function checkVideoState() {}
+    // 비디오 태그에 play/pause 이벤트(재생,정지)가 발생했을 때. checkVideoState함수를 실행한다.
+    videoEl.addEventListener("play", checkVideoState);
+    videoEl.addEventListener("pause", checkVideoState);
+    checkVideoState();
+
+    function checkVideoProgress() {
+      // currentTime은 주로 HTMLMediaElement (오디오 또는 비디오 요소)에서 현재 재생 위치를 나타내는 속성이다. 이 속성을 통해 현재 재생 시간을 초 단위로 확인하거나, 특정 시간으로 이동하여 재생을 제어할 수 있다.
+      const progress = videoEl.currentTime / video.duration;
+      // progressbar 초기 설정
+      gsap.set(progressBar, { width: `${progress * 100}%` });
+      requestAnimationFrame(checkVideoProgress);
+    }
+    checkVideoProgress();
+  }
 
   console.log(Section1TitleDesc.lines.length); // 줄 개수
   console.log(Section1TitleDesc.words.length); // 단어 개수

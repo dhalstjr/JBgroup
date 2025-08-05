@@ -441,13 +441,7 @@
   background: rgba(255, 255, 255, 1);
 }
 
-#main
-  .main-section-inner
-  .main-container
-  .grid-area
-  .grid-left
-  .video-container
-  .toggle-play-btn {
+#main .section1 .video-container .toggle-play-btn {
   box-sizing: border-box;
 
   display: flex;
@@ -459,6 +453,9 @@
   background: url(../img/toggle-btn-play.svg) no-repeat 0 0 / contain;
 }
 
+#main .section1 .video-container .toggle-play-btn.playing {
+  background: url(../img/toggle-btn.svg) no-repeat 0 0 / contain;
+}
 /* grid 오른쪽 부분 */
 #main .main-section-inner .main-container .grid-area .grid-right {
   display: flex;
