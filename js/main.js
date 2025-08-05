@@ -221,56 +221,160 @@ window.addEventListener("DOMContentLoaded", function () {
 
   // section1에 video가 들어가는데, 임의로 비디오를 넣어줘야하는데, iframe을 대신으로 해서 비디오를 제어하기로 하자.
   // 비디오 애니메이션 : 비디오 컨트롤러
+  // 결국 이 밑에 있는 코드는 video태그를 사용했을 때만 제대로 작동되는 코드이고, iframe으로 대신한 나는 이 동작을 다른 코드로 짜야한다.
   if (videoControllerEl) {
-    // 비디오 컨트롤 버튼
-    const togglePlay = videoControllerEl.querySelector(".toggle-play-btn");
+    // // // 비디오 컨트롤 버튼
+    // const togglePlay = videoControllerEl.querySelector(".toggle-play-btn");
 
-    // 비디오 프로그래스 바
-    const progressBar = videoControllerEl.querySelector(".bar");
-    console.log(progressBar, togglePlay);
+    // // // 비디오 프로그래스 바
+    // const progressBar = videoControllerEl.querySelector(".bar");
+    // console.log(progressBar, togglePlay);
 
-    // 비디오 지연시간
-    // duration이라는 문법도 video태그에서만 가능하기에 iframe 태그는 API를 다르게 돌려서 사용해야한다.
-    let videoDuration = videoEl.duration;
+    // // 비디오 지연시간
+    // // duration이라는 문법도 video태그에서만 가능하기에 iframe 태그는 API를 다르게 돌려서 사용해야한다.
+    // let videoDuration = videoEl.duration;
 
-    // loadedmetadata이벤트는 오디오 또는 비디오 요소의 메타데이터가 로드 되었을 때 발생하는 이벤트. 미디어의 재생시간, 해상도, 캡션등과 같이 미디어 자체에 대한 정보도 포함된다.
-    // 하지만 이 이벤트도 youtube로 가져온 iframe에 적용하려면 API가 필요하다.
-    videoEl.addEventListener("loadedmetadata", () => {
-      videoDuration = videoEl.duration;
-    });
+    // // loadedmetadata이벤트는 오디오 또는 비디오 요소의 메타데이터가 로드 되었을 때 발생하는 이벤트. 미디어의 재생시간, 해상도, 캡션등과 같이 미디어 자체에 대한 정보도 포함된다.
+    // // 하지만 이 이벤트도 youtube로 가져온 iframe에 적용하려면 API가 필요하다.
+    // videoEl.addEventListener("loadedmetadata", () => {
+    //   videoDuration = videoEl.duration;
+    // });
 
-    function checkVideoState() {
-      if (videoEl.paused) {
-        // 토글버튼에 클래스를 playing이라는 클래스를 삭제한다. ()
+    // function checkVideoState() {
+    //   if (videoEl.paused) {
+    //     // 토글버튼에 클래스를 playing이라는 클래스를 삭제한다. ()
+    //     togglePlay.classList.remove("playing");
+    //   } else {
+    //     // 토글버튼에 클래스를 playing이라는 클래스를 추가한다. ()
+    //     togglePlay.classList.add("playing");
+    //   }
+    // }
+    // // 토글버튼 클릭 이벤트
+    // togglePlay.addEventListener("click", () => {
+    //   if (videoEl.pause) {
+    //     // video태그에 play가 가능하기에 play라는 명령어를 사용한다.
+    //     videoEl.play();
+    //   } else {
+    //     videoEl.pause();
+    //   }
+    // });
+
+    // // 비디오 태그에 play/pause 이벤트(재생,정지)가 발생했을 때. checkVideoState함수를 실행한다.
+    // videoEl.addEventListener("play", checkVideoState);
+    // videoEl.addEventListener("pause", checkVideoState);
+    // checkVideoState();
+
+    // function checkVideoProgress() {
+    //   // currentTime은 주로 HTMLMediaElement (오디오 또는 비디오 요소)에서 현재 재생 위치를 나타내는 속성이다. 이 속성을 통해 현재 재생 시간을 초 단위로 확인하거나, 특정 시간으로 이동하여 재생을 제어할 수 있다.
+    //   const progress = videoEl.currentTime / video.duration;
+    //   // progressbar 초기 설정
+    //   gsap.set(progressBar, { width: `${progress * 100}%` });
+    //   requestAnimationFrame(checkVideoProgress);
+    // }
+    // checkVideoProgress();
+
+    // 저 위 동작을 iframe로 가져온 코드로 사용하고자 한다면 API를 사용하는 방식으로 해야한다
+    // 유튜브 iframe API로 생성한 플레이어 객체
+    let youtubePlayer;
+    let videoDuration = 0;
+
+    // 1.  onReady 콜백에서 duration 가져오기. -> iframe을 사용할 때 onReady라는 기능을 사용할 수가 있다.
+    // 이 문법은 youtube iframeAPI 전용 문법이다.
+    function onYoutubeIframeAPIReady() {
+      // YT.Player는 youtube iframe APId에서 제공하는 클래스이다.
+      youtubePlayer = new YT.Player("youtube-player", {
+        // events도 API가 제공하는 특별한 옵션 기능이다. -> 일반적으로 HTML의 addEventListener와는 완전히 다른 문법이다.
+        // 여기서 events는 API가 제공하는 player 객체 내부의 이벤트 핸들러 등록 방식이다.
+        events: {
+          // onReady는 iframe내의 웹페이지가 완전히 로드되었을 때 실행되는 콜백 함수. -> 이는 src속성으로 지정된 외부 페이지의 로딩이 완료 되었을 때 발생4
+          onReady: () => {
+            // getDuration은 주로 웹 오디오, 비디오에서 사용되는 메서드로, 해당 객체의 지속시간(duration)을 반환하는 기능
+            // iframe 요소의 getDuration메서드는 오디오, 비디오와 같은 미디어 요소의 전체 재생 시간을 가져오는 데 사용됩니다.
+            videoDuration = youtubePlayer.getDuration(); // 총 영상 시간
+
+            // 초기 상태 확인 -> 함수로 만든 코드(상태를 확인하는 코드를 짜야함.)
+            checkVideoState();
+
+            // 프로그래스 바 업데이트 시작
+            startProgressUpdate();
+
+            //재생/일시정지 버튼 설정
+            setupPlayButton();
+          },
+          // onStateChange 이벤트는 플레이어의 상태 변화(예 : 재생, 일시정지, 종료 등)을 감지하고, 이에 따라 추가적인 동작을 수행할 수 있도록 한다.
+          onStateChange: checkVideoState, // 상태 변경 시 클래스 토글
+        },
+      });
+    }
+
+    //재생 상태 확인 및 버튼 UI 변경
+    function checkVideoState(event) {
+      const togglePlay = document.querySelector(".toggle-play-btn");
+      if (
+        !togglePlay ||
+        !youtubePlayer ||
+        typeof youtubePlayer.getPlayerState !== "function"
+      )
+        return;
+
+      // getPlayerState는 API에서 제공하는 함수로, 삽인된 youtube 동영상의 현재 재생 상태를 반환한다. 이를 통해 재생, 일시정지, 종료 등 다양한 상태를 나타내는 숫자를 반환하며, 이를 통해 동영상 제어 및 이벤트 처리를 할 수 있다.
+      const videoState = youtubePlayer.getPlayerState(); // 1 : 재생 중, 2: 일시정지 등
+
+      // YT.PlayerState는 동영상 플레이어의 현재 상태를 나타내는 상수를 정의. 이 상수를 통해 동영상의 상태(재생, 일시정지, 종료)를 파악.
+      // 현재 비디오 상태가 진행되고 있다면 실행.
+      if (videoState === YT.PlayerState.PLAYING) {
         togglePlay.classList.remove("playing");
       } else {
-        // 토글버튼에 클래스를 playing이라는 클래스를 추가한다. ()
         togglePlay.classList.add("playing");
       }
     }
-    // 토글버튼 클릭 이벤트
-    togglePlay.addEventListener("click", () => {
-      if (videoEl.pause) {
-        // video태그에 play가 가능하기에 play라는 명령어를 사용한다.
-        videoEl.play();
-      } else {
-        videoEl.pause();
-      }
-    });
 
-    // 비디오 태그에 play/pause 이벤트(재생,정지)가 발생했을 때. checkVideoState함수를 실행한다.
-    videoEl.addEventListener("play", checkVideoState);
-    videoEl.addEventListener("pause", checkVideoState);
-    checkVideoState();
+    // 재생/ 일시정지 토글 버튼 이벤트 설정
+    function setupPlayButton() {
+      const togglePlay = document.querySelector(".toggle-play-btn");
+      if (!togglePlay) return;
 
-    function checkVideoProgress() {
-      // currentTime은 주로 HTMLMediaElement (오디오 또는 비디오 요소)에서 현재 재생 위치를 나타내는 속성이다. 이 속성을 통해 현재 재생 시간을 초 단위로 확인하거나, 특정 시간으로 이동하여 재생을 제어할 수 있다.
-      const progress = videoEl.currentTime / video.duration;
-      // progressbar 초기 설정
-      gsap.set(progressBar, { width: `${progress * 100}%` });
-      requestAnimationFrame(checkVideoProgress);
+      togglePlay.addEventListener("click", () => {
+        const videoState = youtubePlayer.getPlayerState();
+        if (videoState === YT.PlayerState.PLAYING) {
+          youtubePlayer.pauseVideo(); // 유튜브 플레이어를 일시정지하는 동작
+          togglePlay.classList.remove("playing");
+        } else {
+          youtubePlayer.playVideo(); // 유튜브 플레이어를 재생하는 동작
+          togglePlay.classList.add("playing");
+        }
+      });
     }
-    checkVideoProgress();
+
+    //프로그래스 바 업데이트
+    function startProgressUpdate() {
+      const progressBar = document.querySelector(".bar");
+      if (!progressBar) return;
+
+      function updateProgress() {
+        const current = youtubePlayer.getCurrentTime();
+        const percent = current / videoDuration;
+
+        gsap.set(progressBar, { width: `${percent * 100}%` });
+        requestAnimationFrame(updateProgress);
+      }
+
+      requestAnimationFrame(updateProgress);
+
+      // setinterval함수는 지정된 시간 간격으로 코드를 반복 실행하는데 사용됩니다.
+      // iframe 사용 시, setInterval은 iframe 내의 콘텐츠를 주기적으로 업데이트하는 데 유용하다.
+      // setInterval(() => {
+      //   // &&(AND)연산자로, 두 값 모두 참일 경우에만 참, 그렇지 않으면 거짓을 반환
+      //   if (youtubePlayer && videoDuration > 0) {
+      //     //getCurrentTime은 일반적으로 현재 시간을 나타내는 Date 객체를 반환하는 함수나 메서드를 의미.
+      //     // youtubePlayer.getCurrentTime은  현재 재생중인 동영상의 재생 시간을 초 단위로 반환하는 메서드이다. (API에서 제공하는 메서드)
+      //     const current = youtubePlayer.getCurrentTime();
+      //     const percent = (current / videoDuration) * 100;
+      //     progressBar.style.width = `${percent}%`;
+      //   }
+      // }, 100); // 0.1초마다 갱신
+    }
+    onYoutubeIframeAPIReady();
   }
 
   console.log(Section1TitleDesc.lines.length); // 줄 개수
